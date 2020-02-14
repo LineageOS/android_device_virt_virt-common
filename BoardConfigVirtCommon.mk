@@ -67,6 +67,11 @@ TARGET_KERNEL_CONFIG += \
 endif
 endif
 
+# Memory allocator
+ifeq ($(PRODUCT_IS_GO),true)
+MALLOC_SVELTE := true
+endif
+
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_USES_METADATA_PARTITION := true
