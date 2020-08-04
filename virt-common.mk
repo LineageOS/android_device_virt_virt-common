@@ -133,6 +133,10 @@ PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := verify
 # On P, classes*.dex of privileged apps are left uncompressed by default
 # For Go targets, compress them to save disk space.
 DONT_UNCOMPRESS_PRIV_APPS_DEXS := true
+ifeq ($(LINEAGE_BUILD),)
+PRODUCT_PACKAGES += \
+    Launcher3QuickStepGo
+endif
 endif
 
 # Graphics (Mesa)
