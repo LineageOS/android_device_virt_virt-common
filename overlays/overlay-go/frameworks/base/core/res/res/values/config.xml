@@ -31,4 +31,11 @@
 <resources>
     <bool translatable="false" name="config_wifi_enable_wifi_firmware_debugging">false</bool>
     <integer translatable="false" name="config_wifi_logger_ring_buffer_verbose_size_limit_kb">64</integer>
+
+    <!--- Launcher - configure high/low-res scales for task snapshots -->
+    <item name="config_highResTaskSnapshotScale" format="float" type="dimen">0.8</item>
+    <item name="config_lowResTaskSnapshotScale" format="float" type="dimen">0.3</item>
+
+    <!-- Configure 16-bit task snapshots -->
+    <bool name="config_use16BitTaskSnapshotPixelFormat">true</bool>
 </resources>
