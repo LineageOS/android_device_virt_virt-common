@@ -1,0 +1,12 @@
+filegroup {
+    name: "virt_pci_ids",
+    srcs: ["pci.ids"],
+    licenses: ["virt_pci_ids_license"],
+}
+
+license {
+    name: "virt_pci_ids_license",
+    package_name: "PCI IDS",
+    license_kinds: ["SPDX-license-identifier-BSD-3-Clause"],
+    license_text: ["LICENSE_BSD"],
+}
