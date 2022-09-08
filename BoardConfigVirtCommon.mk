@@ -39,6 +39,8 @@ BOARD_KERNEL_CMDLINE := \
     androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange
 
+TARGET_KERNEL_LLVM_BINUTILS := false
+
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_USES_METADATA_PARTITION := true
