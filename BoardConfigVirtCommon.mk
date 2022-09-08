@@ -66,6 +66,8 @@ BOARD_KERNEL_CMDLINE := \
     vt.global_cursor_default=0 \
     androidboot.verifiedbootstate=orange
 
+TARGET_KERNEL_LLVM_BINUTILS := false
+
 # Memory allocator
 ifeq ($(PRODUCT_IS_GO),true)
 MALLOC_SVELTE := true
