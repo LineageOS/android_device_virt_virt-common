@@ -42,7 +42,7 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.1-service.btlinux
+    android.hardware.bluetooth-service.default
 
 ifneq ($(PRODUCT_IS_ATV),true)
 ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)

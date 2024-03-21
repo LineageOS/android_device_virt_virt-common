@@ -3,9 +3,4 @@
   - android.hardware.gatekeeper@1.0-service.software
 -->
 <manifest version="8.0" type="device" target-level="7">
-    <hal format="hidl">
-        <name>android.hardware.bluetooth</name>
-        <transport>hwbinder</transport>
-        <fqname>@1.1::IBluetoothHci/default</fqname>
-    </hal>
 </manifest>
