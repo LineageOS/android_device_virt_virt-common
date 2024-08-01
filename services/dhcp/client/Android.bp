@@ -23,7 +23,6 @@ package {
 
 cc_binary {
     name: "virt_dhcpclient",
-    stem: "dhcpclient",
     srcs: [
         "dhcpclient.cpp",
         "interface.cpp",

@@ -165,6 +165,11 @@ SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(VIRT_COMMON_PATH)/sepolicy/private
 DEVICE_MANIFEST_FILE := \
     $(VIRT_COMMON_PATH)/configs/vintf/manifest.xml
 
+ifeq ($(TARGET_AUDIO_HAL_USE),ranchu-hidl)
+DEVICE_MANIFEST_FILE += \
+    device/google/cuttlefish/guest/hals/audio/effects/manifest.xml
+endif
+
 # Wi-Fi
 BOARD_HOSTAPD_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
