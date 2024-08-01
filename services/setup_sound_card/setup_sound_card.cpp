@@ -32,6 +32,8 @@ constexpr char kEnableMasterMixerControlProp[] =
         "persist.vendor.audio.primary.enable_master_mixer_control";
 constexpr char kLatencyMsProp[] = "persist.vendor.audio.primary.latency_ms";
 
+constexpr char kRanchuHidlPcmHostLatencyMsProp[] = "ro.hardware.audio.tinyalsa.host_latency_ms";
+
 constexpr char kProcAsoundCardsPath[] = "/proc/asound/cards";
 
 struct MixerControl {
@@ -146,7 +148,8 @@ bool calculateAndSetLatencyMs(unsigned in_device) {
         return false;
     }
 
-    return SetProperty(kLatencyMsProp, to_string(nominalLatencyMs));
+    return SetProperty(kLatencyMsProp, to_string(nominalLatencyMs)) &&
+           SetProperty(kRanchuHidlPcmHostLatencyMsProp, to_string(nominalLatencyMs));
 }
 
 SoundCardSettingsMapType::const_iterator findSoundCard() {
