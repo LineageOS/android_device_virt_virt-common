@@ -39,7 +39,7 @@ The device tree is currently WIP, Not suitable for normal use.
 
 # Build
 
-The device tree targets Android 14 QPR1.
+The device tree targets Android 13 QPR3.
 
 1. Initialize build environment
 
