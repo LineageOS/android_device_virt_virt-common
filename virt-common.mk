@@ -92,6 +92,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/init.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.virt.rc \
     $(LOCAL_PATH)/config/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
+PRODUCT_PACKAGES += \
+    init_virt_exec \
+    init_virt_exec.recovery
+
 # Input
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \

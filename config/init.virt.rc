@@ -27,6 +27,10 @@ on property:ro.vendor.graphics=swiftshader
     setprop ro.opengles.version 196609
     setprop ro.vulkan.apex com.google.cf.vulkan
 
+# Init
+on early-init
+    exec u:r:init:s0 -- /system/bin/init_virt
+
 # Shutdown
 service vendor.refind-update-default_selection /vendor/bin/refind-update-default_selection.sh ${sys.shutdown.requested}
     user root

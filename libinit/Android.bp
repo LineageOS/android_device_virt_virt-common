@@ -22,3 +22,12 @@ cc_library_static {
     include_dirs: ["system/core/init"],
     recovery_available: true,
 }
+
+cc_binary {
+    name: "init_virt_exec",
+    srcs: ["init_virt_exec.cpp"],
+    stem: "init_virt",
+    whole_static_libs: ["init_virt"],
+    include_dirs: ["system/core/init"],
+    recovery_available: true,
+}
