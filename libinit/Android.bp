@@ -10,7 +10,12 @@ cc_library_static {
         "libinit_dalvik_heap.cpp",
         "libinit_utils.cpp",
     ],
-    whole_static_libs: ["libbase"],
+    whole_static_libs: [
+        "libasync_safe",
+        "libbase",
+        "libsystemproperties",
+    ],
+    include_dirs: ["bionic/libc"],
     export_include_dirs: ["include"],
     recovery_available: true,
 }

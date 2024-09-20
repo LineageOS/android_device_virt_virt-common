@@ -67,6 +67,7 @@ static void set_properties_from_dmi_id() {
 }
 
 void vendor_load_properties() {
+    libinit_systemproperties_init()
     set_dalvik_heap();
     set_misc_properties();
     set_properties_from_dmi_id();

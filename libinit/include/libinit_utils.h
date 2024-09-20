@@ -13,4 +13,6 @@ void property_override(std::string prop, std::string value, bool add = true);
 
 void set_ro_build_prop(const std::string &prop, const std::string &value, bool product = false);
 
+bool libinit_systemproperties_init();
+
 #endif // LIBINIT_UTILS_H

@@ -6,16 +6,20 @@
 
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
+
+#include <system_properties/system_properties.h>
 #include <vector>
 
 #include <libinit_utils.h>
 
+static SystemProperties system_properties;
+
 void property_override(std::string prop, std::string value, bool add) {
-    auto pi = (prop_info *) __system_property_find(prop.c_str());
+    auto pi = (prop_info *) system_properties.Find(prop.c_str());
     if (pi != nullptr) {
-        __system_property_update(pi, value.c_str(), value.length());
+        system_properties.Update(pi, value.c_str(), value.length());
     } else if (add) {
-        __system_property_add(prop.c_str(), prop.length(), value.c_str(), value.length());
+        system_properties.Add(prop.c_str(), prop.length(), value.c_str(), value.length());
     }
 }
 
@@ -41,4 +45,10 @@ void set_ro_build_prop(const std::string &prop, const std::string &value, bool p
 
         property_override(prop_name, value, true);
     }
+}
+
+bool libinit_systemproperties_init() {
+//  bool fsetxattr_fail = false;
+//  return system_properties.AreaInit(PROP_FILENAME, &fsetxattr_fail) && !fsetxattr_fail ? true : false;
+    return system_properties.Init(PROP_FILENAME);
 }
