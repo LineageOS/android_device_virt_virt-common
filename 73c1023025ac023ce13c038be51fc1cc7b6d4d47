@@ -16,6 +16,23 @@
       "message": "Fixes refresh rate being limited to 37.5Hz all the times on U QPR3+ on QEMU",
       "revId": "73c1023025ac023ce13c038be51fc1cc7b6d4d47",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9091c33_d914cf3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-09-21T13:50:32Z",
+      "side": 1,
+      "message": "maybe I remembered wrong that it happens on earlier U versions too, but still yeah, happens on U but not on T",
+      "revId": "73c1023025ac023ce13c038be51fc1cc7b6d4d47",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ],
   "submitRequirementResults": []
