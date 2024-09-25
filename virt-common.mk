@@ -7,7 +7,7 @@
 VIRT_COMMON_PATH := device/virt/virt-common
 
 # A/B
-AB_OTA_UPDATER ?= true
+AB_OTA_UPDATER ?= false
 ifeq ($(AB_OTA_UPDATER),true)
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -112,12 +112,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.virt_recovery \
     fastbootd
-
-# First stage init
-PRODUCT_PACKAGES += \
-    resize2fs.vendor_ramdisk \
-    shell_and_utilities_vendor_ramdisk \
-    tune2fs.vendor_ramdisk
 
 # Gatekeeper
 PRODUCT_PACKAGES += \
@@ -276,9 +270,6 @@ PRODUCT_PACKAGES += \
 # Sensors
 $(call inherit-product, device/google/cuttlefish/shared/sensors/device_vendor.mk)
 
-# Scoped Storage
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
-
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     device/generic/goldfish \
@@ -294,7 +285,7 @@ PRODUCT_PACKAGES += \
     tablet2multitouch_recovery
 
 # UFFD GC
-PRODUCT_ENABLE_UFFD_GC := true
+OVERRIDE_ENABLE_UFFD_GC := false
 
 # Utilities
 PRODUCT_COPY_FILES += \
