@@ -12,7 +12,6 @@ The device tree is currently WIP, Not suitable for normal use.
 
 # TODO
 - Support for USB Camera, and WiFi
-- 16K pagesize
 
 # List of optional extra boot parameters
 
