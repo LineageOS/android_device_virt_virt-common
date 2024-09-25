@@ -59,11 +59,6 @@ PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.virt_recovery \
     fastbootd
 
-# First stage console
-PRODUCT_PACKAGES += \
-    linker.vendor_ramdisk \
-    shell_and_utilities_vendor_ramdisk
-
 # Gatekeeper
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-service.software
@@ -161,12 +156,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
 
-# Scoped Storage
-$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
-
 # Shipping API level
-# (Stays on 33 due to target-level)
-PRODUCT_SHIPPING_API_LEVEL := 33
+# (Stays on 30 due to target-level)
+PRODUCT_SHIPPING_API_LEVEL := 30
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
@@ -181,7 +173,7 @@ PRODUCT_PACKAGES += \
     tablet2multitouch
 
 # UFFD GC
-PRODUCT_ENABLE_UFFD_GC := true
+OVERRIDE_ENABLE_UFFD_GC := false
 
 # Utilities
 PRODUCT_COPY_FILES += \

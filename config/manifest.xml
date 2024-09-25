@@ -1,8 +1,9 @@
 <!--
   target-level stays on 7 because of:
   - android.hardware.gatekeeper@1.0-service.software
+  - (Support for old kernel versions)
 -->
-<manifest version="8.0" type="device" target-level="7">
+<manifest version="8.0" type="device" target-level="5">
     <hal format="hidl">
         <name>android.hardware.bluetooth</name>
         <transport>hwbinder</transport>
