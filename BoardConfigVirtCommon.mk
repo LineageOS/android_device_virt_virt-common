@@ -8,8 +8,6 @@ USES_DEVICE_VIRT_VIRT_COMMON := true
 VIRT_COMMON_PATH := device/virt/virt-common
 
 # Bootloader
-BOARD_BOOT_HEADER_VERSION := 3
-BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_NO_BOOTLOADER := true
 
 # Fastboot
@@ -36,19 +34,10 @@ BOARD_KERNEL_CMDLINE := \
     loop.max_part=7 \
     printk.devkmsg=on \
     rw \
+    vt.global_cursor_default=0 \
     androidboot.boot_devices=any \
-    androidboot.first_stage_console=0 \
+    androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange
-
-ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
-BOARD_VENDOR_KERNEL_MODULES_LOAD := \
-    $(strip $(shell cat $(wildcard $(VIRT_COMMON_PATH)/config/modules.load.vendor.*)))
-TARGET_KERNEL_CONFIG := \
-    gki_defconfig \
-    lineageos/peripheral/bluetooth.config \
-    lineageos/peripheral/wifi.config \
-    lineageos/feature/fbcon.config
-endif
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 4096
@@ -110,9 +99,6 @@ TARGET_VENDOR_PROP += \
     $(VIRT_COMMON_PATH)/properties/vendor_bluetooth_profiles.prop
 endif
 endif
-
-# Ramdisk
-BOARD_RAMDISK_USE_LZ4 := true
 
 # Recovery
 TARGET_RECOVERY_UI_LIB := librecovery_ui_virt
