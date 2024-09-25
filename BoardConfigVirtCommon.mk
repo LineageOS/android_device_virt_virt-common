@@ -13,14 +13,12 @@ TARGET_GRUB_INSTALL_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-install.cfg
 # Bootconfig
 BOARD_BOOTCONFIG := \
     androidboot.boot_devices=any \
-    androidboot.first_stage_console=0 \
     androidboot.hypervisor.version=1 \
     androidboot.hypervisor.vm.supported=1 \
-    androidboot.hypervisor.protected_vm.supported=0
+    androidboot.hypervisor.protected_vm.supported=0 \
+    androidboot.selinux=permissive
 
 # Bootloader
-BOARD_BOOT_HEADER_VERSION := 4
-BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_NO_BOOTLOADER := true
 
 # Fastboot
@@ -67,25 +65,6 @@ BOARD_KERNEL_CMDLINE := \
     rw \
     vt.global_cursor_default=0 \
     androidboot.verifiedbootstate=orange
-
-ifeq ($(EMULATOR_KERNEL_FILE),)
-BOARD_VENDOR_KERNEL_MODULES_LOAD := \
-    btusb.ko \
-    cfg80211.ko \
-    virt_wifi.ko
-endif
-
-ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
-TARGET_KERNEL_CONFIG := \
-    gki_defconfig \
-    lineageos/peripheral/bluetooth.config \
-    lineageos/peripheral/wifi.config \
-    lineageos/feature/fbcon.config
-ifeq ($(PRODUCT_IS_GO),true)
-TARGET_KERNEL_CONFIG += \
-    lineageos/go.config
-endif
-endif
 
 # Memory allocator
 ifeq ($(PRODUCT_IS_GO),true)
@@ -175,9 +154,6 @@ ifeq ($(PRODUCT_IS_GO),true)
 TARGET_PRODUCT_PROP += $(VIRT_COMMON_PATH)/configs/properties/product_go.prop
 TARGET_VENDOR_PROP += $(VIRT_COMMON_PATH)/configs/properties/vendor_go.prop
 endif
-
-# Ramdisk
-BOARD_RAMDISK_USE_LZ4 := true
 
 # Recovery
 TARGET_RECOVERY_UI_LIB := //$(VIRT_COMMON_PATH):librecovery_ui_virt
