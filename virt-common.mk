@@ -132,6 +132,10 @@ endif
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
+# Page size
+PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 16384
+PRODUCT_NO_BIONIC_PAGE_SIZE_MACRO := true
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
