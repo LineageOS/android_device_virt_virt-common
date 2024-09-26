@@ -74,6 +74,7 @@ PRODUCT_PACKAGES += \
 
 TARGET_VULKAN_SUPPORT := true
 
+$(call inherit-product, $(SRC_TARGET_DIR)/product/angle_supported.mk)
 $(call inherit-product, device/google/cuttlefish/shared/swiftshader/device_vendor.mk)
 
 # Health
