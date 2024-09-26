@@ -21,6 +21,7 @@ on early-init
     setprop ro.vendor.graphics ${ro.boot.graphics:-mesa}
 
 on property:ro.vendor.graphics=swiftshader
+    setprop debug.hwui.renderer skiavk
     setprop ro.cpuvulkan.version 4202496
     setprop ro.hardware.egl angle
     setprop ro.hardware.vulkan pastel
