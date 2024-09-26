@@ -42,7 +42,9 @@ BOARD_KERNEL_CMDLINE := \
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
 BOARD_VENDOR_KERNEL_MODULES_LOAD := \
-    $(strip $(shell cat $(wildcard $(VIRT_COMMON_PATH)/config/modules.load.vendor.*)))
+    btusb.ko \
+    cfg80211.ko \
+    virt_wifi.ko
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
     lineageos/peripheral/bluetooth.config \
