@@ -3,6 +3,7 @@ recovery_only(`
     set_prop(recovery, shell_prop)
 
     allow recovery boottime_prop:property_service set;
+    allow recovery gpu_device:chr_file rw_file_perms;
     allow recovery gpu_device:dir search;
     allow recovery pstorefs:dir search;
     allow recovery sysfs_devices_block:dir r_dir_perms;
