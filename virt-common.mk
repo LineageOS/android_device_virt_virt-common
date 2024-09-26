@@ -72,8 +72,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     com.google.cf.vulkan
 
+RELEASE_ANGLE_ON_SYSTEM := false
 TARGET_VULKAN_SUPPORT := true
 
+$(call inherit-product, $(SRC_TARGET_DIR)/product/angle_supported.mk)
 $(call inherit-product, device/google/cuttlefish/shared/swiftshader/device_vendor.mk)
 
 # Health
