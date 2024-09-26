@@ -44,6 +44,11 @@ static void set_misc_properties() {
             property_override("ro.surface_flinger.supports_background_blur", "1");
         }
     }
+
+    if (GetProperty("ro.boot.insecure_adb", "") == "1") {
+        property_override("ro.adb.secure", "0");
+        property_override("ro.secure", "0");
+    }
 }
 
 static void set_properties_from_dmi_id() {
