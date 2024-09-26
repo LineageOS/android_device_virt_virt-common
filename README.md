@@ -19,6 +19,7 @@ The device tree is currently WIP, Not suitable for normal use.
 | Parameter | Possible values | Description |
 | --------- | --------------- | ----------- |
 | `androidboot.graphics` | `mesa` or `swiftshader` | Graphics stack to use. Default is `mesa`. |
+| `androidboot.insecure_adb` | `1` | Add this to disable ADB authentication and enable ADB root. |
 | `androidboot.lcd_density` | `<DPI>` | Screen density. Default is `160`. |
 | `androidboot.low_perf` | `1` | Add this to enable low performance optimizations. |
 | `androidboot.nobootanim` | `1` | Add this to disable boot animation. |
