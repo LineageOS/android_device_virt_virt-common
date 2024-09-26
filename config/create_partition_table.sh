@@ -12,7 +12,7 @@ fi
 case "$DISK_NAME" in
     "sda"|"vda")
         $SGDISK_EXEC --zap-all $TARGET
-        $SGDISK_EXEC --new=1:0:+128M --typecode=1:ef00 --change-name=1:EFI $TARGET
+        $SGDISK_EXEC --new=1:0:+256M --typecode=1:ef00 --change-name=1:EFI $TARGET
         if [ "$SUPER_SIZE" = "3221225472" ]; then
             $SGDISK_EXEC --new=2:0:+3G --change-name=2:super $TARGET
         else
