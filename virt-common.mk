@@ -83,6 +83,10 @@ PRODUCT_PACKAGES += \
 $(foreach vk_drv, virtio, \
     $(eval PRODUCT_PACKAGES += vulkan.$(vk_drv)))
 
+ifneq ($(wildcard external/llvm-project/Android.bp),)
+PRODUCT_PACKAGES += vulkan.lvp
+endif
+
 # Graphics (Swiftshader)
 PRODUCT_PACKAGES += \
     com.google.cf.vulkan
