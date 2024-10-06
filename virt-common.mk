@@ -72,6 +72,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-service.software
 
+# Graphics (Mesa)
+PRODUCT_PACKAGES += \
+    libEGL_mesa \
+    libGLESv1_CM_mesa \
+    libGLESv2_mesa \
+    libgallium_dri \
+    libglapi
+
+$(foreach vk_drv, virtio, \
+    $(eval PRODUCT_PACKAGES += vulkan.$(vk_drv)))
+
 # Graphics (Swiftshader)
 PRODUCT_PACKAGES += \
     com.google.cf.vulkan
