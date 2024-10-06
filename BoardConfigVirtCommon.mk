@@ -49,6 +49,9 @@ BOARD_KERNEL_CMDLINE := \
     rw \
     androidboot.boot_devices=any \
     androidboot.first_stage_console=0 \
+    androidboot.hypervisor.version=1 \
+    androidboot.hypervisor.vm.supported=1 \
+    androidboot.hypervisor.protected_vm.supported=0 \
     androidboot.verifiedbootstate=orange
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)

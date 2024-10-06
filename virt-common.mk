@@ -257,6 +257,9 @@ PRODUCT_HOST_PACKAGES += \
     grub-editenv \
     grub_boot_control
 
+# Virtualization
+$(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
+
 # VirtWifi
 PRODUCT_PACKAGES += \
     setup_wifi
