@@ -194,6 +194,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     sgdisk.recovery
 
+# Virtualization
+$(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk)
+
 # VirtWifi
 PRODUCT_PACKAGES += \
     setup_wifi
