@@ -18,6 +18,7 @@ on post-fs
 
 # Graphics
 on early-init
+    setprop debug.hwui.renderer ${ro.boot.hwui_renderer:-skiagl}
     setprop ro.vendor.graphics ${ro.boot.graphics:-mesa}
 
 on property:ro.vendor.graphics=mesa
