@@ -28,6 +28,16 @@ BOARD_MESA3D_USES_MESON_BUILD := true
 BOARD_MESA3D_GALLIUM_DRIVERS := virgl
 BOARD_MESA3D_VULKAN_DRIVERS := virtio
 
+ifneq ($(wildcard external/llvm-project/Android.bp),)
+BUILD_BROKEN_PLUGIN_VALIDATION := \
+    soong-llvm12 \
+    soong-llvm17 \
+    soong-llvm18 \
+    soong-llvm19
+BOARD_MESA3D_GALLIUM_DRIVERS += swrast
+BOARD_MESA3D_VULKAN_DRIVERS += lvp
+endif
+
 # Graphics (Swiftshader)
 include device/google/cuttlefish/shared/swiftshader/BoardConfig.mk
 
