@@ -105,6 +105,10 @@ PRODUCT_PACKAGES += \
     libgallium_dri \
     libglapi
 
+ifneq ($(wildcard external/llvm-project/Android.bp),)
+PRODUCT_PACKAGES += vulkan.lvp
+endif
+
 # Graphics (Swiftshader)
 PRODUCT_PACKAGES += \
     vulkan.pastel

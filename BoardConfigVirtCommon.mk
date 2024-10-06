@@ -34,6 +34,16 @@ TARGET_USERIMAGES_USE_EXT4 := true
 # Graphics (Mesa)
 BOARD_MESA3D_USES_MESON_BUILD := true
 
+ifneq ($(wildcard external/llvm-project/Android.bp),)
+BUILD_BROKEN_PLUGIN_VALIDATION := \
+    soong-llvm12 \
+    soong-llvm17 \
+    soong-llvm18 \
+    soong-llvm19
+BOARD_MESA3D_GALLIUM_DRIVERS := swrast
+BOARD_MESA3D_VULKAN_DRIVERS := swrast
+endif
+
 # Graphics (Swiftshader)
 include device/google/cuttlefish/shared/swiftshader/BoardConfig.mk
 

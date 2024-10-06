@@ -98,6 +98,12 @@ define process-bootmgr-cfg-common
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE@|$(strip $(BOARD_KERNEL_CMDLINE))|g" $(1)
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE_BOOT@|$(strip $(BOARD_KERNEL_CMDLINE_BOOT))|g" $(1)
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE_RECOVERY@|$(strip $(BOARD_KERNEL_CMDLINE_RECOVERY))|g" $(1)
+
+	if [ -f "external/llvm-project/Android.bp" ]; then \
+		sed -i "s|#SUPPORT_MESA_SWRAST#||g" $(1); \
+	else \
+		sed -i "s|#NOT_SUPPORT_MESA_SWRAST#||g" $(1); \
+	fi
 endef
 
 include $(call all-makefiles-under,$(LOCAL_PATH))

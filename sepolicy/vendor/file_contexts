@@ -20,3 +20,4 @@
 # Same Process HAL
 /vendor/lib(64)?/libgallium_dri\.so					u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libLLVM[0-9]+\.so					u:object_r:same_process_hal_file:s0
+/vendor/lib(64)?/hw/vulkan\.lvp\.so					u:object_r:same_process_hal_file:s0
