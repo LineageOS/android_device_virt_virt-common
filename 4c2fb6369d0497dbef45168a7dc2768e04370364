@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1519edf8_93356610",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-10-07T08:55:34Z",
+      "side": 1,
+      "message": "lavapipe with skiavk:\n`F DEBUG   : Abort message: \u0027Assertion failed: queueProps[i].queueCount \u003c kRequestedQueueCount\u0027`\n\nand, needs to resolve selinux denials",
+      "revId": "4c2fb6369d0497dbef45168a7dc2768e04370364",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
