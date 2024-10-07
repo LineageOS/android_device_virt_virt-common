@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3027fa4c_b59b68f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-10-07T09:11:17Z",
+      "side": 1,
+      "message": "forgot that have to keep virtio stuff decommonized",
+      "revId": "fcb3184414335ede84f4684836c4661384f0da3b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
