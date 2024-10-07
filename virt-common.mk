@@ -107,11 +107,9 @@ PRODUCT_PACKAGES += \
 
 # Graphics (Swiftshader)
 PRODUCT_PACKAGES += \
-    com.google.cf.vulkan
+    vulkan.pastel
 
-TARGET_VULKAN_SUPPORT := true
-
-$(call inherit-product, device/google/cuttlefish/shared/swiftshader/device_vendor.mk)
+PRODUCT_REQUIRES_INSECURE_EXECMEM_FOR_SWIFTSHADER := true
 
 # Health
 ifneq ($(LINEAGE_BUILD),)
@@ -195,6 +193,13 @@ else ifneq ($(PRODUCT_IS_ATV),true)
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/pc_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/pc_core_hardware.xml
 endif
+
+PRODUCT_PACKAGES += \
+    android.hardware.vulkan.level-1.prebuilt.xml \
+    android.hardware.vulkan.compute-0.prebuilt.xml \
+    android.hardware.vulkan.version-1_3.prebuilt.xml \
+    android.software.vulkan.deqp.level-latest.prebuilt.xml \
+    android.software.opengles.deqp.level-latest.prebuilt.xml
 
 # Recovery
 PRODUCT_COPY_FILES += \
