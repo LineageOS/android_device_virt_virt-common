@@ -1,8 +1,7 @@
 [
   {
     "repository": "android_external_mesa",
-    "target_path": "external/mesa",
-    "branch": "lineage-21.0"
+    "target_path": "external/mesa"
   },
   {
     "repository": "android_kernel_virt_virtio",
@@ -10,7 +9,6 @@
   },
   {
     "repository": "android_prebuilts_bootmgr",
-    "target_path": "prebuilts/bootmgr",
-    "branch": "lineage-21.0"
+    "target_path": "prebuilts/bootmgr"
   }
 ]
