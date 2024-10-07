@@ -5,6 +5,9 @@ set_prop(vendor_init, vendor_recovery_ethernet_dhcp_prop)
 get_prop(vendor_init, vendor_graphics_config_prop)
 set_prop(vendor_init, vendor_graphics_prop)
 
+# Graphics (Mesa)
+set_prop(vendor_init, vendor_mesa_prop)
+
 # Ignore
 allow vendor_init rootfs:dir read;
 

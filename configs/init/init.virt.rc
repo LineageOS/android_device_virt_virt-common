@@ -50,11 +50,11 @@ on property:ro.vendor.graphics=mesa
     setprop ro.opengles.version 196610
 
 on property:ro.vendor.graphics=mesa_swrast
-    export MESA_ANDROID_NO_KMS_SWRAST true
-    export LIBGL_ALWAYS_SOFTWARE true
     setprop ro.hardware.egl mesa
     setprop ro.hardware.vulkan lvp
     setprop ro.opengles.version 196610
+    setprop vendor.mesa.android.no.kms.swrast true
+    setprop vendor.mesa.libgl.always.software true
 
 on property:ro.vendor.graphics=swiftshader
     setprop ro.cpuvulkan.version 4202496
