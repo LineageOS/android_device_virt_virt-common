@@ -1,5 +1,9 @@
 [
   {
+    "repository": "android_external_mesa",
+    "target_path": "external/mesa",
+  },
+  {
     "repository": "android_kernel_virt_virtio",
     "target_path": "kernel/virt/virtio"
   },
