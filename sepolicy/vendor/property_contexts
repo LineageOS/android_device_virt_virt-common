@@ -5,6 +5,11 @@ vendor.recovery.ethernet.dhcp.iface		u:object_r:vendor_recovery_ethernet_dhcp_pr
 ro.vendor.graphics		u:object_r:vendor_graphics_prop:s0
 ro.vendor.graphics.		u:object_r:vendor_graphics_prop:s0
 
+# Graphics (Mesa)
+vendor.drm.gpu.vendor_name	u:object_r:vendor_mesa_prop:s0
+vendor.mesa.			u:object_r:vendor_mesa_prop:s0
+vendor.qemu.vk.log		u:object_r:vendor_mesa_prop:s0
+
 # Net
 vendor.net.		u:object_r:vendor_net_prop:s0 exact string
 
