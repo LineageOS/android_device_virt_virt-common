@@ -13,7 +13,7 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_NO_BOOTLOADER := true
 
 # Fastboot
-TARGET_BOARD_FASTBOOT_INFO_FILE := $(VIRT_COMMON_PATH)/fastboot-info.txt
+TARGET_BOARD_FASTBOOT_INFO_FILE := $(VIRT_COMMON_PATH)/configs/misc/fastboot-info.txt
 
 # Filesystem
 BOARD_EXT4_SHARE_DUP_BLOCKS :=
@@ -103,13 +103,13 @@ endif
 TARGET_BOARD_PLATFORM := virt
 
 # Properties
-TARGET_PRODUCT_PROP := $(VIRT_COMMON_PATH)/properties/product.prop
-TARGET_VENDOR_PROP := $(VIRT_COMMON_PATH)/properties/vendor.prop
+TARGET_PRODUCT_PROP := $(VIRT_COMMON_PATH)/configs/properties/product.prop
+TARGET_VENDOR_PROP := $(VIRT_COMMON_PATH)/configs/properties/vendor.prop
 
 ifneq ($(PRODUCT_IS_ATV),true)
 ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
 TARGET_VENDOR_PROP += \
-    $(VIRT_COMMON_PATH)/properties/vendor_bluetooth_profiles.prop
+    $(VIRT_COMMON_PATH)/configs/properties/vendor_bluetooth_profiles.prop
 endif
 endif
 
@@ -140,7 +140,7 @@ SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(VIRT_COMMON_PATH)/sepolicy/private
 
 # VINTF
 DEVICE_MANIFEST_FILE := \
-    $(VIRT_COMMON_PATH)/config/manifest.xml
+    $(VIRT_COMMON_PATH)/configs/vintf/manifest.xml
 
 # Wi-Fi
 BOARD_HOSTAPD_DRIVER := NL80211

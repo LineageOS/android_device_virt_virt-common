@@ -93,13 +93,14 @@ endif
 
 # Init
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/init.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.virt.rc \
-    $(LOCAL_PATH)/config/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
+    $(LOCAL_PATH)/configs/init/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc \
+    $(LOCAL_PATH)/configs/init/init.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.virt.rc \
+    $(LOCAL_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 # Input
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
-    $(LOCAL_PATH)/tablet2multitouch/uinput_multitouch_device.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput_multitouch_device.idc
+    $(LOCAL_PATH)/configs/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
+    $(LOCAL_PATH)/configs/input/uinput_multitouch_device.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput_multitouch_device.idc
 
 # Images
 PRODUCT_BUILD_BOOT_IMAGE := true
@@ -114,27 +115,23 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_PACKAGES += \
     android.hardware.security.keymint-service
 
-# Low performance optimizations
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/low_performance/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc
-
-PRODUCT_PACKAGES += \
-    LowPerformanceSettingsProviderOverlay
-
 # Memtrack
 PRODUCT_PACKAGES += \
     com.android.hardware.memtrack
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
+    $(LOCAL_PATH)/overlays/overlay
 
 ifneq ($(LINEAGE_BUILD),)
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-lineage
+    $(LOCAL_PATH)/overlays/overlay-lineage
 endif
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
+
+PRODUCT_PACKAGES += \
+    LowPerformanceSettingsProviderOverlay
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -162,9 +159,9 @@ endif
 # Recovery
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/refind-update-default_selection.sh \
-    $(LOCAL_PATH)/config/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
-    $(LOCAL_PATH)/config/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
-    $(LOCAL_PATH)/config/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
+    $(LOCAL_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
+    $(LOCAL_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
+    $(LOCAL_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
 
 # Scoped Storage
@@ -191,7 +188,7 @@ PRODUCT_ENABLE_UFFD_GC := true
 
 # Utilities
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
+    $(LOCAL_PATH)/configs/misc/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
 
 PRODUCT_PACKAGES += \
     sgdisk.recovery
