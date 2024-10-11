@@ -220,9 +220,6 @@ $(call inherit-product, device/google/cuttlefish/shared/sensors/device_vendor.mk
 # Scoped Storage
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-# Shipping API level
-PRODUCT_SHIPPING_API_LEVEL := 33
-
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
