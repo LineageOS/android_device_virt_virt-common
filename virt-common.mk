@@ -70,7 +70,7 @@ PRODUCT_PACKAGES += \
 
 # Gatekeeper
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0-service.software
+    com.android.hardware.gatekeeper.nonsecure
 
 # Graphics (Mesa)
 PRODUCT_PACKAGES += \
@@ -192,7 +192,6 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # Shipping API level
-# (Stays on 33 due to target-level)
 PRODUCT_SHIPPING_API_LEVEL := 33
 
 # Soong namespaces
