@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35875b56_f61a4a60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-10-11T17:31:45Z",
+      "side": 1,
+      "message": "`[    2.511723] init: Could not start service \u0027vendor.gatekeeper_nonsecure\u0027 as part of class \u0027early_hal\u0027: Could not get process context\n`\n\nneeds to run the service from console manually...",
+      "revId": "69c1e30b578e6f4598e8a8e14685931d153da921",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
