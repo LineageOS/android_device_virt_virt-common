@@ -13,6 +13,9 @@
 # Firmware
 /vendor/firmware_mnt(/.*)?		u:object_r:firmware_file:s0
 
+# Persist
+/mnt/vendor/persist(/.*)?		u:object_r:persist_file:s0
+
 # Same Process HAL
 /vendor/lib(64)?/libgallium_dri\.so					u:object_r:same_process_hal_file:s0
 /vendor/lib(64)?/libLLVM[0-9]+\.so					u:object_r:same_process_hal_file:s0
