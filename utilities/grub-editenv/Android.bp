@@ -1,0 +1,15 @@
+cc_binary {
+    name: "grub-editenv",
+    srcs: [
+        "grub-editenv.cpp",
+        "liblog_stub.cpp",
+    ],
+    static_libs: [
+        "libbase",
+        "libgrub_editenv",
+    ],
+    include_dirs: ["system/logging/liblog/include"],
+    host_supported: true,
+    recovery_available: true,
+    vendor_available: true,
+}
