@@ -21,10 +21,13 @@ GRUB_PREBUILT_DIR := prebuilts/bootmgr/grub/$(HOST_PREBUILT_TAG)/$(TARGET_GRUB_A
 GRUB_WORKDIR_BASE := $(TARGET_OUT_INTERMEDIATES)/GRUB_OBJ
 GRUB_WORKDIR_ESP := $(GRUB_WORKDIR_BASE)/esp
 GRUB_WORKDIR_INSTALL := $(GRUB_WORKDIR_BASE)/install
+GRUB_WORKDIR_PERSIST := $(GRUB_WORKDIR_BASE)/persist
 
 ifeq ($(TARGET_GRUB_ARCH),x86_64-efi)
 GRUB_MKSTANDALONE_FORMAT := x86_64-efi
 endif
+
+GRUB_DEFAULT_ENV_VARS_FILE := $(VIRT_COMMON_PATH)/configs/misc/grubenv.txt
 
 # $(1): filesystem root directory
 # $(2): path to grub.cfg file
@@ -57,7 +60,7 @@ define make-espimage
 	$(call process-bootmgr-cfg-common,$(3)/fsroot/boot/grub/grub.cfg)
 	$(call install-grub-theme,$(3)/fsroot,$(3)/fsroot/boot/grub/grub.cfg)
 
-	$(call create-espimage,$(1),$(3)/fsroot/EFI $(3)/fsroot/boot $(2),$(4))
+	$(call create-fat32image,$(1),$(3)/fsroot/EFI $(3)/fsroot/boot $(2),$(4))
 endef
 
 ##### espimage #####
@@ -105,6 +108,25 @@ $(INSTALLED_ISOIMAGE_INSTALL_TARGET): $(INSTALLED_ESPIMAGE_INSTALL_TARGET) $(TAR
 isoimage-install: $(INSTALLED_ISOIMAGE_INSTALL_TARGET)
 
 endif # LINEAGE_BUILD
+
+##### persistimage #####
+
+INSTALLED_PERSIST_GRUBENV_TARGET := $(GRUB_WORKDIR_PERSIST)/grubenv
+$(INSTALLED_PERSIST_GRUBENV_TARGET): $(GRUB_DEFAULT_ENV_VARS_FILE)
+	$(hide) mkdir -p $(dir $@)
+	$(GRUB_PREBUILT_DIR)/bin/grub-editenv $@ create
+	$(GRUB_PREBUILT_DIR)/bin/grub-editenv $@ set $(shell cat $(GRUB_DEFAULT_ENV_VARS_FILE))
+
+GRUB_BOOT_CONTROL_EXEC := $(HOST_OUT_EXECUTABLES)/grub_boot_control
+
+INSTALLED_PERSIST_GRUBENV_ABOOTCTRL_TARGET := $(GRUB_WORKDIR_PERSIST)/grubenv_abootctrl
+$(INSTALLED_PERSIST_GRUBENV_TARGET): $(GRUB_BOOT_CONTROL_EXEC)
+	$(hide) mkdir -p $(dir $@)
+	$(GRUB_BOOT_CONTROL_EXEC) $@ create
+
+INSTALLED_PERSISTIMAGE_TARGET_DEPS += \
+	$(INSTALLED_PERSIST_GRUBENV_TARGET) \
+	$(INSTALLED_PERSIST_GRUBENV_ABOOTCTRL_TARGET)
 
 endif # TARGET_GRUB_ARCH
 endif # TARGET_BOOT_MANAGER
