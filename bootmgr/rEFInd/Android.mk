@@ -52,7 +52,7 @@ define make-espimage
 		sed -i "s|os_linux.png|os_lineage.png|g" $(3)/fsroot/EFI/BOOT/refind.conf \
 	)
 
-	$(call create-espimage,$(1),$(3)/fsroot/EFI $(2),$(4))
+	$(call create-fat32image,$(1),$(3)/fsroot/EFI $(2),$(4))
 endef
 
 ##### espimage #####
