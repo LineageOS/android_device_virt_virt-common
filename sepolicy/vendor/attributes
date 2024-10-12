@@ -1,1 +1,2 @@
 attribute efi_file_type;
+attribute persist_file_type;

@@ -1,4 +1,5 @@
 # Block device
+allow init persist_block_device:blk_file relabelto;
 allow init sd_device:blk_file relabelto;
 allow init super_block_device:blk_file relabelto;
 
@@ -23,6 +24,10 @@ allow init kernel:system module_request;
 
 # Mount
 allow init mnt_vendor_file:dir mounton;
+
+# Persist
+allow init persist_file:dir mounton;
+allow init persist_file:filesystem { mount unmount relabelfrom relabelto };
 
 # Serial console
 allow init serial_device:chr_file rw_file_perms;
