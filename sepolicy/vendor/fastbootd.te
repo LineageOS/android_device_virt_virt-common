@@ -3,6 +3,7 @@ recovery_only(`
     r_dir_file(fastbootd, sysfs_fs_ext4_features)
 
     allow fastbootd kernel:process setsched;
+    allow fastbootd persist_block_device:blk_file rw_file_perms;
     allow fastbootd sd_device:blk_file rw_file_perms;
     allow fastbootd vd_device:blk_file rw_file_perms;
 
