@@ -24,6 +24,9 @@ allow init kernel:system module_request;
 # Mount
 allow init mnt_vendor_file:dir mounton;
 
+# Persist
+allow init persist_file:filesystem { mount unmount relabelfrom relabelto };
+
 # Serial console
 allow init serial_device:chr_file rw_file_perms;
 allowxperm init serial_device:chr_file ioctl { TIOCSCTTY };
