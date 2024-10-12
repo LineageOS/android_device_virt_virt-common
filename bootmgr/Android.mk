@@ -6,6 +6,13 @@
 
 LOCAL_PATH := $(call my-dir)
 
+# Checks
+ifeq ($(AB_OTA_UPDATER),true)
+ifneq ($(TARGET_BOOT_MANAGER),grub)
+$(error Only GRUB supports A/B)
+endif # TARGET_BOOT_MANAGER
+endif # AB_OTA_UPDATER
+
 # Common definitions for boot managers
 BOOTMGR_TOOLS_BIN_DIR := prebuilts/bootmgr/tools/$(HOST_PREBUILT_TAG)/bin
 BOOTMGR_PATH_OVERRIDE := PATH=$(BOOTMGR_TOOLS_BIN_DIR):$$PATH
