@@ -126,6 +126,24 @@ isoimage-install: $(INSTALLED_ISOIMAGE_INSTALL_TARGET)
 endif # LINEAGE_BUILD
 endif # TARGET_GRUB_ARCH
 
+##### grubbootimage #####
+
+ifeq ($(AB_OTA_UPDATER),true)
+
+INSTALLED_GRUB_BOOT_IMAGE_TARGET := $(TARGET_OUT_INTERMEDIATES)/CUSTOM_IMAGES/grub_boot.img
+INSTALLED_GRUB_BOOT_IMAGE_TARGET_DEPS := \
+	$(PRODUCT_OUT)/kernel \
+	$(INSTALLED_COMBINED_RAMDISK_RECOVERY_TARGET)
+
+$(INSTALLED_GRUB_BOOT_IMAGE_TARGET): $(INSTALLED_GRUB_BOOT_IMAGE_TARGET_DEPS)
+	$(call pretty,"Target grub_boot image: $@")
+	$(call create-fat32image,$@,$(INSTALLED_GRUB_BOOT_IMAGE_TARGET_DEPS),grub_boot)
+
+.PHONY: grubbootimage
+grubbootimage: $(INSTALLED_GRUB_BOOT_IMAGE_TARGET)
+
+endif # AB_OTA_UPDATER
+
 ##### persistimage #####
 
 GRUB_EDITENV_EXEC := $(HOST_OUT_EXECUTABLES)/grub-editenv
