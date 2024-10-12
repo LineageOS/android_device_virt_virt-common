@@ -191,7 +191,12 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/misc/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
 
 PRODUCT_PACKAGES += \
+    grub-editenv \
+    grub-editenv.recovery \
     sgdisk.recovery
+
+PRODUCT_HOST_PACKAGES += \
+    grub-editenv
 
 # VirtWifi
 PRODUCT_PACKAGES += \
