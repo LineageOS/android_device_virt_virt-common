@@ -48,6 +48,7 @@ endif
 
 INSTALLED_ESPIMAGE_TARGET := $(TARGET_OUT_INTERMEDIATES)/CUSTOM_IMAGES/EFI.img
 INSTALLED_ESPIMAGE_INSTALL_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX).img
+INSTALLED_PERSISTIMAGE_TARGET := $(TARGET_OUT_INTERMEDIATES)/CUSTOM_IMAGES/persist.img
 
 INSTALLED_ESPIMAGE_TARGET_INCLUDE_FILES := \
 	$(PRODUCT_OUT)/kernel \
@@ -65,11 +66,16 @@ INSTALLED_ESPIMAGE_INSTALL_TARGET_INCLUDE_FILES := \
 INSTALLED_ESPIMAGE_INSTALL_TARGET_DEPS := \
 	$(INSTALLED_ESPIMAGE_INSTALL_TARGET_INCLUDE_FILES)
 
+INSTALLED_PERSISTIMAGE_TARGET_DEPS :=
+
 # $(1): output file
 # $(2): list of contents to include
-# $(3): purpose
-define create-espimage
-	/bin/dd if=/dev/zero of=$(1) bs=1M count=$$($(VIRT_COMMON_PATH)/bootmgr/.calc_fat32_img_size.sh $(2))
+# $(3): volume label
+# $(4): image size in MB (optional)
+define create-fat32image
+	[ $(4) ] && [ $(4) -gt 0 ] && img_size=$(4) || \
+		img_size=$$($(VIRT_COMMON_PATH)/bootmgr/.calc_fat32_img_size.sh $(2)); \
+		/bin/dd if=/dev/zero of=$(1) bs=1M count=$$img_size
 	$(BOOTMGR_TOOLS_BIN_DIR)/mformat -F -i $(1) -v "$(3)" ::
 	$(foreach content,$(2),$(BOOTMGR_TOOLS_BIN_DIR)/mcopy -i $(1) -s $(content) :: &&)true
 endef
@@ -117,3 +123,12 @@ espimage-install-nodeps:
 	$(call make-espimage-install-target,$(INSTALLED_ESPIMAGE_INSTALL_TARGET),$(INSTALLED_ESPIMAGE_INSTALL_TARGET_INCLUDE_FILES))
 
 endif # TARGET_BOOT_MANAGER
+
+##### persistimage #####
+
+$(INSTALLED_PERSISTIMAGE_TARGET): $(INSTALLED_PERSISTIMAGE_TARGET_DEPS)
+	$(hide) mkdir -p $(dir $@)
+	$(call create-fat32image,$@,$(INSTALLED_PERSISTIMAGE_TARGET_DEPS),persist,16)
+
+.PHONY: persistimage
+persistimage: $(INSTALLED_PERSISTIMAGE_TARGET)

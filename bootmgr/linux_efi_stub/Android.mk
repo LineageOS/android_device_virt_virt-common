@@ -31,7 +31,7 @@ define make-espimage-target
 	cp $(TARGET_EFI_BOOT_SCRIPTS) $(EFISTUB_WORKDIR_ESP)/fsroot/
 	$(foreach f,$(notdir $(TARGET_EFI_BOOT_SCRIPTS)),\
 		$(call process-bootmgr-cfg-common,$(EFISTUB_WORKDIR_ESP)/fsroot/$(f)) &&)true
-	$(call create-espimage,$(1),$(EFISTUB_WORKDIR_ESP)/fsroot/* $(INSTALLED_COMBINED_RAMDISK_TARGET) $(INSTALLED_COMBINED_RAMDISK_RECOVERY_TARGET),boot)
+	$(call create-fat32image,$(1),$(EFISTUB_WORKDIR_ESP)/fsroot/* $(INSTALLED_COMBINED_RAMDISK_TARGET) $(INSTALLED_COMBINED_RAMDISK_RECOVERY_TARGET),boot)
 endef
 
 ##### espimage-install #####
@@ -45,7 +45,7 @@ define make-espimage-install-target
 	cp $(TARGET_EFI_INSTALL_SCRIPTS) $(EFISTUB_WORKDIR_INSTALL)/fsroot/
 	$(foreach f,$(notdir $(TARGET_EFI_INSTALL_SCRIPTS)),\
 		$(call process-bootmgr-cfg-common,$(EFISTUB_WORKDIR_INSTALL)/fsroot/$(f)))
-	$(call create-espimage,$(1),$(EFISTUB_WORKDIR_INSTALL)/fsroot/* $(INSTALLED_COMBINED_RAMDISK_RECOVERY_TARGET) $(PRODUCT_OUT)/$(BOOTMGR_ANDROID_OTA_PACKAGE_NAME),install)
+	$(call create-fat32image,$(1),$(EFISTUB_WORKDIR_INSTALL)/fsroot/* $(INSTALLED_COMBINED_RAMDISK_RECOVERY_TARGET) $(PRODUCT_OUT)/$(BOOTMGR_ANDROID_OTA_PACKAGE_NAME),install)
 endef
 
 endif # TARGET_BOOT_MANAGER
