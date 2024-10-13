@@ -17,7 +17,6 @@
 #pragma once
 
 #include <aidl/android/hardware/boot/BnBootControl.h>
-#include <libboot_control/libboot_control.h>
 
 namespace aidl::android::hardware::boot {
 
@@ -37,9 +36,6 @@ class BootControl final : public BnBootControl {
     ::ndk::ScopedAStatus setSlotAsUnbootable(int32_t in_slot) override;
     ::ndk::ScopedAStatus setSnapshotMergeStatus(
             ::aidl::android::hardware::boot::MergeStatus in_status) override;
-
-  private:
-    ::android::bootable::BootControl impl_;
 };
 
 }  // namespace aidl::android::hardware::boot
