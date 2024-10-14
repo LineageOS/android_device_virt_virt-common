@@ -1,0 +1,19 @@
+cc_binary {
+    name: "grub_boot_control_init",
+    srcs: ["grub_boot_control_init.cpp"],
+    shared_libs: [
+        "libbase",
+        "libgrub_boot_control",
+        "libgrub_editenv",
+    ],
+    target: {
+        host: {
+            static_libs: [
+                "liblog_stub",
+            ],
+        },
+    },
+    host_supported: true,
+    recovery_available: true,
+    vendor_available: true,
+}
