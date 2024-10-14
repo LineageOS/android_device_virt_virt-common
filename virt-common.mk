@@ -197,10 +197,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     grub-editenv \
     grub-editenv.recovery \
+    grub_boot_control \
+    grub_boot_control.recovery \
     sgdisk.recovery
 
 PRODUCT_HOST_PACKAGES += \
-    grub-editenv
+    grub-editenv \
+    grub_boot_control
 
 # VirtWifi
 PRODUCT_PACKAGES += \
