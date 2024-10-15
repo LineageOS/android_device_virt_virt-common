@@ -37,6 +37,8 @@ cc_binary {
     static_libs: [
         "android.hardware.boot-V1-ndk",
         "libbase",
+        "libgrub_boot_control",
+        "libgrub_editenv",
     ],
 
     installable: false, // installed in APEX
@@ -52,6 +54,8 @@ cc_binary {
     shared_libs: [
         "libbase",
         "libbinder_ndk",
+        "libgrub_boot_control",
+        "libgrub_editenv",
         "android.hardware.boot-V1-ndk",
     ],
 }
