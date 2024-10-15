@@ -18,6 +18,8 @@
 
 #include <aidl/android/hardware/boot/BnBootControl.h>
 
+#include <GrubBootControl.h>
+
 namespace aidl::android::hardware::boot {
 
 class BootControl final : public BnBootControl {
@@ -36,6 +38,9 @@ class BootControl final : public BnBootControl {
     ::ndk::ScopedAStatus setSlotAsUnbootable(int32_t in_slot) override;
     ::ndk::ScopedAStatus setSnapshotMergeStatus(
             ::aidl::android::hardware::boot::MergeStatus in_status) override;
+
+  private:
+    ::libgrub_boot_control::GrubBootControl* mBackendGrub;
 };
 
 }  // namespace aidl::android::hardware::boot
