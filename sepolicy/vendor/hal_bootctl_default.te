@@ -1,0 +1,9 @@
+allow hal_bootctl_default mnt_vendor_file:dir search;
+
+# Allow creating files in /mnt/vendor/persist
+allow hal_bootctl_default persist_file:dir rw_dir_perms;
+allow hal_bootctl_default persist_file:file create_file_perms;
+
+recovery_only(`
+    allow hal_bootctl_default rootfs:dir read;
+')
