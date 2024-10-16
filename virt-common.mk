@@ -214,3 +214,5 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     CuttlefishTetheringOverlay \
     CuttlefishWifiOverlay
+
+$(call enforce-product-packages-exist,)
