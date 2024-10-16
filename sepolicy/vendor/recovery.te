@@ -2,9 +2,12 @@ recovery_only(`
     get_prop(recovery, vendor_recovery_ethernet_dhcp_prop)
     set_prop(recovery, shell_prop)
 
+    r_dir_file(recovery, vfat)
+
     allow recovery boottime_prop:property_service set;
     allow recovery gpu_device:dir search;
     allow recovery pstorefs:dir search;
+    allow recovery self:capability fsetid;
     allow recovery sysfs_devices_block:dir r_dir_perms;
     allow recovery sysfs_devices_block:file rw_file_perms;
     allow recovery sysfs_loop:dir r_dir_perms;
