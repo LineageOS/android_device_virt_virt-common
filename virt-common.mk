@@ -165,6 +165,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
     $(LOCAL_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
     $(LOCAL_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
+    $(LOCAL_PATH)/configs/scripts/flash_persist_partition.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/flash_persist_partition.sh \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
 
 # Scoped Storage

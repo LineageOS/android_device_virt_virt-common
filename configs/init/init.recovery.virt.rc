@@ -11,6 +11,16 @@ on fs
     exec u:r:vendor_efi_update_default_sh:s0 -- /system/bin/sh -e /system/bin/refind-update-default_selection.sh
     umount /mnt/vendor/EFI
 
+    mkdir /mnt/vendor/persist 0770 root root
+    trigger mount_persist_partition
+
 on early-boot
     ifup ${vendor.recovery.ethernet.dhcp.iface:-eth0}
     start dhcpclient
+
+on property:ro.boot.install=1 && property:init.svc.create_partition_table=stopped
+    exec u:r:flash_persist_partition:s0 -- /system/bin/sh -e /system/bin/flash_persist_partition.sh
+    trigger mount_persist_partition
+
+on mount_persist_partition
+    mount vfat /dev/block/by-name/persist /mnt/vendor/persist rw sync shortname=lower uid=0 gid=0 dmask=007 fmask=117 context=u:object_r:persist_file:s0
