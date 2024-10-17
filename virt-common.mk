@@ -162,7 +162,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
     $(LOCAL_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
     $(LOCAL_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
+    $(LOCAL_PATH)/configs/scripts/init_persist_partition.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/init_persist_partition.sh \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
+
+PRODUCT_PACKAGES += \
+    persist_img_gz_recovery
 
 # Scoped Storage
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
