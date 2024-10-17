@@ -24,7 +24,11 @@ GRUB_WORKDIR_INSTALL := $(GRUB_WORKDIR_BASE)/install
 GRUB_WORKDIR_PERSIST := $(GRUB_WORKDIR_BASE)/persist
 
 ifeq ($(TARGET_GRUB_ARCH),x86_64-efi)
-GRUB_MKSTANDALONE_FORMAT := x86_64-efi
+	GRUB_MKSTANDALONE_FORMAT := x86_64-efi
+else
+	ifeq ($(TARGET_GRUB_EFI_PREBUILT),)
+		$(error Please specify prebuilt GRUB EFI file)
+	endif
 endif
 
 GRUB_DEFAULT_ENV_VARS_FILE := $(VIRT_COMMON_PATH)/configs/misc/grubenv.txt
@@ -46,10 +50,14 @@ endef
 define make-espimage
 	mkdir -p $(3)/fsroot/EFI/BOOT $(3)/fsroot/boot/grub/fonts
 
-	cp $(COMMON_GRUB_PATH)/grub-standalone.cfg $(3)/grub-standalone.cfg
-	$(call process-bootmgr-cfg-common,$(3)/grub-standalone.cfg)
-	sed -i "s|@PURPOSE@|$(4)|g" $(3)/grub-standalone.cfg
-	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkstandalone -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --locales="" --fonts="" --format=$(GRUB_MKSTANDALONE_FORMAT) --output=$(3)/fsroot/EFI/BOOT/$(BOOTMGR_EFI_BOOT_FILENAME) --modules="configfile disk fat part_gpt search" "boot/grub/grub.cfg=$(3)/grub-standalone.cfg"
+	if [ "$(TARGET_GRUB_EFI_PREBUILT)" ]; then \
+		cp $(TARGET_GRUB_EFI_PREBUILT) $(3)/fsroot/EFI/BOOT/$(BOOTMGR_EFI_BOOT_FILENAME); \
+	else \
+		cp $(COMMON_GRUB_PATH)/grub-standalone.cfg $(3)/grub-standalone.cfg; \
+		$(call process-bootmgr-cfg-common,$(3)/grub-standalone.cfg); \
+		sed -i "s|@PURPOSE@|$(4)|g" $(3)/grub-standalone.cfg; \
+		$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkstandalone -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --locales="" --fonts="" --format=$(GRUB_MKSTANDALONE_FORMAT) --output=$(3)/fsroot/EFI/BOOT/$(BOOTMGR_EFI_BOOT_FILENAME) --modules="configfile disk fat part_gpt search" "boot/grub/grub.cfg=$(3)/grub-standalone.cfg"; \
+	fi
 
 	cp -r $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) $(3)/fsroot/boot/grub/$(TARGET_GRUB_ARCH)
 	cp $(GRUB_PREBUILT_DIR)/share/grub/unicode.pf2 $(3)/fsroot/boot/grub/fonts/unicode.pf2
@@ -83,6 +91,7 @@ endef
 
 ##### isoimage-boot #####
 
+ifeq ($(TARGET_GRUB_ARCH),x86_64-efi)
 ifneq ($(LINEAGE_BUILD),)
 
 INSTALLED_ISOIMAGE_BOOT_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX)-boot.iso
@@ -94,9 +103,11 @@ $(INSTALLED_ISOIMAGE_BOOT_TARGET): $(INSTALLED_ESPIMAGE_TARGET) $(TARGET_GRUB_BO
 isoimage-boot: $(INSTALLED_ISOIMAGE_BOOT_TARGET)
 
 endif # LINEAGE_BUILD
+endif # TARGET_GRUB_ARCH
 
 ##### isoimage-install #####
 
+ifeq ($(TARGET_GRUB_ARCH),x86_64-efi)
 ifneq ($(LINEAGE_BUILD),)
 
 INSTALLED_ISOIMAGE_INSTALL_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX).iso
@@ -108,6 +119,7 @@ $(INSTALLED_ISOIMAGE_INSTALL_TARGET): $(INSTALLED_ESPIMAGE_INSTALL_TARGET) $(TAR
 isoimage-install: $(INSTALLED_ISOIMAGE_INSTALL_TARGET)
 
 endif # LINEAGE_BUILD
+endif # TARGET_GRUB_ARCH
 
 ##### grubbootimage #####
 
