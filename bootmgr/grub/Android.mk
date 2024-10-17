@@ -10,6 +10,12 @@ ifeq ($(TARGET_BOOT_MANAGER),grub)
 ifeq ($(TARGET_GRUB_ARCH),)
 $(warning TARGET_GRUB_ARCH is not defined, could not build GRUB)
 else
+INSTALLED_ESPIMAGE_TARGET_DEPS += \
+	$(TARGET_GRUB_BOOT_CONFIG)
+
+INSTALLED_ESPIMAGE_INSTALL_TARGET_DEPS += \
+	$(TARGET_GRUB_INSTALL_CONFIG)
+
 GRUB_PREBUILT_DIR := prebuilts/bootmgr/grub/$(HOST_PREBUILT_TAG)/$(TARGET_GRUB_ARCH)
 
 GRUB_WORKDIR_BASE := $(TARGET_OUT_INTERMEDIATES)/GRUB_OBJ
@@ -30,7 +36,7 @@ define install-grub-theme
 endef
 
 # $(1): output file
-# $(2): dependencies
+# $(2): files to include
 # $(3): workdir
 # $(4): purpose (boot or install)
 # $(5): configuration file
@@ -57,7 +63,7 @@ endef
 ##### espimage #####
 
 # $(1): output file
-# $(2): dependencies
+# $(2): files to include
 define make-espimage-target
 	$(call pretty,"Target EFI System Partition image: $(1)")
 	$(call make-espimage,$(1),$(2),$(GRUB_WORKDIR_ESP),boot,$(TARGET_GRUB_BOOT_CONFIG))
@@ -66,7 +72,7 @@ endef
 ##### espimage-install #####
 
 # $(1): output file
-# $(2): dependencies
+# $(2): files to include
 define make-espimage-install-target
 	$(call pretty,"Target installer ESP image: $(1)")
 	$(call make-espimage,$(1),$(2),$(GRUB_WORKDIR_INSTALL),install,$(TARGET_GRUB_INSTALL_CONFIG))
@@ -77,9 +83,9 @@ endef
 ifneq ($(LINEAGE_BUILD),)
 
 INSTALLED_ISOIMAGE_BOOT_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX)-boot.iso
-$(INSTALLED_ISOIMAGE_BOOT_TARGET): $(INSTALLED_ESPIMAGE_TARGET)
+$(INSTALLED_ISOIMAGE_BOOT_TARGET): $(INSTALLED_ESPIMAGE_TARGET) $(TARGET_GRUB_BOOT_CONFIG)
 	$(call pretty,"Target boot ISO image: $@")
-	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_ESPIMAGE_TARGET_DEPS) $(GRUB_WORKDIR_ESP)/fsroot
+	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_ESPIMAGE_TARGET_INCLUDE_FILES) $(GRUB_WORKDIR_ESP)/fsroot
 
 .PHONY: isoimage-boot
 isoimage-boot: $(INSTALLED_ISOIMAGE_BOOT_TARGET)
@@ -91,9 +97,9 @@ endif # LINEAGE_BUILD
 ifneq ($(LINEAGE_BUILD),)
 
 INSTALLED_ISOIMAGE_INSTALL_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX).iso
-$(INSTALLED_ISOIMAGE_INSTALL_TARGET): $(INSTALLED_ESPIMAGE_INSTALL_TARGET)
+$(INSTALLED_ISOIMAGE_INSTALL_TARGET): $(INSTALLED_ESPIMAGE_INSTALL_TARGET) $(TARGET_GRUB_INSTALL_CONFIG)
 	$(call pretty,"Target installer ISO image: $@")
-	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_ESPIMAGE_INSTALL_TARGET_DEPS) $(GRUB_WORKDIR_INSTALL)/fsroot
+	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_ESPIMAGE_INSTALL_TARGET_INCLUDE_FILES) $(GRUB_WORKDIR_INSTALL)/fsroot
 
 .PHONY: isoimage-install
 isoimage-install: $(INSTALLED_ISOIMAGE_INSTALL_TARGET)
