@@ -7,6 +7,12 @@
 COMMON_REFIND_PATH := $(call my-dir)
 
 ifeq ($(TARGET_BOOT_MANAGER),rEFInd)
+INSTALLED_ESPIMAGE_TARGET_DEPS += \
+	$(TARGET_REFIND_BOOT_CONFIG)
+
+INSTALLED_ESPIMAGE_INSTALL_TARGET_DEPS += \
+	$(TARGET_REFIND_INSTALL_CONFIG)
+
 REFIND_PREBUILT_DIR := prebuilts/bootmgr/rEFInd
 
 REFIND_WORKDIR_BASE := $(TARGET_OUT_INTERMEDIATES)/REFIND_OBJ
@@ -31,7 +37,7 @@ define copy-refind-files-to-efi-boot
 endef
 
 # $(1): output file
-# $(2): dependencies
+# $(2): files to include
 # $(3): workdir
 # $(4): purpose (boot or install)
 # $(5): configuration file
@@ -52,7 +58,7 @@ endef
 ##### espimage #####
 
 # $(1): output file
-# $(2): dependencies
+# $(2): files to include
 define make-espimage-target
 	$(call pretty,"Target EFI System Partition image: $(1)")
 	$(call make-espimage,$(1),$(2),$(REFIND_WORKDIR_ESP),boot,$(TARGET_REFIND_BOOT_CONFIG))
@@ -61,7 +67,7 @@ endef
 ##### espimage-install #####
 
 # $(1): output file
-# $(2): dependencies (unused for now)
+# $(2): files to include
 define make-espimage-install-target
 	$(call pretty,"Target installer ESP image: $(1)")
 	$(call make-espimage,$(1),$(2),$(REFIND_WORKDIR_INSTALL),install,$(TARGET_REFIND_INSTALL_CONFIG))

@@ -10,6 +10,12 @@ ifneq ($(EMULATOR_KERNEL_FILE),)
 $(error Emulator kernels does not have EFI stub)
 endif
 
+INSTALLED_ESPIMAGE_TARGET_DEPS += \
+	$(TARGET_EFI_BOOT_SCRIPTS)
+
+INSTALLED_ESPIMAGE_INSTALL_TARGET_DEPS += \
+	$(TARGET_EFI_INSTALL_SCRIPTS)
+
 EFISTUB_WORKDIR_BASE := $(TARGET_OUT_INTERMEDIATES)/EFISTUB_OBJ
 EFISTUB_WORKDIR_ESP := $(EFISTUB_WORKDIR_BASE)/esp
 EFISTUB_WORKDIR_INSTALL := $(EFISTUB_WORKDIR_BASE)/install
@@ -17,7 +23,7 @@ EFISTUB_WORKDIR_INSTALL := $(EFISTUB_WORKDIR_BASE)/install
 ##### espimage #####
 
 # $(1): output file
-# $(2): dependencies (unused)
+# $(2): files to include (unused)
 define make-espimage-target
 	$(call pretty,"Target EFI System Partition image: $(1)")
 	mkdir -p $(EFISTUB_WORKDIR_ESP)/fsroot
@@ -31,7 +37,7 @@ endef
 ##### espimage-install #####
 
 # $(1): output file
-# $(2): dependencies (unused)
+# $(2): files to include (unused)
 define make-espimage-install-target
 	$(call pretty,"Target installer ESP image: $(1)")
 	mkdir -p $(EFISTUB_WORKDIR_INSTALL)/fsroot
