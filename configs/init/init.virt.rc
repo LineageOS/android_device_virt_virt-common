@@ -10,6 +10,15 @@ service vendor.refind-update-default_selection /vendor/bin/refind-update-default
 on property:sys.shutdown.requested=*
     start vendor.refind-update-default_selection
 
+service vendor.grub-editenv-set-android_theme /vendor/bin/grub-editenv /mnt/vendor/persist/grubenv set android_theme=${persist.sys.theme}
+    user system
+    group system
+    disabled
+    oneshot
+
+on property:persist.sys.theme=*
+    start vendor.grub-editenv-set-android_theme
+
 # Display
 on early-init
     setprop ro.sf.lcd_density ${ro.boot.lcd_density:-160}
