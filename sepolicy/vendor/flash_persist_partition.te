@@ -1,0 +1,10 @@
+type flash_persist_partition, domain;
+
+recovery_only(`
+    domain_trans(init, rootfs, flash_persist_partition)
+    r_dir_file(flash_persist_partition, rootfs)
+    allow flash_persist_partition rootfs:file execute_no_trans;
+
+    allow flash_persist_partition block_device:dir search;
+    allow flash_persist_partition persist_block_device:blk_file rw_file_perms;
+')
