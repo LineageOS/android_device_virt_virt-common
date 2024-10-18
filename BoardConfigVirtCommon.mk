@@ -109,6 +109,7 @@ ifeq ($(TARGET_BOOT_MANAGER),grub)
 AB_OTA_PARTITIONS := \
     $(ALL_PARTITIONS) \
     boot \
+    EFI \
     grub_boot
 endif
 endif
