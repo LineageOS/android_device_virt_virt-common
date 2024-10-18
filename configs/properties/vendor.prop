@@ -18,6 +18,9 @@ media.c2.hal.selection=aidl
 debug.c2.use_dmabufheaps=1
 debug.stagefright.c2inputsurface=-1
 
+# Recovery
+ro.recovery.batteryless=true
+
 # VirtWifi
 ro.boot.wifi_mac_prefix=5554
 ro.vendor.virtwifi.port=eth0
