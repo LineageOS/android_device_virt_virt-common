@@ -11,7 +11,7 @@ on fs
     exec u:r:vendor_efi_update_default_sh:s0 -- /system/bin/sh -e /system/bin/refind-update-default_selection.sh
     umount /mnt/vendor/EFI
 
-    mkdir /mnt/vendor/persist 0770 root root
+    mkdir /mnt/vendor/_persist 0770 root root
     trigger mount_persist_partition
 
 on early-boot
@@ -23,4 +23,4 @@ on property:ro.boot.install=1 && property:init.svc.create_partition_table=stoppe
     trigger mount_persist_partition
 
 on mount_persist_partition
-    mount vfat /dev/block/by-name/persist /mnt/vendor/persist rw sync shortname=lower uid=0 gid=0 dmask=007 fmask=117 context=u:object_r:persist_file:s0
+    mount vfat /dev/block/by-name/persist /mnt/vendor/_persist rw sync shortname=lower uid=1000 gid=1000 dmask=007 fmask=117 context=u:object_r:persist_file:s0

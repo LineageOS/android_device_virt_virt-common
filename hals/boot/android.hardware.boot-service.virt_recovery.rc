@@ -1,7 +1,6 @@
 service vendor.boot-default /system/bin/hw/android.hardware.boot-service.virt_recovery
     class early_hal
-    user root
-    group root
+    user system
+    group system
     seclabel u:r:hal_bootctl_default:s0
     interface aidl android.hardware.boot.IBootControl/default
-

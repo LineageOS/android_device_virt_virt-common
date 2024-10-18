@@ -54,7 +54,12 @@ MergeStatus ConvertGrubStringToMergeStatus(std::string str) {
 }  // namespace
 
 BootControl::BootControl() {
+#if defined(__ANDROID_RECOVERY__)
+    mBackendGrub =
+            new libgrub_boot_control::GrubBootControl("/mnt/vendor/_persist/grubenv_abootctrl");
+#else
     mBackendGrub = new libgrub_boot_control::GrubBootControl();
+#endif
 }
 
 ScopedAStatus BootControl::getActiveBootSlot(int32_t* _aidl_return) {
