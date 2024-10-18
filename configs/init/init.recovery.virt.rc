@@ -5,6 +5,9 @@ service dhcpclient /system/bin/dhcpclient -i ${vendor.recovery.ethernet.dhcp.ifa
     oneshot
     disabled
 
+on early-fs && property:ro.boot.install=1
+    exec u:r:flash_super_partition:s0 -- /system/bin/dd if=/system/etc/super_empty_raw.img of=/dev/block/by-name/super
+
 on fs
     mkdir /mnt/vendor/EFI 0770 root root
     mount vfat /dev/block/by-name/EFI /mnt/vendor/EFI rw shortname=lower uid=0 gid=0 dmask=007 fmask=117 context=u:object_r:efi_file:s0
