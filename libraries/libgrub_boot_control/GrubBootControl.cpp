@@ -87,6 +87,16 @@ void GrubBootControl::InitGrubVars() {
     SetItemValueForAllSlots(kItemSlotIsSuccessful, "false", false);
 }
 
+void GrubBootControl::DecreaseBootCountForCurrentSlot() {
+    // getCurrentSlot() may return invalid slot number (on error)
+    int slot = getCurrentSlot();
+    if (!IsValidSlot(slot)) return;
+
+    string boot_count_str = GetItemValueForSlot(slot, kItemSlotBootCount);
+    if (!boot_count_str.empty()) boot_count_str.pop_back();
+    SetItemValueForSlot(slot, kItemSlotBootCount, boot_count_str);
+}
+
 // android.hardware.boot
 
 int GrubBootControl::getActiveBootSlot() {

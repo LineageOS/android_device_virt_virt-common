@@ -43,6 +43,10 @@ GrubBootControl::GrubBootControl(string grubenv_path, vector<string> slots, stri
         InitGrubVars();
         CHECK(CommitGrubVars());
     }
+
+#if defined(__ANDROID_RECOVERY__)
+    DecreaseBootCountForCurrentSlot();
+#endif
 }
 
 GrubBootControl::~GrubBootControl() {

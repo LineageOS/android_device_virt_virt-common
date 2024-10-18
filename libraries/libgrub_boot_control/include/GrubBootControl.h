@@ -58,6 +58,7 @@ class GrubBootControl {
     void InitGrubVars();
     bool CommitGrubVars();
 
+    void DecreaseBootCountForCurrentSlot();
     void RemoveUnusedElementsFromMap();
 };
 
