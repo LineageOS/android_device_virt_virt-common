@@ -13,7 +13,11 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_NO_BOOTLOADER := true
 
 # Fastboot
-TARGET_BOARD_FASTBOOT_INFO_FILE := $(VIRT_COMMON_PATH)/configs/misc/fastboot-info.txt
+ifeq ($(AB_OTA_UPDATER),true)
+TARGET_BOARD_FASTBOOT_INFO_FILE := $(VIRT_COMMON_PATH)/configs/misc/fastboot-info_ab.txt
+else
+TARGET_BOARD_FASTBOOT_INFO_FILE := $(VIRT_COMMON_PATH)/configs/misc/fastboot-info_a.txt
+endif
 
 # Filesystem
 BOARD_EXT4_SHARE_DUP_BLOCKS :=
@@ -56,8 +60,10 @@ endif
 BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_USES_METADATA_PARTITION := true
 
+ifneq ($(AB_OTA_UPDATER),true)
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 52428800 # 50 MB
+endif
 
 DLKM_PARTITIONS := system_dlkm vendor_dlkm
 SSI_PARTITIONS := product system system_ext
@@ -86,6 +92,10 @@ else
     $(error TARGET_LOGICAL_PARTITIONS_FILE_SYSTEM_TYPE is invalid)
 endif
 
+ifeq ($(AB_OTA_UPDATER),true)
+BOARD_SUPER_PARTITION_SIZE := 12884901888 # 12 GB
+endif
+
 BOARD_SUPER_PARTITION_GROUPS := virt_dynamic_partitions
 BOARD_VIRT_DYNAMIC_PARTITIONS_PARTITION_LIST := $(ALL_PARTITIONS)
 BOARD_VIRT_DYNAMIC_PARTITIONS_SIZE := $(shell expr $(BOARD_SUPER_PARTITION_SIZE) - 4194304 )
@@ -101,6 +111,11 @@ endif
 
 ifeq ($(AB_OTA_UPDATER),true)
 ifeq ($(TARGET_BOOT_MANAGER),grub)
+AB_OTA_PARTITIONS := \
+    $(ALL_PARTITIONS) \
+    boot \
+    grub_boot
+
 BOARD_CUSTOMIMAGES_PARTITION_LIST += grub_boot
 BOARD_GRUB_BOOT_IMAGE_LIST := $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/grub_boot.img
 endif
@@ -125,6 +140,11 @@ BOARD_RAMDISK_USE_LZ4 := true
 
 # Recovery
 TARGET_RECOVERY_UI_LIB := librecovery_ui_virt
+
+ifeq ($(AB_OTA_UPDATER),true)
+BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+TARGET_NO_RECOVERY := true
+endif
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(VIRT_COMMON_PATH)
