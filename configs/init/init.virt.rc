@@ -1,5 +1,10 @@
 import /vendor/etc/init/hw/init.low_performance.rc
 
+# Block devices
+on early-fs
+    symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_a
+    symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_b
+
 # Boot manager
 service vendor.refind-update-default_selection /vendor/bin/refind-update-default_selection.sh ${sys.shutdown.requested}
     user root
