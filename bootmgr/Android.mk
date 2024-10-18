@@ -89,6 +89,7 @@ endef
 
 # $(1): path to boot manager config file
 define process-bootmgr-cfg-common
+	sed -i "s|@AB_OTA_UPDATER@|$(AB_OTA_UPDATER)|g" $(1)
 	sed -i "s|@BOOTMGR_ANDROID_DISTRIBUTION_NAME@|$(BOOTMGR_ANDROID_DISTRIBUTION_NAME)|g" $(1)
 	sed -i "s|@BOOTMGR_EFI_BOOT_FILENAME@|$(BOOTMGR_EFI_BOOT_FILENAME)|g" $(1)
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE@|$(strip $(BOARD_KERNEL_CMDLINE))|g" $(1)

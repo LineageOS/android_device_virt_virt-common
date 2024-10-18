@@ -117,8 +117,14 @@ define make-diskimage-target
 	/bin/dd if=/dev/zero of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) count=$(DISK_$(call to-upper,$(2))_SECTORS)
 	/bin/sh -e $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh $(SGDISK_EXEC) $(1) $(2) $(AB_OTA_UPDATER) $(BOARD_SUPER_PARTITION_SIZE)
 	$(foreach p,$(DISK_$(call to-upper,$(2))_WRITE_PARTITIONS),\
-		/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_SECTORS) conv=notrunc &&\
-	)true
+		$(if $(filter $(p),$(AB_OTA_PARTITIONS)),\
+			$(foreach ab_slot_suffix,_A _B,\
+				/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_SECTORS) conv=notrunc &&\
+			)\
+		,\
+			/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_SECTORS) conv=notrunc &&\
+		) true\
+	)
 endef
 
 INSTALLED_DISKIMAGE_VDA_TARGET := $(PRODUCT_OUT)/disk-vda.img
