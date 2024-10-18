@@ -1,0 +1,9 @@
+type flash_super_partition, domain;
+
+recovery_only(`
+    domain_trans(init, rootfs, flash_super_partition)
+    r_dir_file(flash_super_partition, rootfs)
+
+    allow flash_super_partition block_device:dir search;
+    allow flash_super_partition super_block_device:blk_file rw_file_perms;
+')
