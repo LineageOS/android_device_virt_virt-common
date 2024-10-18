@@ -150,6 +150,15 @@ $(FIRMWARE_MOUNT_POINT):
 	@echo "Creating $(FIRMWARE_MOUNT_POINT)"
 	@mkdir -p $(TARGET_OUT_VENDOR)/firmware_mnt
 
+# Radio files
+INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/EFI.img
+$(PRODUCT_OUT)/EFI.img : $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/EFI.img
+	$(transform-prebuilt-to-target)
+
+INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/grub_boot.img
+$(PRODUCT_OUT)/grub_boot.img : $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/grub_boot.img
+	$(transform-prebuilt-to-target)
+
 # Super image (empty)
 LPFLASH := $(HOST_OUT_EXECUTABLES)/lpflash$(HOST_EXECUTABLE_SUFFIX)
 INSTALLED_RECOVERY_SUPERIMAGE_EMPTY_RAW_TARGET := $(PRODUCT_OUT)/recovery/root/system/etc/super_empty_raw.img
