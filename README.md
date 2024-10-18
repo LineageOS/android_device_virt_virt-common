@@ -36,5 +36,4 @@ The device tree is currently WIP, Not suitable for normal use.
 
 | Topic | Link |
 | ----- | ---- |
-| 14-embed-super_empty_img | [LineageOS Gerrit](https://review.lineageos.org/q/topic:%2214-embed-super_empty_img%22) |
 | 14-recovery-ethernet | [LineageOS Gerrit](https://review.lineageos.org/q/topic:%2214-recovery-ethernet%22) |

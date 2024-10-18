@@ -144,6 +144,15 @@ $(FIRMWARE_MOUNT_POINT):
 	@echo "Creating $(FIRMWARE_MOUNT_POINT)"
 	@mkdir -p $(TARGET_OUT_VENDOR)/firmware_mnt
 
+# Super image (empty)
+LPFLASH := $(HOST_OUT_EXECUTABLES)/lpflash$(HOST_EXECUTABLE_SUFFIX)
+INSTALLED_RECOVERY_SUPERIMAGE_EMPTY_RAW_TARGET := $(PRODUCT_OUT)/recovery/root/system/etc/super_empty_raw.img
+$(INSTALLED_RECOVERY_SUPERIMAGE_EMPTY_RAW_TARGET): $(LPFLASH) $(PRODUCT_OUT)/super_empty.img
+	touch $@
+	$(LPFLASH) $$(realpath $@) $(PRODUCT_OUT)/super_empty.img
+
+ALL_DEFAULT_INSTALLED_MODULES += $(INSTALLED_RECOVERY_SUPERIMAGE_EMPTY_RAW_TARGET)
+
 # Include other makefiles
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
