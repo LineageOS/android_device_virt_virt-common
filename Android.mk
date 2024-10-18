@@ -59,8 +59,9 @@ ifeq ($(AB_OTA_UPDATER),true)
 	DISK_VDA_PARTITION_BOOT_B_SECTORS := 163840
 
 	DISK_VDA_WRITE_PARTITIONS := \
-		$(BOARD_CUSTOMIMAGES_PARTITION_LIST) \
+		EFI \
 		super \
+		grub_boot \
 		boot
 else
 	ifeq ($(BOARD_SUPER_PARTITION_SIZE),3221225472)
@@ -108,7 +109,7 @@ else
 	endif
 
 	DISK_VDA_WRITE_PARTITIONS := \
-		$(BOARD_CUSTOMIMAGES_PARTITION_LIST) \
+		EFI \
 		super \
 		cache \
 		boot \
@@ -154,6 +155,21 @@ ALL_DEFAULT_INSTALLED_MODULES += $(FIRMWARE_MOUNT_POINT)
 $(FIRMWARE_MOUNT_POINT):
 	@echo "Creating $(FIRMWARE_MOUNT_POINT)"
 	@mkdir -p $(TARGET_OUT_VENDOR)/firmware_mnt
+
+# Radio files
+ifneq ($(TARGET_BOOT_MANAGER),)
+INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/EFI.img
+$(PRODUCT_OUT)/EFI.img : $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/EFI.img
+	$(transform-prebuilt-to-target)
+endif # TARGET_BOOT_MANAGER
+
+ifeq ($(AB_OTA_UPDATER),true)
+ifeq ($(TARGET_BOOT_MANAGER),grub)
+INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/grub_boot.img
+$(PRODUCT_OUT)/grub_boot.img : $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/grub_boot.img
+	$(transform-prebuilt-to-target)
+endif # TARGET_BOOT_MANAGER
+endif # AB_OTA_UPDATER
 
 # Super image (empty)
 LPFLASH := $(HOST_OUT_EXECUTABLES)/lpflash$(HOST_EXECUTABLE_SUFFIX)

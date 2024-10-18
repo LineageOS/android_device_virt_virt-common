@@ -104,20 +104,12 @@ $(foreach p, $(call to-upper, $(ALL_PARTITIONS)), \
     $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := $(TARGET_LOGICAL_PARTITIONS_FILE_SYSTEM_TYPE)) \
     $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
-ifneq ($(TARGET_BOOT_MANAGER),)
-BOARD_CUSTOMIMAGES_PARTITION_LIST := EFI
-BOARD_EFI_IMAGE_LIST := $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/EFI.img
-endif
-
 ifeq ($(AB_OTA_UPDATER),true)
 ifeq ($(TARGET_BOOT_MANAGER),grub)
 AB_OTA_PARTITIONS := \
     $(ALL_PARTITIONS) \
     boot \
     grub_boot
-
-BOARD_CUSTOMIMAGES_PARTITION_LIST += grub_boot
-BOARD_GRUB_BOOT_IMAGE_LIST := $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/grub_boot.img
 endif
 endif
 
