@@ -1,0 +1,14 @@
+filegroup {
+    name: "fstab.virt-common",
+    srcs: ["fstab.virt-common"],
+}
+
+filegroup {
+    name: "fstab.virt-a",
+    srcs: ["fstab.virt-a"],
+}
+
+filegroup {
+    name: "fstab.virt-ab",
+    srcs: ["fstab.virt-ab"],
+}
