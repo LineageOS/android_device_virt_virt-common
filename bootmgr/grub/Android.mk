@@ -50,7 +50,7 @@ endef
 # $(2): files to include
 # $(3): workdir
 # $(4): purpose (boot or install)
-# $(5): configuration file
+# $(5): configuration files
 # $(6): prebuilt EFI file (optional for x86_64-efi)
 define make-espimage
 	mkdir -p $(3)/fsroot/EFI/BOOT $(3)/fsroot/boot/grub/fonts
@@ -69,7 +69,7 @@ define make-espimage
 
 	touch $(3)/fsroot/boot/grub/.is_esp_part_on_android_$(4)_device
 
-	cp $(5) $(3)/fsroot/boot/grub/grub.cfg
+	cat $(5) > $(3)/fsroot/boot/grub/grub.cfg
 	$(call process-bootmgr-cfg-common,$(3)/fsroot/boot/grub/grub.cfg)
 	$(call install-grub-theme,$(3)/fsroot,$(3)/fsroot/boot/grub/grub.cfg)
 
@@ -82,7 +82,7 @@ endef
 # $(2): files to include
 define make-espimage-target
 	$(call pretty,"Target EFI System Partition image: $(1)")
-	$(call make-espimage,$(1),$(2),$(GRUB_WORKDIR_ESP),boot,$(TARGET_GRUB_BOOT_CONFIG),$(TARGET_GRUB_BOOT_EFI_PREBUILT))
+	$(call make-espimage,$(1),$(2),$(GRUB_WORKDIR_ESP),boot,$(TARGET_GRUB_BOOT_CONFIGS),$(TARGET_GRUB_BOOT_EFI_PREBUILT))
 endef
 
 ##### espimage-install #####
@@ -91,7 +91,7 @@ endef
 # $(2): files to include
 define make-espimage-install-target
 	$(call pretty,"Target installer ESP image: $(1)")
-	$(call make-espimage,$(1),$(2),$(GRUB_WORKDIR_INSTALL),install,$(TARGET_GRUB_INSTALL_CONFIG),$(TARGET_GRUB_INSTALL_EFI_PREBUILT))
+	$(call make-espimage,$(1),$(2),$(GRUB_WORKDIR_INSTALL),install,$(TARGET_GRUB_INSTALL_CONFIGS),$(TARGET_GRUB_INSTALL_EFI_PREBUILT))
 endef
 
 ##### isoimage-boot #####
