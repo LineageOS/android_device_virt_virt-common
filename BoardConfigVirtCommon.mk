@@ -7,6 +7,10 @@
 USES_DEVICE_VIRT_VIRT_COMMON := true
 VIRT_COMMON_PATH := device/virt/virt-common
 
+# Boot manager
+TARGET_GRUB_BOOT_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-boot.cfg
+TARGET_GRUB_INSTALL_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-install.cfg
+
 # Bootloader
 BOARD_BOOT_HEADER_VERSION := 3
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
