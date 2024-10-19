@@ -1,0 +1,20 @@
+# EFI
+/dev/block/by-name/EFI /mnt/vendor/EFI vfat rw,discard,shortname=lower,uid=0,gid=0,dmask=007,fmask=117,context=u:object_r:efi_file:s0 nofail
+
+# Misc
+/dev/block/by-name/misc /misc emmc defaults defaults
+
+# Metadata
+/dev/block/by-name/metadata /metadata ext4 nodev,noatime,nosuid,discard check,formattable,first_stage_mount
+
+# Firmware
+/dev/block/by-name/firmware /vendor/firmware_mnt vfat rw,shortname=lower,uid=0,gid=1000,dmask=007,fmask=117,context=u:object_r:firmware_file:s0 nofail
+
+# Persist
+/dev/block/by-name/persist /mnt/vendor/persist vfat rw,sync,shortname=lower,uid=1000,gid=1000,dmask=007,fmask=117,context=u:object_r:persist_file:s0 formattable
+
+# CD-ROM
+/devices/*/block/sr* auto auto defaults voldmanaged=cdrom:auto
+
+# USB
+/devices/*/usb* auto auto defaults voldmanaged=usb:auto
