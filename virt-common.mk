@@ -78,9 +78,6 @@ PRODUCT_PACKAGES += \
     virt_dhcpclient.recovery
 
 # DLKM Loader
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/misc/modules.blocklist:$(TARGET_COPY_OUT_VENDOR_DLKM)/lib/modules/modules.blocklist
-
 PRODUCT_PACKAGES += \
     dlkm_loader
 
