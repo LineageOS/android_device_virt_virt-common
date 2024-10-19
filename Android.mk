@@ -65,6 +65,7 @@ ifeq ($(AB_OTA_UPDATER),true)
 	DISK_VDA_WRITE_PARTITIONS := \
 		EFI \
 		super \
+		persist \
 		grub_boot \
 		boot
 else
@@ -117,7 +118,8 @@ else
 		super \
 		cache \
 		boot \
-		recovery
+		recovery \
+		persist
 endif
 
 # $(1): output file
@@ -174,6 +176,12 @@ $(PRODUCT_OUT)/grub_boot.img : $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/grub_boot.img
 	$(transform-prebuilt-to-target)
 endif # TARGET_BOOT_MANAGER
 endif # AB_OTA_UPDATER
+
+ifeq ($(TARGET_BOOT_MANAGER),grub)
+INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/persist.img
+$(PRODUCT_OUT)/persist.img : $(PRODUCT_OUT)/obj/CUSTOM_IMAGES/persist.img
+	$(transform-prebuilt-to-target)
+endif # TARGET_BOOT_MANAGER
 
 # Super image (empty)
 LPFLASH := $(HOST_OUT_EXECUTABLES)/lpflash$(HOST_EXECUTABLE_SUFFIX)
