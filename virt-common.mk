@@ -101,15 +101,7 @@ PRODUCT_PACKAGES += \
 
 # Graphics (Mesa)
 PRODUCT_PACKAGES += \
-    libEGL_mesa \
-    libGLESv1_CM_mesa \
-    libGLESv2_mesa \
-    libgallium_dri \
-    libglapi
-
-ifneq ($(wildcard external/llvm-project/Android.bp),)
-PRODUCT_PACKAGES += vulkan.lvp
-endif
+    mesa3d
 
 # Graphics (Swiftshader)
 PRODUCT_PACKAGES += \
