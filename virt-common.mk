@@ -226,11 +226,14 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/misc/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
 
 PRODUCT_PACKAGES += \
+    e2fsck.recovery \
     grub-editenv \
     grub-editenv.recovery \
     grub_boot_control \
     grub_boot_control.recovery \
-    sgdisk.recovery
+    resize2fs.recovery \
+    sgdisk.recovery \
+    tune2fs.recovery
 
 PRODUCT_PACKAGES_DEBUG += \
     tinycap \
