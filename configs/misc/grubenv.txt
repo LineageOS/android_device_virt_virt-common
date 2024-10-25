@@ -1,1 +1,1 @@
-android_theme=1
+android_insecure_adb=0 android_lcd_density= android_low_perf=0 android_nobootanim=0 android_selinux_permissive=0 android_theme=1 android_wifi_impl= grub_timeout=10 kms_display_resolution=
