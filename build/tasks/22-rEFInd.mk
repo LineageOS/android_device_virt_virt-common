@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_REFIND_PATH := $(call my-dir)
+COMMON_REFIND_PATH := $(VIRT_COMMON_PATH)/bootmgr/rEFInd
 
 ifeq ($(TARGET_BOOT_MANAGER),rEFInd)
 INSTALLED_ESPIMAGE_TARGET_DEPS += \
