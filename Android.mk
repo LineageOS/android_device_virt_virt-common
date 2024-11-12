@@ -11,7 +11,4 @@ ifeq ($(USES_DEVICE_VIRT_VIRT_COMMON),true)
 # Include other makefiles
 include $(call all-makefiles-under,$(LOCAL_PATH))
 
-# Wi-Fi
-include external/wpa_supplicant_8/wpa_supplicant/wpa_supplicant_conf.mk
-
 endif
