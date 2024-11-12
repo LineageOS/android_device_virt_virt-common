@@ -5,7 +5,6 @@
 #
 
 USES_DEVICE_VIRT_VIRT_COMMON := true
-VIRT_COMMON_PATH := device/virt/virt-common
 
 # Boot manager
 TARGET_GRUB_BOOT_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-boot.cfg
