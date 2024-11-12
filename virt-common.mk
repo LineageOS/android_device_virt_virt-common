@@ -4,6 +4,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+VIRT_COMMON_PATH := device/virt/virt-common
+
 # A/B
 AB_OTA_UPDATER ?= true
 ifeq ($(AB_OTA_UPDATER),true)
@@ -60,7 +62,7 @@ endif
 
 # Boot manager
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_VENDOR)/bin/refind-update-default_selection.sh
+    $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_VENDOR)/bin/refind-update-default_selection.sh
 
 # Bootanimation
 TARGET_SCREEN_WIDTH := 600
@@ -114,14 +116,14 @@ PRODUCT_PACKAGES += \
 
 # Init
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/init/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc \
-    $(LOCAL_PATH)/configs/init/init.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.virt.rc \
-    $(LOCAL_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
+    $(VIRT_COMMON_PATH)/configs/init/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc \
+    $(VIRT_COMMON_PATH)/configs/init/init.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.virt.rc \
+    $(VIRT_COMMON_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 # Input
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
-    $(LOCAL_PATH)/configs/input/uinput_multitouch_device.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput_multitouch_device.idc
+    $(VIRT_COMMON_PATH)/configs/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
+    $(VIRT_COMMON_PATH)/configs/input/uinput_multitouch_device.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput_multitouch_device.idc
 
 # Images
 PRODUCT_BUILD_BOOT_IMAGE := true
@@ -145,11 +147,11 @@ PRODUCT_PACKAGES += \
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlays/overlay
+    $(VIRT_COMMON_PATH)/overlays/overlay
 
 ifneq ($(LINEAGE_BUILD),)
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlays/overlay-lineage
+    $(VIRT_COMMON_PATH)/overlays/overlay-lineage
 endif
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
@@ -193,11 +195,11 @@ PRODUCT_PACKAGES += \
 
 # Recovery
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/refind-update-default_selection.sh \
-    $(LOCAL_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
-    $(LOCAL_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
-    $(LOCAL_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
-    $(LOCAL_PATH)/configs/scripts/flash_persist_partition.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/flash_persist_partition.sh \
+    $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/refind-update-default_selection.sh \
+    $(VIRT_COMMON_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
+    $(VIRT_COMMON_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
+    $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
+    $(VIRT_COMMON_PATH)/configs/scripts/flash_persist_partition.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/flash_persist_partition.sh \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
 
 # Sensors
@@ -208,7 +210,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
+    $(VIRT_COMMON_PATH)
 
 # Suspend blocker
 PRODUCT_PACKAGES += \
@@ -223,7 +225,7 @@ PRODUCT_ENABLE_UFFD_GC := true
 
 # Utilities
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/misc/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
+    $(VIRT_COMMON_PATH)/configs/misc/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
 
 PRODUCT_PACKAGES += \
     grub-editenv \
