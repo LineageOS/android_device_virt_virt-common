@@ -1,0 +1,11 @@
+type setup_sound_card, domain;
+type setup_sound_card_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(setup_sound_card);
+
+r_dir_file(setup_sound_card, proc_asound);
+
+set_prop(setup_sound_card, vendor_audio_prop)
+
+allow setup_sound_card audio_device:chr_file rw_file_perms;
+allow setup_sound_card audio_device:dir r_dir_perms;
