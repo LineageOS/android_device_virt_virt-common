@@ -10,6 +10,10 @@ if [ ! -x "$SGDISK_EXEC" ] || [ ! -w "$TARGET" ] || [ -z "$DISK_NAME" ]; then
     exit 1
 fi
 
+if [ -e "${TARGET}2" ]; then
+    exit 0
+fi
+
 case "$DISK_NAME" in
     "sda"|"vda")
         $SGDISK_EXEC --zap-all $TARGET
