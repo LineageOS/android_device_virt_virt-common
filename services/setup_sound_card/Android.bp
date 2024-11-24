@@ -1,0 +1,10 @@
+cc_binary {
+    name: "setup_sound_card",
+    srcs: ["setup_sound_card.cpp"],
+    init_rc: ["setup_sound_card.rc"],
+    shared_libs: [
+        "libbase",
+        "libtinyalsav2",
+    ],
+    vendor: true,
+}
