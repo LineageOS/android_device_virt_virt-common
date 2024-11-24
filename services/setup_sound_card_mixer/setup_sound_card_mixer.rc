@@ -1,0 +1,5 @@
+service vendor.setup_sound_card_mixer /vendor/bin/setup_sound_card_mixer
+    class early_hal
+    user system
+    group audio
+    oneshot
