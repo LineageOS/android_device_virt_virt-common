@@ -1,0 +1,5 @@
+service vendor.setup_sound_card /vendor/bin/setup_sound_card
+    class early_hal
+    user audioserver
+    group audio
+    oneshot

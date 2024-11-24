@@ -31,7 +31,8 @@ endif
 
 # Audio
 PRODUCT_PACKAGES += \
-    com.android.hardware.audio
+    com.android.hardware.audio \
+    setup_sound_card
 
 PRODUCT_COPY_FILES += \
     device/generic/goldfish/audio/policy/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
