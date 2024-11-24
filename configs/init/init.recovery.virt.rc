@@ -24,7 +24,7 @@ on early-boot
     ifup ${vendor.recovery.ethernet.dhcp.iface:-eth0}
     start dhcpclient
 
-on property:ro.boot.install=1 && property:init.svc.create_partition_table=stopped
+on property:ro.boot.install=1 && property:vendor.create_partition_table.finish=1
     exec u:r:flash_persist_partition:s0 -- /system/bin/sh -e /system/bin/flash_persist_partition.sh
     trigger mount_persist_partition
     exec u:r:flash_super_partition:s0 -- /system/bin/dd if=/system/etc/super_empty_raw.img of=/dev/block/by-name/super
