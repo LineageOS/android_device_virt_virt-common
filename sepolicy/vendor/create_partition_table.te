@@ -2,10 +2,14 @@ recovery_only(`
     type create_partition_table, domain;
     domain_trans(init, rootfs, create_partition_table)
 
+    set_prop(create_partition_table, vendor_create_partition_table_prop)
+
     allow create_partition_table block_device:dir search;
     allow create_partition_table rootfs:dir read;
     allow create_partition_table rootfs:file execute_no_trans;
     allow create_partition_table self:capability sys_admin;
+    allow create_partition_table super_block_device:blk_file getattr;
+
     allow create_partition_table sd_device:blk_file rw_file_perms;
     allow create_partition_table vd_device:blk_file rw_file_perms;
 
