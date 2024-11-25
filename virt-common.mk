@@ -239,11 +239,10 @@ PRODUCT_PACKAGES += \
     sgdisk.recovery
 
 PRODUCT_PACKAGES_DEBUG += \
-    tinycap \
-    tinyhostless \
-    tinymix \
-    tinypcminfo \
-    tinyplay
+    tinycap2 \
+    tinymix2 \
+    tinypcminfo2 \
+    tinyplay2
 
 PRODUCT_HOST_PACKAGES += \
     grub-editenv \
