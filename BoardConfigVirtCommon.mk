@@ -171,6 +171,7 @@ VENDOR_SECURITY_PATCH = $(PLATFORM_SECURITY_PATCH)
 BOARD_VENDOR_SEPOLICY_DIRS := \
     $(VIRT_COMMON_PATH)/sepolicy/vendor \
     $(VIRT_COMMON_PATH)/sepolicy/vendor/cuttlefish_graphics \
+    $(VIRT_COMMON_PATH)/sepolicy/vendor/minigbm \
     device/google/cuttlefish/shared/sensors/sepolicy \
     device/google/cuttlefish/shared/swiftshader/sepolicy \
     device/google/cuttlefish/shared/virgl/sepolicy \
