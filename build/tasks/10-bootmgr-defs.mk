@@ -43,14 +43,8 @@ else ifeq ($(PRODUCT_IS_ATV),true)
 BOOTMGR_ANDROID_DISTRIBUTION_NAME += TV
 endif
 
-ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
-	ifneq ($(TARGET_KERNEL_VERSION),)
-		BOOTMGR_ANDROID_DISTRIBUTION_NAME += \(Kernel version $(TARGET_KERNEL_VERSION)\)
-	endif
-else ifneq ($(wildcard $(TARGET_PREBUILT_KERNEL_DIR)/kernel),)
-	BOOTMGR_ANDROID_DISTRIBUTION_NAME += \(Kernel version $(TARGET_PREBUILT_KERNEL_USE)\)
-else
-	BOOTMGR_ANDROID_DISTRIBUTION_NAME += \(Emulator kernel version $(TARGET_PREBUILT_EMULATOR_KERNEL_USE)\)
+ifneq ($(TARGET_BOOT_MANAGER),grub)
+BOOTMGR_ANDROID_DISTRIBUTION_NAME += $(LOCAL_KERNEL_VERSION_DISPLAY)
 endif
 
 # $(1): path to boot manager config file
