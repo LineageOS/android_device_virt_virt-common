@@ -268,7 +268,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     hostapd \
     wpa_supplicant \
-    wpa_supplicant.conf
+    wpa_supplicant.conf_symlink \
+    wpa_supplicant_template.conf_prebuilt_etc
 
 PRODUCT_PACKAGES += \
     CuttlefishTetheringOverlay \

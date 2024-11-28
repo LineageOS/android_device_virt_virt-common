@@ -1,6 +1,13 @@
 prebuilt_etc {
-    name: "wpa_supplicant.conf",
+    name: "wpa_supplicant_template.conf_prebuilt_etc",
     srcs: [":wpa_supplicant_template.conf"],
     sub_dir: "wifi",
     vendor: true,
+}
+
+install_symlink {
+    name: "wpa_supplicant.conf_symlink",
+    vendor: true,
+    installed_location: "etc/wifi/wpa_supplicant.conf",
+    symlink_target: "wpa_supplicant_template.conf",
 }
