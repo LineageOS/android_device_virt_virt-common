@@ -38,6 +38,9 @@ const string kItemSlotBootCount = "boot_count";    // default is empty. length o
                                                    // that GRUB tried to boot the slot
 const string kItemSlotIsBootable = "is_bootable";  // default is true.
 
+// User settings
+const string kItemGlobalNoAutoSlotSwitch = "no_auto_slot_switch";  // "1" for enable
+
 const vector<const string*> kAllGlobalItems = {
         &kItemGlobalActiveSlot,
         &kItemGlobalCurrentSlot,
@@ -70,6 +73,7 @@ void GrubBootControl::RemoveUnusedElementsFromMap() {
 
 void GrubBootControl::InitGrubVars() {
     // Global
+    SetItemValueForGlobal(kItemGlobalNoAutoSlotSwitch, "0", false);
     SetItemValueForGlobal(kItemGlobalSnapshotMergeStatus, "none", false);
 
     // Global: Active slot and Current slot
