@@ -10,6 +10,9 @@ USES_DEVICE_VIRT_VIRT_COMMON := true
 TARGET_GRUB_BOOT_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-boot.cfg
 TARGET_GRUB_INSTALL_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-install.cfg
 
+# Bootconfig
+TARGET_BOOTCONFIG_FILES := $(VIRT_COMMON_PATH)/configs/misc/bootconfig.txt
+
 # Bootloader
 BOARD_BOOT_HEADER_VERSION := 3
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
@@ -56,11 +59,6 @@ BOARD_KERNEL_CMDLINE := \
     loop.max_part=7 \
     printk.devkmsg=on \
     rw \
-    androidboot.boot_devices=any \
-    androidboot.first_stage_console=0 \
-    androidboot.hypervisor.version=1 \
-    androidboot.hypervisor.vm.supported=1 \
-    androidboot.hypervisor.protected_vm.supported=0 \
     androidboot.verifiedbootstate=orange
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
