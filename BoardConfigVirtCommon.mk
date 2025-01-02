@@ -58,8 +58,12 @@ BOARD_KERNEL_CMDLINE := \
     log_buf_len=4M \
     loop.max_part=7 \
     printk.devkmsg=on \
-    rw \
+    rw
+
+ifneq ($(TARGET_BOOT_MANAGER),grub)
+BOARD_KERNEL_CMDLINE += \
     androidboot.verifiedbootstate=orange
+endif
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
 BOARD_VENDOR_KERNEL_MODULES_LOAD := \
@@ -118,6 +122,11 @@ $(foreach p, $(call to-upper, $(ALL_PARTITIONS)), \
     $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := $(TARGET_LOGICAL_PARTITIONS_FILE_SYSTEM_TYPE)) \
     $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
+AB_OTA_PARTITIONS := \
+    vbmeta \
+    vbmeta_system \
+    vbmeta_vendor
+
 ifeq ($(AB_OTA_UPDATER),true)
 ifeq ($(TARGET_BOOT_MANAGER),grub)
 AB_OTA_PARTITIONS := \
@@ -173,6 +182,19 @@ BOARD_VENDOR_SEPOLICY_DIRS := \
     external/minigbm/cros_gralloc/sepolicy
 
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(VIRT_COMMON_PATH)/sepolicy/private
+
+# Verified Boot
+BOARD_AVB_ENABLE := true
+BOARD_AVB_VBMETA_SYSTEM := $(SSI_PARTITIONS)
+BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 1
+BOARD_AVB_VBMETA_VENDOR := $(TREBLE_PARTITIONS)
+BOARD_AVB_VBMETA_VENDOR_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_VBMETA_VENDOR_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_VBMETA_VENDOR_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_VBMETA_VENDOR_ROLLBACK_INDEX_LOCATION := 1
 
 # VINTF
 DEVICE_MANIFEST_FILE := \

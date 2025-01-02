@@ -16,6 +16,10 @@ flash vendor_dlkm
 flash boot
 flash recovery
 
+flash vbmeta
+flash vbmeta_system
+flash vbmeta_vendor
+
 if-wipe erase cache
 if-wipe erase metadata
 if-wipe erase userdata
