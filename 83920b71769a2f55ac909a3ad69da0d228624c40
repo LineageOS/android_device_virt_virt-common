@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b05e278e_cfe7c201",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2025-01-02T13:16:07Z",
+      "side": 1,
+      "message": "mformat: `Too few clusters for 32 bit fat`",
+      "revId": "83920b71769a2f55ac909a3ad69da0d228624c40",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
