@@ -55,6 +55,7 @@ TARGET_RECOVERY_DEVICE_MODULES ?= init_virt
 
 # Kernel
 BOARD_KERNEL_CMDLINE := \
+    fbcon=font:TER16x32 \
     log_buf_len=4M \
     loop.max_part=7 \
     printk.devkmsg=on \
