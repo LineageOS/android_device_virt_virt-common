@@ -16,5 +16,9 @@ flash vendor_dlkm
 flash boot
 flash grub_boot
 
+flash vbmeta
+flash vbmeta_system
+flash vbmeta_vendor
+
 if-wipe erase metadata
 if-wipe erase userdata
