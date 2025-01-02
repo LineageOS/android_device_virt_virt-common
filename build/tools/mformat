@@ -1,0 +1,2 @@
+#!/bin/sh
+mtools -c mformat $@
