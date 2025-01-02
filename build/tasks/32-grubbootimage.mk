@@ -11,7 +11,7 @@ ifeq ($(TARGET_BOOT_MANAGER),grub)
 
 ##### grubbootimage #####
 
-$(INSTALLED_GRUB_BOOT_IMAGE_TARGET): $(INSTALLED_GRUB_BOOT_IMAGE_TARGET_DEPS)
+$(INSTALLED_GRUB_BOOT_IMAGE_TARGET): $(INSTALLED_GRUB_BOOT_IMAGE_TARGET_DEPS) $(HOST_OUT_EXECUTABLES)/mtools
 	$(call pretty,"Target grub_boot image: $@")
 	$(call create-fat32image,$@,$(INSTALLED_GRUB_BOOT_IMAGE_TARGET_DEPS),grub_boot)
 
