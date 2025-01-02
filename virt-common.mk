@@ -127,13 +127,8 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/input/uinput_multitouch_device.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput_multitouch_device.idc
 
 # Images
-PRODUCT_BUILD_BOOT_IMAGE := true
 PRODUCT_BUILD_RAMDISK_IMAGE := true
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
-
-ifneq ($(AB_OTA_UPDATER),true)
-PRODUCT_BUILD_RECOVERY_IMAGE := true
-endif
 
 # Kernel
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false

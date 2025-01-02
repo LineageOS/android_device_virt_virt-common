@@ -5,6 +5,7 @@ set_prop(init, vendor_audio_prop)
 allow init persist_block_device:blk_file relabelto;
 allow init sd_device:blk_file relabelto;
 allow init super_block_device:blk_file relabelto;
+allow init vbmeta_block_device:blk_file relabelto;
 
 # DHCP
 recovery_only(`
