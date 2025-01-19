@@ -19,6 +19,7 @@
 using android::base::ReadFileToString;
 using android::base::SetProperty;
 using android::base::Split;
+using android::base::StartsWith;
 using std::string;
 using std::to_string;
 using std::unordered_map;
@@ -43,6 +44,7 @@ struct MixerControl {
 };
 
 struct SoundCardSettings {
+    string matchSoundCardLongName;
     unsigned alsaDevice;
     const vector<MixerControl>* mixerControlVec;
     bool enableMasterMixerControlInAudioHal;
@@ -65,10 +67,18 @@ const vector<MixerControl> kMixerControlVec_ENS1371 = {
         {"PCM Playback Switch", MIXER_CTL_TYPE_BOOL, {1, 1}},
         {"PCM Playback Volume", MIXER_CTL_TYPE_INT, {INT_MAX, INT_MAX}}};
 
+const vector<MixerControl> kMixerControlVec_AC97_AD1980 = {
+        {"Master Playback Switch", MIXER_CTL_TYPE_BOOL, {1, 1}},
+        {"Master Playback Volume", MIXER_CTL_TYPE_INT, {INT_MAX, INT_MAX}},
+        {"PCM Playback Switch", MIXER_CTL_TYPE_BOOL, {1, 1}},
+        {"PCM Playback Volume", MIXER_CTL_TYPE_INT, {INT_MAX, INT_MAX}}};
+
 SoundCardSettingsMapType kSoundCardSettingsMap = {
-        {"ENS1370 - Ensoniq AudioPCI", {0, &kMixerControlVec_ENS1370, true, -1}},  // broken
-        {"ENS1371 - Ensoniq AudioPCI", {0, &kMixerControlVec_ENS1371, true, 200}},
-        {"ICH - Intel 82801AA-ICH", {0, nullptr, false, 0}},
+        {"ENS1370 - Ensoniq AudioPCI", {"", 0, &kMixerControlVec_ENS1370, true, -1}},  // broken
+        {"ENS1371 - Ensoniq AudioPCI", {"", 0, &kMixerControlVec_ENS1371, true, 200}},
+        {"ICH - Intel 82801AA-ICH",
+         {"Intel 82801AA-ICH with AD1980", 0, &kMixerControlVec_AC97_AD1980, true, 0}},
+        {"ICH - Intel 82801AA-ICH", {"", 0, nullptr, false, 0}},
 };
 
 int setMixerControlValue(struct mixer_ctl* ctl, const vector<int>& values) {
@@ -161,6 +171,7 @@ SoundCardSettingsMapType::const_iterator findSoundCard() {
 
     auto cards_content_vec = Split(cards_content_str, "\n");
     bool line_num_is_odd_number = false;
+    SoundCardSettingsMapType::const_iterator map_find = kSoundCardSettingsMap.end();
     for (auto& line : cards_content_vec) {
         line_num_is_odd_number = !line_num_is_odd_number;
         if (line.empty()) break;
@@ -178,16 +189,30 @@ SoundCardSettingsMapType::const_iterator findSoundCard() {
             string card_name = line.substr(card_name_start_pos);
             LOG(DEBUG) << "Iterating sound card name: " << card_name;
             // Find the sound card name in map
-            auto map_find = kSoundCardSettingsMap.find(card_name);
+            map_find = kSoundCardSettingsMap.find(card_name);
             if (map_find == kSoundCardSettingsMap.end()) {
                 continue;
             } else {
                 LOG(INFO) << "Found sound card from map: " << card_name;
+                if (!map_find->second.matchSoundCardLongName.empty()) {
+                    LOG(INFO) << "This entry have to match with sound card long name.";
+                    continue;
+                }
                 g_alsaCard = card_num;
                 return map_find;
             }
         } else {
-            LOG(DEBUG) << "Iterating sound card description: " << line;
+            LOG(DEBUG) << "Iterating sound card long name: " << line;
+            if (map_find != kSoundCardSettingsMap.end() &&
+                !map_find->second.matchSoundCardLongName.empty()) {
+                if (StartsWith(line, map_find->second.matchSoundCardLongName)) {
+                    LOG(INFO) << "Sound card long name matches.";
+                    g_alsaCard = card_num;
+                    return map_find;
+                } else {
+                    LOG(INFO) << "Sound card long name is mismatching.";
+                }
+            }
         }
     }
 
