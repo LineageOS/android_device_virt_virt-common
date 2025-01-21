@@ -49,9 +49,10 @@ on post-fs
     start vendor.dlkm_loader
 
 # Graphics
-on early-init
-    setprop debug.hwui.renderer ${ro.boot.hwui_renderer:-skiagl}
-    setprop ro.vendor.graphics ${ro.boot.graphics:-mesa}
+on zygote-start && property:ro.boot.hwui_renderer=*
+    setprop debug.hwui.renderer ${ro.boot.hwui_renderer}
+on zygote-start && property:ro.boot.graphics=*
+    setprop ro.vendor.graphics ${ro.boot.graphics}
 
 on property:ro.vendor.graphics=mesa
     setprop ro.hardware.egl mesa
