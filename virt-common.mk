@@ -232,12 +232,8 @@ PRODUCT_SHIPPING_API_LEVEL := 33
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
+    device/generic/goldfish \
     $(VIRT_COMMON_PATH)
-
-ifeq ($(TARGET_AUDIO_HAL_USE),ranchu-hidl)
-PRODUCT_SOONG_NAMESPACES += \
-    device/generic/goldfish
-endif
 
 # Suspend blocker
 PRODUCT_PACKAGES += \
