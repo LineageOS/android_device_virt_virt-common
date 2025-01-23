@@ -207,6 +207,10 @@ PRODUCT_PACKAGES += \
     android.software.vulkan.deqp.level-latest.prebuilt.xml \
     android.software.opengles.deqp.level-latest.prebuilt.xml
 
+# Power
+PRODUCT_PACKAGES += \
+    com.android.hardware.power
+
 # Recovery
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/refind-update-default_selection.sh \
