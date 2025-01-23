@@ -198,6 +198,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/pc_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/pc_core_hardware.xml
 endif
 
+# Power
+PRODUCT_PACKAGES += \
+    com.android.hardware.power
+
 # Recovery
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/refind-update-default_selection.sh \
