@@ -20,9 +20,9 @@ MAGISKBOOT := $(MAGISK_UTILS_DIR)/libmagiskboot.so
 MAGISK_INSTALL_RAMDISK_DIR := $(PRODUCT_OUT)/magisk
 
 MAGISK_DEPS := \
-	$(MAGISK_PREBUILT_DIR)/assets/stub.apk \
-	$(wildcard $(MAGISK_LIB_DIR)/lib*.so) \
-	$(wildcard $(MAGISK_UTILS_DIR)/lib*.so)
+    $(MAGISK_PREBUILT_DIR)/assets/stub.apk \
+    $(wildcard $(MAGISK_LIB_DIR)/lib*.so) \
+    $(wildcard $(MAGISK_UTILS_DIR)/lib*.so)
 
 # According to "Ramdisk Patches" section on https://github.com/topjohnwu/Magisk/blob/master/scripts/boot_patch.sh
 # `magiskinit` must be put on `/init`, because it attempts to copy itself from that path.
