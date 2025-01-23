@@ -25,14 +25,14 @@ GRUB_WORKDIR_INSTALL := $(GRUB_WORKDIR_BASE)/install
 GRUB_WORKDIR_PERSIST := $(GRUB_WORKDIR_BASE)/persist
 
 ifeq ($(TARGET_GRUB_ARCH),x86_64-efi)
-	GRUB_MKSTANDALONE_FORMAT := x86_64-efi
+    GRUB_MKSTANDALONE_FORMAT := x86_64-efi
 else
-	ifeq ($(TARGET_GRUB_BOOT_EFI_PREBUILT),)
-		$(error Please specify prebuilt GRUB EFI file)
-	endif
-	ifeq ($(TARGET_GRUB_INSTALL_EFI_PREBUILT),)
-		$(error Please specify prebuilt GRUB EFI file)
-	endif
+    ifeq ($(TARGET_GRUB_BOOT_EFI_PREBUILT),)
+        $(error Please specify prebuilt GRUB EFI file)
+    endif
+    ifeq ($(TARGET_GRUB_INSTALL_EFI_PREBUILT),)
+        $(error Please specify prebuilt GRUB EFI file)
+    endif
 endif
 
 GRUB_DEFAULT_ENV_VARS_FILE := $(VIRT_COMMON_PATH)/configs/misc/grubenv.txt
