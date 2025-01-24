@@ -5,6 +5,13 @@ service dhcpclient /system/bin/virt_dhcpclient -i ${vendor.recovery.ethernet.dhc
     oneshot
     disabled
 
+service preinstall_check /system/bin/preinstall_check
+    user root
+    group root system graphics
+    seclabel u:r:vendor_preinstall_check:s0
+    oneshot
+    disabled
+
 on early-fs
     symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_a
     symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_b
@@ -24,10 +31,17 @@ on early-boot
     ifup ${vendor.recovery.ethernet.dhcp.iface:-eth0}
     start dhcpclient
 
+on early-init && property:ro.boot.install=1
+    stop recovery
+
 on property:ro.boot.install=1 && property:vendor.create_partition_table.finish=1
     exec u:r:flash_persist_partition:s0 -- /system/bin/sh -e /system/bin/flash_persist_partition.sh
     trigger mount_persist_partition
     exec u:r:flash_super_partition:s0 -- /system/bin/dd if=/system/etc/super_empty_raw.img of=/dev/block/by-name/super
+    start preinstall_check
+
+on property:ro.boot.install=1 && property:vendor.preinstall_check.success=1
+    start recovery
 
 on mount_persist_partition
     mount vfat /dev/block/by-name/persist /mnt/vendor/_persist rw sync shortname=lower uid=1000 gid=1000 dmask=007 fmask=117 context=u:object_r:persist_file:s0
