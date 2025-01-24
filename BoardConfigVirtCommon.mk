@@ -131,6 +131,8 @@ endif
 endif
 endif
 
+$(call soong_config_set,VIRT_PREINSTALL_CHECK,SUPER_PARTITION_SIZE,$(BOARD_SUPER_PARTITION_SIZE))
+
 # Platform
 TARGET_BOARD_PLATFORM := virt
 

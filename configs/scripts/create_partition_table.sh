@@ -10,6 +10,8 @@ if [ ! -x "$SGDISK_EXEC" ] || [ ! -w "$TARGET" ] || [ -z "$DISK_NAME" ]; then
     exit 1
 fi
 
+which setprop > /dev/null && setprop vendor.create_partition_table.start 1
+
 if [ -e "${TARGET}2" ]; then
     HAVE_INITIAL_PARTITION_TABLE=1
 fi
