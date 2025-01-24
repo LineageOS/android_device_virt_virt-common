@@ -54,6 +54,7 @@ define process-bootmgr-cfg-common
 	sed -i "s|@BOOTMGR_EFI_BOOT_FILENAME@|$(BOOTMGR_EFI_BOOT_FILENAME)|g" $(1)
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE@|$(strip $(BOARD_KERNEL_CMDLINE))|g" $(1)
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE_BOOT@|$(strip $(BOARD_KERNEL_CMDLINE_BOOT))|g" $(1)
+	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE_INSTALL@|$(strip $(BOARD_KERNEL_CMDLINE_INSTALL))|g" $(1)
 	sed -i "s|@STRIPPED_BOARD_KERNEL_CMDLINE_RECOVERY@|$(strip $(BOARD_KERNEL_CMDLINE_RECOVERY))|g" $(1)
 
 	if [ -f "external/llvm-project/Android.bp" ]; then \
