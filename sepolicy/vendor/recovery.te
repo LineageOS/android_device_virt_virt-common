@@ -15,4 +15,7 @@ recovery_only(`
     allow recovery sysfs_loop:file rw_file_perms;
 
     allowxperm recovery rootfs:dir ioctl { 0x204 BLKGETSIZE 0x1272 };
+
+    # For /system/bin/preinstall_check. Uses recovery seclabel to avoid neverallow.
+    allowxperm recovery { boot_block_device metadata_block_device misc_block_device persist_block_device sd_device vd_device }:blk_file ioctl { BLKGETSIZE64 };
 ')

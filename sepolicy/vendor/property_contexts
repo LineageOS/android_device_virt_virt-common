@@ -20,5 +20,8 @@ vendor.qemu.vk.log		u:object_r:vendor_mesa_prop:s0
 # Net
 vendor.net.		u:object_r:vendor_net_prop:s0 exact string
 
+# Preinstall check
+vendor.preinstall_check.		u:object_r:vendor_preinstall_check_prop:s0 exact int
+
 # VirtWifi
 ro.boot.wifi_mac_prefix		u:object_r:vendor_wifi_mac_prefix:s0 exact string
