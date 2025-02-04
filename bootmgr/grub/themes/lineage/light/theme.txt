@@ -100,3 +100,12 @@ title-text: ""
     font = "Unifont Regular 16"
     color = "#495454" # boot_menu item_color
 }
+
++ label {
+    left = 0%
+    top = 98%
+
+    text = "@LINEAGE_VERSION@"
+    font = "Unifont Regular 16"
+    color = "#495454" # boot_menu item_color
+}

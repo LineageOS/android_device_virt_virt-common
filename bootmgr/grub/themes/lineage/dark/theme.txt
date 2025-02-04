@@ -100,3 +100,12 @@ title-text: ""
     font = "Unifont Regular 16"
     color = "#808D8D"
 }
+
++ label {
+    left = 0%
+    top = 98%
+
+    text = "@LINEAGE_VERSION@"
+    font = "Unifont Regular 16"
+    color = "#808D8D"
+}
