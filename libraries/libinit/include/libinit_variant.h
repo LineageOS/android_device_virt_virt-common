@@ -13,9 +13,11 @@
 typedef struct variant_info {
     std::string brand;
     std::string device;
-    std::string marketname;
+    std::string manufacturer;
     std::string model;
+    std::string name;
     std::string build_fingerprint;
+    std::string security_patch;
 } variant_info_t;
 
 void set_variant_props(const variant_info_t variant);
