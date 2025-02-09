@@ -14,16 +14,16 @@ title-text: ""
 
 + image {
     left = 46%
-    top = 16%
+    top = 14%
 
     file = "/boot/grub/themes/lineage/images/lineage_mark.png"
 }
 
 + boot_menu {
     left = 20%
-    top = 34%
+    top = 31%
     width = 60%
-    height = 33%
+    height = 39%
 
     item_color = "#C4CCCD"
     selected_item_color = "#FFFFFF"
@@ -45,21 +45,21 @@ title-text: ""
 
 + image {
     left = 24%+8
-    top = 70%
+    top = 73%
 
     file = "/boot/grub/themes/lineage/dark/images/guide_select.png"
 }
 
 + image {
     left = 36%+12
-    top = 70%
+    top = 73%
 
     file = "/boot/grub/themes/lineage/dark/images/guide_confirm.png"
 }
 
 + image {
     left = 66%
-    top = 70%
+    top = 73%
 
     file = "/boot/grub/themes/lineage/dark/images/guide_commandline.png"
 }
