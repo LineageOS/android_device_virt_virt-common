@@ -48,11 +48,14 @@ BOARD_KERNEL_CMDLINE := \
     rw \
     androidboot.verifiedbootstate=orange
 
-ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
+ifeq ($(EMULATOR_KERNEL_FILE),)
 BOARD_VENDOR_KERNEL_MODULES_LOAD := \
     btusb.ko \
     cfg80211.ko \
     virt_wifi.ko
+endif
+
+ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
     lineageos/peripheral/bluetooth.config \
