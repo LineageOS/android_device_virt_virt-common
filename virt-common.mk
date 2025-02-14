@@ -80,15 +80,24 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_VENDOR)/bin/refind-update-default_selection.sh
 
 # Bootanimation
+ifeq ($(PRODUCT_IS_GO),true)
+TARGET_SCREEN_WIDTH := 100
+TARGET_SCREEN_HEIGHT := 100
+else
 TARGET_SCREEN_WIDTH := 600
 TARGET_SCREEN_HEIGHT := 600
+endif
 
 # Dynamic partitions
 PRODUCT_BUILD_SUPER_PARTITION := true
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # Dalvik heap
+ifeq ($(PRODUCT_IS_GO),true)
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+else
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
+endif
 
 # DHCP client
 PRODUCT_PACKAGES += \
@@ -113,6 +122,11 @@ PRODUCT_PACKAGES += \
 # Gatekeeper
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-service.software
+
+# Go
+ifeq ($(PRODUCT_IS_GO),true)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/go_defaults_512.mk)
+endif
 
 # Graphics (Mesa)
 PRODUCT_PACKAGES += \
@@ -164,6 +178,11 @@ PRODUCT_PACKAGES += \
 DEVICE_PACKAGE_OVERLAYS += \
     $(VIRT_COMMON_PATH)/overlays/overlay
 
+ifeq ($(PRODUCT_IS_GO),true)
+DEVICE_PACKAGE_OVERLAYS += \
+    $(VIRT_COMMON_PATH)/overlays/overlay-go
+endif
+
 ifneq ($(LINEAGE_BUILD),)
 DEVICE_PACKAGE_OVERLAYS += \
     $(VIRT_COMMON_PATH)/overlays/overlay-lineage
@@ -192,10 +211,15 @@ PRODUCT_PACKAGES += \
     android.hardware.wifi.direct.prebuilt.xml \
     android.software.ipsec_tunnels.prebuilt.xml
 
-ifeq ($(PRODUCT_IS_AUTOMOTIVE),true)
+ifeq ($(PRODUCT_IS_ATV),true)
+# nothing
+else ifeq ($(PRODUCT_IS_AUTOMOTIVE),true)
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/car_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/car_core_hardware.xml
-else ifneq ($(PRODUCT_IS_ATV),true)
+else ifeq ($(PRODUCT_IS_GO),true)
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/go_handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/go_handheld_core_hardware.xml
+else
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/pc_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/pc_core_hardware.xml
 endif
