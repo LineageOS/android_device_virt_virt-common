@@ -61,6 +61,10 @@ TARGET_KERNEL_CONFIG := \
     lineageos/peripheral/bluetooth.config \
     lineageos/peripheral/wifi.config \
     lineageos/feature/fbcon.config
+ifeq ($(PRODUCT_IS_GO),true)
+TARGET_KERNEL_CONFIG += \
+    lineageos/go.config
+endif
 endif
 
 # Partitions
@@ -130,6 +134,11 @@ ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
 TARGET_VENDOR_PROP += \
     $(VIRT_COMMON_PATH)/configs/properties/vendor_bluetooth_profiles.prop
 endif
+endif
+
+ifeq ($(PRODUCT_IS_GO),true)
+TARGET_PRODUCT_PROP += $(VIRT_COMMON_PATH)/configs/properties/product_go.prop
+TARGET_VENDOR_PROP += $(VIRT_COMMON_PATH)/configs/properties/vendor_go.prop
 endif
 
 # Ramdisk
