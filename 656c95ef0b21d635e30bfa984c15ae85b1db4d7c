@@ -16,6 +16,24 @@
       "message": "didn\u0027t you already set dalvik heap in libinit ?",
       "revId": "656c95ef0b21d635e30bfa984c15ae85b1db4d7c",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa1632d_df286048",
+        "filename": "virt-common.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2025-02-14T10:50:15Z",
+      "side": 1,
+      "message": "yep, that\u0027s fallback for pure AOSP builds or GSIs where libinit isn\u0027t used",
+      "parentUuid": "db7e60f6_7c093051",
+      "revId": "656c95ef0b21d635e30bfa984c15ae85b1db4d7c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
