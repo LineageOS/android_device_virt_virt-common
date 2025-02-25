@@ -1,0 +1,11 @@
+type device_virt_settings, domain, coredomain;
+type device_virt_settings_exec, system_file_type, exec_type, file_type;
+
+init_daemon_domain(device_virt_settings)
+
+allow device_virt_settings system_file:file execute_no_trans;
+allow device_virt_settings settings_service:service_manager find;
+
+binder_call(device_virt_settings, servicemanager)
+binder_call(device_virt_settings, system_server)
+binder_call(system_server, device_virt_settings)
