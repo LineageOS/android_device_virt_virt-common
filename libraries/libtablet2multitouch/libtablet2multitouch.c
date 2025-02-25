@@ -21,6 +21,8 @@
 #define LOG_INFO(...) KLOG_INFO(LOG_TAG, __VA_ARGS__)
 #endif
 
+static bool g_report_hover = true;
+
 // Function to setup the uinput device
 int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinfo* abs_x_info,
                                              struct input_absinfo* abs_y_info) {
@@ -47,6 +49,8 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinf
     ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_X);
     ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_Y);
     ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_TRACKING_ID);
+    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_TOOL_TYPE);
+    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_DISTANCE);
 
     // Set the INPUT_PROP_DIRECT property
     ioctl(*uinput_fd, UI_SET_PROPBIT, INPUT_PROP_DIRECT);
@@ -85,6 +89,20 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinf
     abs_setup.absinfo.maximum = TRKID_MAX;
     ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
 
+    // Set the ABS_MT_TOOL_TYPE range
+    memset(&abs_setup, 0, sizeof(abs_setup));
+    abs_setup.code = ABS_MT_TOOL_TYPE;
+    abs_setup.absinfo.minimum = 0;
+    abs_setup.absinfo.maximum = MT_TOOL_PEN;
+    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+
+    // Set the ABS_MT_DISTANCE range
+    memset(&abs_setup, 0, sizeof(abs_setup));
+    abs_setup.code = ABS_MT_DISTANCE;
+    abs_setup.absinfo.minimum = 0;
+    abs_setup.absinfo.maximum = 1;
+    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+
     memset(&usetup, 0, sizeof(usetup));
     usetup.id.bustype = BUS_USB;
     usetup.id.vendor = 0x1234;
@@ -117,19 +135,22 @@ void libtablet2multitouch_send_input_event(int uinput_fd, __u16 type, __u16 code
 }
 
 // Function to send multitouch events
-void libtablet2multitouch_report_multitouch(int uinput_fd, bool pressed, int tracking_id, __s32 x,
-                                            __s32 y) {
+void libtablet2multitouch_report_multitouch(int uinput_fd, bool active, bool contact,
+                                            int tracking_id, __s32 x, __s32 y) {
     // input_mt_slot
     libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_SLOT, 0);
-    if (pressed) {
+    if (active) {
         // input_mt_report_slot_state
         libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_TRACKING_ID, tracking_id);
+        libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_TOOL_TYPE, MT_TOOL_PEN);
         // input_report_abs ABS_MT_POSITION_X
         libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_POSITION_X, x);
         // input_report_abs ABS_MT_POSITION_Y
         libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_POSITION_Y, y);
+        // Custom
+        libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_DISTANCE, !contact);
         // input_mt_sync_frame -> input_mt_report_pointer_emulation
-        libtablet2multitouch_send_input_event(uinput_fd, EV_KEY, BTN_TOUCH, 1);
+        libtablet2multitouch_send_input_event(uinput_fd, EV_KEY, BTN_TOUCH, contact);
         libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_X, x);
         libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_Y, y);
     } else {
@@ -150,7 +171,7 @@ void libtablet2multitouch_report_key(int uinput_fd, __u16 code, __s32 value) {
 
 // Function to handle tablet to multitouch and key translation
 void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
-    static bool pressed = false;
+    static bool active = false, contact = false;
     static int tracking_id = 0;
     static __s32 x = 0, y = 0;
 
@@ -161,12 +182,21 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
     __u16* code = &ev->code;
     __s32* value = &ev->value;
 
+    if (g_report_hover)
+        active = true;
+    else
+        contact = true;
+
     switch (*type) {
         case EV_KEY:
             if (*code == BTN_LEFT) {
-                pressed = !!*value;
-                libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
-                if (!pressed) {
+                if (g_report_hover)
+                    contact = !!*value;
+                else
+                    active = !!*value;
+                libtablet2multitouch_report_multitouch(uinput_fd, active, contact, tracking_id, x,
+                                                       y);
+                if (!active) {
                     tracking_id++;
                     if (tracking_id > TRKID_MAX) {
                         tracking_id = 0;
@@ -210,8 +240,9 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
                 default:
                     return;
             }
-            if (pressed) {
-                libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
+            if (g_report_hover || active) {
+                libtablet2multitouch_report_multitouch(uinput_fd, active, contact, tracking_id, x,
+                                                       y);
             }
             return;
         default:
