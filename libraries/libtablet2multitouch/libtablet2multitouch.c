@@ -35,6 +35,7 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinf
 
     ioctl(*uinput_fd, UI_SET_EVBIT, EV_KEY);
     ioctl(*uinput_fd, UI_SET_KEYBIT, BTN_TOUCH);
+    ioctl(*uinput_fd, UI_SET_KEYBIT, BTN_TOOL_PEN);
     ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_BACK);
     ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_MENU);
     ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_UP);
@@ -116,6 +117,18 @@ void libtablet2multitouch_send_input_event(int uinput_fd, __u16 type, __u16 code
     if (write(uinput_fd, &ev, sizeof(ev)) < 0) LOG_ERROR("write\n");
 }
 
+// Function to send pen events
+void libtablet2multitouch_report_pen(int uinput_fd, bool pressed, __s32 x, __s32 y) {
+    // input_report_abs
+    libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_X, x);
+    libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_Y, y);
+    // input_report_key
+    libtablet2multitouch_send_input_event(uinput_fd, EV_KEY, BTN_TOUCH, pressed);
+    libtablet2multitouch_send_input_event(uinput_fd, EV_KEY, BTN_TOOL_PEN, 1);
+    // input_sync
+    libtablet2multitouch_send_input_event(uinput_fd, EV_SYN, SYN_REPORT, 0);
+}
+
 // Function to send multitouch events
 void libtablet2multitouch_report_multitouch(int uinput_fd, bool pressed, int tracking_id, __s32 x,
                                             __s32 y) {
@@ -149,7 +162,8 @@ void libtablet2multitouch_report_key(int uinput_fd, __u16 code, __s32 value) {
 }
 
 // Function to handle tablet to multitouch and key translation
-void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
+void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev,
+                                       bool report_multitouch) {
     static bool pressed = false;
     static int tracking_id = 0;
     static __s32 x = 0, y = 0;
@@ -165,12 +179,16 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
         case EV_KEY:
             if (*code == BTN_LEFT) {
                 pressed = !!*value;
-                libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
-                if (!pressed) {
-                    tracking_id++;
-                    if (tracking_id > TRKID_MAX) {
-                        tracking_id = 0;
+                if (report_multitouch) {
+                    libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
+                    if (!pressed) {
+                        tracking_id++;
+                        if (tracking_id > TRKID_MAX) {
+                            tracking_id = 0;
+                        }
                     }
+                } else {
+                    libtablet2multitouch_report_pen(uinput_fd, pressed, x, y);
                 }
                 return;
             }
@@ -210,8 +228,12 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
                 default:
                     return;
             }
-            if (pressed) {
-                libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
+            if (report_multitouch) {
+                if (pressed) {
+                    libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
+                }
+            } else {
+                libtablet2multitouch_report_pen(uinput_fd, pressed, x, y);
             }
             return;
         default:
