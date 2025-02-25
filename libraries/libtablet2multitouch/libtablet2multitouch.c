@@ -117,8 +117,8 @@ void libtablet2multitouch_send_input_event(int uinput_fd, __u16 type, __u16 code
 }
 
 // Function to send multitouch events
-void libtablet2multitouch_send_multitouch_event(int uinput_fd, bool pressed, int tracking_id,
-                                                __s32 x, __s32 y) {
+void libtablet2multitouch_report_multitouch(int uinput_fd, bool pressed, int tracking_id, __s32 x,
+                                            __s32 y) {
     // input_mt_slot
     libtablet2multitouch_send_input_event(uinput_fd, EV_ABS, ABS_MT_SLOT, 0);
     if (pressed) {
@@ -143,7 +143,7 @@ void libtablet2multitouch_send_multitouch_event(int uinput_fd, bool pressed, int
 }
 
 // Function to send key events
-void libtablet2multitouch_send_key_event(int uinput_fd, __u16 code, __s32 value) {
+void libtablet2multitouch_report_key(int uinput_fd, __u16 code, __s32 value) {
     libtablet2multitouch_send_input_event(uinput_fd, EV_KEY, code, value);
     libtablet2multitouch_send_input_event(uinput_fd, EV_SYN, SYN_REPORT, 0);
 }
@@ -165,7 +165,7 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
         case EV_KEY:
             if (*code == BTN_LEFT) {
                 pressed = !!*value;
-                libtablet2multitouch_send_multitouch_event(uinput_fd, pressed, tracking_id, x, y);
+                libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
                 if (!pressed) {
                     tracking_id++;
                     if (tracking_id > TRKID_MAX) {
@@ -193,10 +193,10 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
                     return;
             }
             if (key_report_up) {
-                libtablet2multitouch_send_key_event(uinput_fd, trans_keycode, 1);
-                libtablet2multitouch_send_key_event(uinput_fd, trans_keycode, 0);
+                libtablet2multitouch_report_key(uinput_fd, trans_keycode, 1);
+                libtablet2multitouch_report_key(uinput_fd, trans_keycode, 0);
             } else {
-                libtablet2multitouch_send_key_event(uinput_fd, trans_keycode, *value);
+                libtablet2multitouch_report_key(uinput_fd, trans_keycode, *value);
             }
             return;
         case EV_ABS:
@@ -211,7 +211,7 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
                     return;
             }
             if (pressed) {
-                libtablet2multitouch_send_multitouch_event(uinput_fd, pressed, tracking_id, x, y);
+                libtablet2multitouch_report_multitouch(uinput_fd, pressed, tracking_id, x, y);
             }
             return;
         default:
