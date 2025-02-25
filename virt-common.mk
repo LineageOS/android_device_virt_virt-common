@@ -313,10 +313,6 @@ $(call inherit-product, packages/modules/Virtualization/apex/product_packages.mk
 PRODUCT_PACKAGES += \
     setup_wifi
 
-# Wakeupd
-PRODUCT_PACKAGES += \
-    wakeupd
-
 # Wi-Fi
 PRODUCT_COPY_FILES += \
     device/google/cuttlefish/shared/config/p2p_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant.conf \
