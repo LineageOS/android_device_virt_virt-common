@@ -22,6 +22,30 @@
       },
       "revId": "aa03e71fb5595884e52bb00942bf22c36c884031",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c06fcc_cc0cf752",
+        "filename": "overlays/overlay-tablet/frameworks/base/packages/SystemUI/res/values/config.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2025-02-25T13:14:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71dbab70_25bdc9d7",
+      "range": {
+        "startLine": 24,
+        "startChar": 47,
+        "endLine": 24,
+        "endChar": 52
+      },
+      "revId": "aa03e71fb5595884e52bb00942bf22c36c884031",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
