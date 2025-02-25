@@ -191,9 +191,16 @@ PRODUCT_PACKAGES += \
 DEVICE_PACKAGE_OVERLAYS += \
     $(VIRT_COMMON_PATH)/overlays/overlay
 
-ifeq ($(PRODUCT_IS_GO),true)
+ifeq ($(PRODUCT_IS_ATV),true)
+# nothing
+else ifeq ($(PRODUCT_IS_AUTOMOTIVE),true)
+# nothing
+else ifeq ($(PRODUCT_IS_GO),true)
 DEVICE_PACKAGE_OVERLAYS += \
     $(VIRT_COMMON_PATH)/overlays/overlay-go
+else
+DEVICE_PACKAGE_OVERLAYS += \
+    $(VIRT_COMMON_PATH)/overlays/overlay-tablet
 endif
 
 ifneq ($(LINEAGE_BUILD),)
