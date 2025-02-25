@@ -95,7 +95,7 @@ device_found:
                 if (events[i].events & EPOLLIN) {
                     int rc = read(fd, &ev, sizeof(ev));
                     if (rc == sizeof(ev)) {
-                        libtablet2multitouch_handle_event(uinput_fd, &ev);
+                        libtablet2multitouch_handle_event(uinput_fd, &ev, false);
                     } else if (rc < 0 && errno != EAGAIN) {
                         LOG_ERROR("read\n");
                         break;
