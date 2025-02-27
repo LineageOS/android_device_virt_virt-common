@@ -1,0 +1,7 @@
+cc_binary {
+    name: "grub_i386-pc_img_patch",
+    srcs: ["grub_i386-pc_img_patch.c"],
+    host_supported: true,
+    recovery_available: true,
+    vendor: true,
+}
