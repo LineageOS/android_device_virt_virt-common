@@ -1,5 +1,10 @@
 firmware_directories /vendor/firmware_mnt
 
+# Camera
+/dev/media*		0660	system	camera
+/dev/v4l-subdev*	0660	system	camera
+/dev/video*		0660	system	camera
+
 # Graphics
 /dev/dri/card0		0666	system	graphics
 /dev/dri/controlD64	0660	system	graphics
