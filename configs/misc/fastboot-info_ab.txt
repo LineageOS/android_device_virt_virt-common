@@ -1,6 +1,7 @@
 # fastboot-info for virt-common
 version 1
 
+flash BIOS
 flash EFI
 
 update-super
