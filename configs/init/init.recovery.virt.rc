@@ -6,6 +6,8 @@ service dhcpclient /system/bin/virt_dhcpclient -i ${vendor.recovery.ethernet.dhc
     disabled
 
 on early-fs
+    symlink /dev/block/by-name/BIOS /dev/block/by-name/BIOS_a
+    symlink /dev/block/by-name/BIOS /dev/block/by-name/BIOS_b
     symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_a
     symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_b
 
