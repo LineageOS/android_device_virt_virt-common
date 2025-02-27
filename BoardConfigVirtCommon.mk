@@ -124,6 +124,9 @@ AB_OTA_PARTITIONS := \
     boot \
     EFI \
     grub_boot
+ifeq ($(TARGET_GRUB_2ND_ARCH),i386-pc)
+AB_OTA_PARTITIONS += BIOS
+endif
 endif
 endif
 
