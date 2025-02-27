@@ -2,6 +2,8 @@ import /vendor/etc/init/hw/init.low_performance.rc
 
 # Block devices
 on early-fs
+    symlink /dev/block/by-name/BIOS /dev/block/by-name/BIOS_a
+    symlink /dev/block/by-name/BIOS /dev/block/by-name/BIOS_b
     symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_a
     symlink /dev/block/by-name/EFI /dev/block/by-name/EFI_b
 
