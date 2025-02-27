@@ -1,6 +1,9 @@
 # Bluetooth
 persist.bluetooth.a2dp_aac.vbr_supported=true
 
+# Camera
+ro.hardware.camera=libcamera
+
 # DHCP
 vendor.recovery.dhcpclient.iface?=eth0
 
