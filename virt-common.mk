@@ -296,7 +296,8 @@ PRODUCT_PACKAGES_DEBUG += \
 
 PRODUCT_HOST_PACKAGES += \
     grub-editenv \
-    grub_boot_control
+    grub_boot_control \
+    grub_i386-pc_img_patch
 
 # VirtWifi
 PRODUCT_PACKAGES += \
