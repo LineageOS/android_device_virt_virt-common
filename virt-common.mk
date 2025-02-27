@@ -88,6 +88,12 @@ TARGET_SCREEN_WIDTH := 600
 TARGET_SCREEN_HEIGHT := 600
 endif
 
+# Camera
+ifneq ($(wildcard external/libcamera/src/android/hal/provider/apex_manifest.json),)
+PRODUCT_PACKAGES += \
+    com.android.hardware.camera.libcamera
+endif
+
 # Dynamic partitions
 PRODUCT_BUILD_SUPER_PARTITION := true
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
@@ -222,6 +228,7 @@ PRODUCT_NO_BIONIC_PAGE_SIZE_MACRO := true
 
 # Permissions
 PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.camera.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.software.credentials.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.credentials.xml \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
