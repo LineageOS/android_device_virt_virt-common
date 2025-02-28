@@ -60,6 +60,10 @@ if [ -f "/system/etc/MBR.img" ]; then
     dd if=/system/etc/MBR.img of=$TARGET bs=446 count=1
 fi
 
+if [ -f "/system/etc/super_empty_raw.img" ] && ! dd if=/dev/block/by-name/super bs=256k count=1|strings|grep virt_dynamic_partitions > /dev/null; then
+    dd if=/system/etc/super_empty_raw.img of=/dev/block/by-name/super
+fi
+
 which setprop > /dev/null && setprop vendor.create_partition_table.finish 1
 
 exit 0
