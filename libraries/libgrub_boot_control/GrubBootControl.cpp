@@ -154,10 +154,12 @@ int GrubBootControl::markBootSuccessful() {
     if (!IsValidSlot(slot)) return COMMAND_FAILED;
 
     // Ensure GRUB would consider the slot as bootable next time
-    if (!SetItemValueForSlot(slot, kItemSlotBootCount, "")) return COMMAND_FAILED;
-    if (!SetItemValueForSlot(slot, kItemSlotIsBootable, "true")) return COMMAND_FAILED;
+    SetItemValueForSlot(slot, kItemSlotBootCount, "", false);
+    SetItemValueForSlot(slot, kItemSlotIsBootable, "true", false);
 
-    if (!SetItemValueForSlot(slot, kItemSlotIsSuccessful, "true")) return COMMAND_FAILED;
+    SetItemValueForSlot(slot, kItemSlotIsSuccessful, "true", false);
+
+    if (!CommitGrubVars()) return COMMAND_FAILED;
 
     return 0;
 }
@@ -166,11 +168,12 @@ int GrubBootControl::setActiveBootSlot(int slot) {
     if (!IsValidSlot(slot)) return INVALID_SLOT;
 
     // Ensure GRUB would consider the slot as bootable next time
-    if (!SetItemValueForSlot(slot, kItemSlotBootCount, "")) return COMMAND_FAILED;
-    if (!SetItemValueForSlot(slot, kItemSlotIsBootable, "true")) return COMMAND_FAILED;
+    SetItemValueForSlot(slot, kItemSlotBootCount, "", false);
+    SetItemValueForSlot(slot, kItemSlotIsBootable, "true", false);
 
-    if (!SetItemValueForGlobal(kItemGlobalActiveSlot, GetStringFromSlotNumber(slot)))
-        return COMMAND_FAILED;
+    SetItemValueForGlobal(kItemGlobalActiveSlot, GetStringFromSlotNumber(slot), false);
+
+    if (!CommitGrubVars()) return COMMAND_FAILED;
 
     return 0;
 }
