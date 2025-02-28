@@ -179,6 +179,11 @@ PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 PRODUCT_PACKAGES += \
     android.hardware.security.keymint-service
 
+# Media
+PRODUCT_COPY_FILES += \
+    device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
+    device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml
+
 # Memtrack
 PRODUCT_PACKAGES += \
     com.android.hardware.memtrack
