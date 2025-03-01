@@ -64,6 +64,7 @@ BOARD_KERNEL_CMDLINE := \
     loop.max_part=7 \
     printk.devkmsg=on \
     rw \
+    vt.global_cursor_default=0 \
     androidboot.verifiedbootstate=orange
 
 ifeq ($(EMULATOR_KERNEL_FILE),)
