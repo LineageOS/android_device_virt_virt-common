@@ -141,7 +141,6 @@ define make-diskimage-target
 	)true
 endef
 
-INSTALLED_DISKIMAGE_VDA_TARGET := $(PRODUCT_OUT)/disk-vda.img
 INSTALLED_DISKIMAGE_VDA_TARGET_DEPS := $(SGDISK_EXEC)
 
 ifeq ($(TARGET_BOOT_MANAGER),grub)
