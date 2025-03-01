@@ -117,10 +117,26 @@ define make-diskimage-target
 	$(foreach p,$(DISK_$(call to-upper,$(2))_WRITE_PARTITIONS),\
 		$(if $(filter $(p),$(AB_OTA_PARTITIONS)),\
 			$(foreach ab_slot_suffix,_A _B,\
-				/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_SECTORS) conv=notrunc &&\
+				$(eval PARTITION_START_SECTOR := $(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_START_SECTOR)) \
+				$(eval PARTITION_SECTORS := $(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_SECTORS)) \
+				$(eval PARTITION_START_BYTE := $(shell echo "$$(( $(PARTITION_START_SECTOR) * $(DISK_VDA_SECTOR_SIZE) ))")) \
+				$(eval PARTITION_SIZE_BYTE := $(shell echo "$$(( $(PARTITION_SECTORS) * $(DISK_VDA_SECTOR_SIZE) ))")) \
+				$(eval IMAGE_SIZE_BYTE := $(shell stat -c "%s" $(PRODUCT_OUT)/$(p).img)) \
+				$(if $(shell test $(IMAGE_SIZE_BYTE) -gt $(PARTITION_SIZE_BYTE) ; echo $$?),1,\
+					/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=4M seek=$(shell echo "$$(( $(PARTITION_START_BYTE) / 1048576 ))") count=$(shell echo "$$(( $(IMAGE_SIZE_BYTE) / 1048576 + ( $(IMAGE_SIZE_BYTE) % 1048576 != 0 )))") conv=notrunc &&\
+				)\
+				$(if $(shell test $(IMAGE_SIZE_BYTE) -gt $(PARTITION_SIZE_BYTE) ; echo $$?),$(error Image $(PRODUCT_OUT)/$(p).img is larger than partition $(p)$(ab_slot_suffix)),)\
 			)\
 		,\
-			/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_SECTORS) conv=notrunc &&\
+			$(eval PARTITION_START_SECTOR := $(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_START_SECTOR)) \
+			$(eval PARTITION_SECTORS := $(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_SECTORS)) \
+			$(eval PARTITION_START_BYTE := $(shell echo "$$(( $(PARTITION_START_SECTOR) * $(DISK_VDA_SECTOR_SIZE) ))")) \
+			$(eval PARTITION_SIZE_BYTE := $(shell echo "$$(( $(PARTITION_SECTORS) * $(DISK_VDA_SECTOR_SIZE) ))")) \
+			$(eval IMAGE_SIZE_BYTE := $(shell stat -c "%s" $(PRODUCT_OUT)/$(p).img)) \
+			$(if $(shell test $(IMAGE_SIZE_BYTE) -gt $(PARTITION_SIZE_BYTE) ; echo $$?),1,\
+				/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=4M seek=$(shell echo "$$(( $(PARTITION_START_BYTE) / 1048576 ))") count=$(shell echo "$$(( $(IMAGE_SIZE_BYTE) / 1048576 + ( $(IMAGE_SIZE_BYTE) % 1048576 != 0 )))") conv=notrunc &&\
+			)\
+			$(if $(shell test $(IMAGE_SIZE_BYTE) -gt $(PARTITION_SIZE_BYTE) ; echo $$?),$(error Image $(PRODUCT_OUT)/$(p).img is larger than partition $(p)),)\
 		)\
 	)true
 endef
