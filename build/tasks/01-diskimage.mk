@@ -106,12 +106,18 @@ else
         recovery \
         persist
 endif
+# Assuming disk VDA size is 1MB aligned
+DISK_VDA_SIZE_MB := $(shell expr $(DISK_VDA_SECTOR_SIZE) "*" $(DISK_VDA_SECTORS) / 1048576)
 
 # $(1): output file
 # $(2): disk name
 define make-diskimage-target
 	$(call pretty,"Target $(2) disk image: $(1)")
-	/bin/dd if=/dev/zero of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) count=$(DISK_$(call to-upper,$(2))_SECTORS)
+	$(if $(DISK_$(call to-upper,$(2))_SIZE_MB),
+		/bin/dd if=/dev/zero of=$(1) bs=1M count=$(DISK_$(call to-upper,$(2))_SIZE_MB)
+	,
+		/bin/dd if=/dev/zero of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) count=$(DISK_$(call to-upper,$(2))_SECTORS)
+	)
 	/bin/sh -e $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh $(SGDISK_EXEC) $(1) $(2) $(AB_OTA_UPDATER) $(BOARD_SUPER_PARTITION_SIZE)
 	$(if $(INSTALLED_MBRIMAGE_TARGET), /bin/dd if=$(INSTALLED_MBRIMAGE_TARGET) of=$(1) bs=446 count=1 conv=notrunc)
     python3 $(VIRT_COMMON_PATH)/configs/scripts/write_disk_partitions.py $(1) $(PRODUCT_OUT) $(2) "$(BOARD_SUPER_PARTITION_SIZE)" "$(AB_OTA_UPDATER)" "$(strip $(DISK_VDA_WRITE_PARTITIONS))"
