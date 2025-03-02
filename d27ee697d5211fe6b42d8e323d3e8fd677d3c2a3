@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b1b80a6_827fa999",
+        "filename": "configs/scripts/write_disk_partitions.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2025-03-02T14:12:56Z",
+      "side": 1,
+      "message": "you should run \"black\" on this file",
+      "revId": "d27ee697d5211fe6b42d8e323d3e8fd677d3c2a3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
