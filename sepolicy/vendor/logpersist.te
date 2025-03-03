@@ -1,2 +1,6 @@
 allow logpersist logdr_socket:sock_file write;
 allow logpersist logd:unix_stream_socket connectto;
+
+allow logpersist mnt_vendor_file:dir search;
+allow logpersist persist_file:dir r_dir_perms;
+allow logpersist persist_file:file rw_file_perms;

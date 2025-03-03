@@ -73,6 +73,19 @@ on early-boot && property:ro.boot.hwui_renderer=*
 on early-boot && property:ro.vendor.graphics.gpu=vkms
     setprop ro.vendor.graphics ${ro.boot.graphics:-swiftshader}
 
+# Logging
+service logcat_to_persist /system/bin/logcat -b all -v threadtime -f /mnt/vendor/persist/logcat.txt *:V
+    class main
+    user logd
+    group root logd
+    seclabel u:r:logpersist:s0
+    oneshot
+    disabled
+
+on early-boot && property:ro.boot.logcat_to_persist=1
+    rm /mnt/vendor/persist/logcat.txt
+    start logcat_to_persist
+
 # Suspend blocker
 service suspend_blocker /vendor/bin/suspend_blocker
     class early_hal # Start together with system_suspend HAL
