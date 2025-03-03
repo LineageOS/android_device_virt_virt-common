@@ -1,0 +1,2 @@
+allow logpersist logdr_socket:sock_file write;
+allow logpersist logd:unix_stream_socket connectto;
