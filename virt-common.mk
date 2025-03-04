@@ -245,6 +245,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/go_handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/go_handheld_core_hardware.xml
 else
 PRODUCT_COPY_FILES += \
+    $(VIRT_COMMON_PATH)/configs/misc/android.hardware.type.pc.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.type.pc.xml \
     frameworks/native/data/etc/tablet_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/tablet_core_hardware.xml
 endif
 
