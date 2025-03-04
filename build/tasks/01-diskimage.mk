@@ -6,9 +6,9 @@
 
 ifeq ($(USES_DEVICE_VIRT_VIRT_COMMON),true)
 
-# Create vda disk image
 SGDISK_EXEC := $(HOST_OUT_EXECUTABLES)/sgdisk
 
+# The sector info below is now unused for disk image creation, keeping for other makefiles to use.
 DISK_VDA_SECTOR_SIZE := 512
 ifeq ($(AB_OTA_UPDATER),true)
     DISK_VDA_SECTORS := 27262976
@@ -106,26 +106,23 @@ else
         recovery \
         persist
 endif
+# Assuming disk VDA size is 1MB aligned
+DISK_VDA_SIZE_MB := $(shell expr $(DISK_VDA_SECTOR_SIZE) "*" $(DISK_VDA_SECTORS) / 1048576)
 
 # $(1): output file
 # $(2): disk name
 define make-diskimage-target
 	$(call pretty,"Target $(2) disk image: $(1)")
-	/bin/dd if=/dev/zero of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) count=$(DISK_$(call to-upper,$(2))_SECTORS)
+	$(if $(DISK_$(call to-upper,$(2))_SIZE_MB),
+		/bin/dd if=/dev/zero of=$(1) bs=1M count=$(DISK_$(call to-upper,$(2))_SIZE_MB)
+	,
+		/bin/dd if=/dev/zero of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) count=$(DISK_$(call to-upper,$(2))_SECTORS)
+	)
 	/bin/sh -e $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh $(SGDISK_EXEC) $(1) $(2) $(AB_OTA_UPDATER) $(BOARD_SUPER_PARTITION_SIZE)
 	$(if $(INSTALLED_MBRIMAGE_TARGET), /bin/dd if=$(INSTALLED_MBRIMAGE_TARGET) of=$(1) bs=446 count=1 conv=notrunc)
-	$(foreach p,$(DISK_$(call to-upper,$(2))_WRITE_PARTITIONS),\
-		$(if $(filter $(p),$(AB_OTA_PARTITIONS)),\
-			$(foreach ab_slot_suffix,_A _B,\
-				/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))$(ab_slot_suffix)_SECTORS) conv=notrunc &&\
-			)\
-		,\
-			/bin/dd if=$(PRODUCT_OUT)/$(p).img of=$(1) bs=$(DISK_$(call to-upper,$(2))_SECTOR_SIZE) seek=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_START_SECTOR) count=$(DISK_$(call to-upper,$(2))_PARTITION_$(call to-upper,$(p))_SECTORS) conv=notrunc &&\
-		)\
-	)true
+    python3 $(VIRT_COMMON_PATH)/configs/scripts/write_disk_partitions.py $(1) $(PRODUCT_OUT) $(2) "$(BOARD_SUPER_PARTITION_SIZE)" "$(AB_OTA_UPDATER)" "$(strip $(DISK_VDA_WRITE_PARTITIONS))"
 endef
 
-INSTALLED_DISKIMAGE_VDA_TARGET := $(PRODUCT_OUT)/disk-vda.img
 INSTALLED_DISKIMAGE_VDA_TARGET_DEPS := $(SGDISK_EXEC)
 
 ifeq ($(TARGET_BOOT_MANAGER),grub)
