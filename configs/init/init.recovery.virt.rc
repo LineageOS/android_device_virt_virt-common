@@ -18,7 +18,7 @@ on fs
     umount /mnt/vendor/EFI
 
     mkdir /mnt/vendor/_persist 0770 root root
-    trigger mount_persist_partition
+    mount vfat /dev/block/by-name/persist /mnt/vendor/_persist rw sync shortname=lower uid=1000 gid=1000 dmask=007 fmask=117 context=u:object_r:persist_file:s0
 
 on early-boot
     start vendor.boot-default
@@ -28,7 +28,4 @@ on early-boot
 
 on property:ro.boot.install=1 && property:vendor.create_partition_table.finish=1
     exec u:r:flash_persist_partition:s0 -- /system/bin/sh -e /system/bin/flash_persist_partition.sh
-    trigger mount_persist_partition
-
-on mount_persist_partition
     mount vfat /dev/block/by-name/persist /mnt/vendor/_persist rw sync shortname=lower uid=1000 gid=1000 dmask=007 fmask=117 context=u:object_r:persist_file:s0
