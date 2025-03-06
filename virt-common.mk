@@ -27,6 +27,7 @@ PRODUCT_PACKAGES_DEBUG += \
     update_engine_client
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
+$(call soong_config_set,VIRT_PREINSTALL_CHECK,AB_OTA_UPDATER,$(AB_OTA_UPDATER))
 endif
 
 # Audio
@@ -269,6 +270,9 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
     $(VIRT_COMMON_PATH)/configs/scripts/flash_persist_partition.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/flash_persist_partition.sh \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
+
+PRODUCT_PACKAGES += \
+    preinstall_check
 
 # Sensors
 $(call inherit-product, device/google/cuttlefish/shared/sensors/device_vendor.mk)

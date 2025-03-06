@@ -1,0 +1,48 @@
+soong_config_module_type {
+    name: "cc_binary_preinstall_check",
+    module_type: "cc_binary",
+    config_namespace: "VIRT_PREINSTALL_CHECK",
+    variables: ["AB_OTA_UPDATER"],
+    value_variables: ["BOOT_DISK_NAME", "DRM_CARD_NAME", "SUPER_PARTITION_SIZE", "USERDATA_DISK_NAME"],
+    properties: ["cppflags"],
+}
+
+soong_config_string_variable {
+    name: "AB_OTA_UPDATER",
+    values: [
+        "true",
+        "false",
+    ],
+}
+
+cc_binary_preinstall_check {
+    name: "preinstall_check",
+    srcs: ["preinstall_check.cpp"],
+    shared_libs: [
+        "libbase",
+        "libcutils",
+        "libdrm",
+        "liblog",
+    ],
+    soong_config_variables: {
+        AB_OTA_UPDATER: {
+            true: {
+                cppflags: ["-DAB_OTA_UPDATER"],
+            },
+            conditions_default: {},
+        },
+        BOOT_DISK_NAME: {
+            cppflags: ["-DBOOT_DISK_NAME=\"%s\""],
+        },
+        DRM_CARD_NAME: {
+            cppflags: ["-DDRM_CARD_NAME=\"%s\""],
+        },
+        SUPER_PARTITION_SIZE: {
+            cppflags: ["-DSUPER_PARTITION_SIZE=%s"],
+        },
+        USERDATA_DISK_NAME: {
+            cppflags: ["-DUSERDATA_DISK_NAME=\"%s\""],
+        },
+    },
+    recovery: true,
+}

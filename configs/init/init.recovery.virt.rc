@@ -5,6 +5,16 @@ service dhcpclient /system/bin/virt_dhcpclient -i ${vendor.recovery.ethernet.dhc
     oneshot
     disabled
 
+service preinstall_check /system/bin/preinstall_check
+    user root
+    group root system graphics
+    seclabel u:r:recovery:s0
+    oneshot
+    disabled
+
+on early-init && property:ro.boot.install=1
+    stop recovery
+
 on early-fs
     symlink /dev/block/by-name/BIOS /dev/block/by-name/BIOS_a
     symlink /dev/block/by-name/BIOS /dev/block/by-name/BIOS_b
@@ -18,7 +28,7 @@ on fs
     umount /mnt/vendor/EFI
 
     mkdir /mnt/vendor/_persist 0770 root root
-    trigger mount_persist_partition
+    mount vfat /dev/block/by-name/persist /mnt/vendor/_persist rw sync shortname=lower uid=1000 gid=1000 dmask=007 fmask=117 context=u:object_r:persist_file:s0
 
 on early-boot
     start vendor.boot-default
@@ -28,7 +38,10 @@ on early-boot
 
 on property:ro.boot.install=1 && property:vendor.create_partition_table.finish=1
     exec u:r:flash_persist_partition:s0 -- /system/bin/sh -e /system/bin/flash_persist_partition.sh
-    trigger mount_persist_partition
-
-on mount_persist_partition
     mount vfat /dev/block/by-name/persist /mnt/vendor/_persist rw sync shortname=lower uid=1000 gid=1000 dmask=007 fmask=117 context=u:object_r:persist_file:s0
+
+on property:ro.boot.install=1 && property:vendor.create_partition_table.start=1 && property:init.svc.create_partition_table=stopped
+    start preinstall_check
+
+on property:ro.boot.install=1 && property:vendor.preinstall_check.success=1
+    enable recovery

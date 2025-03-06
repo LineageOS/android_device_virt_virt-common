@@ -47,7 +47,7 @@ BUILD_BROKEN_PLUGIN_VALIDATION := \
     soong-llvm17 \
     soong-llvm18 \
     soong-llvm19
-BOARD_MESA3D_GALLIUM_DRIVERS := swrast
+BOARD_MESA3D_GALLIUM_DRIVERS := llvmpipe softpipe
 BOARD_MESA3D_VULKAN_DRIVERS := swrast
 endif
 
@@ -148,6 +148,8 @@ AB_OTA_PARTITIONS += BIOS
 endif
 endif
 endif
+
+$(call soong_config_set,VIRT_PREINSTALL_CHECK,SUPER_PARTITION_SIZE,$(BOARD_SUPER_PARTITION_SIZE))
 
 # Platform
 TARGET_BOARD_PLATFORM := virt
