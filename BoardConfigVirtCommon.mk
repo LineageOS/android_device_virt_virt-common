@@ -39,6 +39,7 @@ BOARD_F2FS_BLOCKSIZE := 16384
 endif
 
 # Graphics (Mesa)
+BOARD_MESA3D_MESON_ARGS := -Dmesa-clc=system
 BOARD_MESA3D_USES_MESON_BUILD := true
 
 ifneq ($(wildcard external/llvm-project/Android.bp),)
