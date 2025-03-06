@@ -21,7 +21,11 @@
 #define LOG_INFO(...) KLOG_INFO(LOG_TAG, __VA_ARGS__)
 #endif
 
+#if defined(__ANDROID_RECOVERY__)
+static bool g_report_hover = false;
+#else
 static bool g_report_hover = true;
+#endif
 
 // Function to setup the uinput device
 int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinfo* abs_x_info,
