@@ -47,7 +47,7 @@ BUILD_BROKEN_PLUGIN_VALIDATION := \
     soong-llvm17 \
     soong-llvm18 \
     soong-llvm19
-BOARD_MESA3D_GALLIUM_DRIVERS := swrast
+BOARD_MESA3D_GALLIUM_DRIVERS := llvmpipe softpipe
 BOARD_MESA3D_VULKAN_DRIVERS := swrast
 endif
 
