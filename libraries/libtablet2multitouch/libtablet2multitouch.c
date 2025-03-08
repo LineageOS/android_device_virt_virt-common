@@ -28,43 +28,43 @@ static bool g_report_hover = true;
 #endif
 
 // Function to setup the uinput device
-int libtablet2multitouch_setup_uinput_device(int* uinput_fd, const struct uinput_setup* usetup,
+int libtablet2multitouch_setup_uinput_device(const struct uinput_setup* usetup,
                                              struct input_absinfo* abs_x_info,
                                              struct input_absinfo* abs_y_info) {
     struct uinput_abs_setup abs_setup;
 
-    *uinput_fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
-    if (*uinput_fd < 0) {
+    int uinput_fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
+    if (uinput_fd < 0) {
         LOG_ERROR("Failed to open /dev/uinput\n");
         return -1;
     }
 
-    ioctl(*uinput_fd, UI_SET_EVBIT, EV_KEY);
-    ioctl(*uinput_fd, UI_SET_KEYBIT, BTN_TOUCH);
-    ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_BACK);
-    ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_MENU);
-    ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_UP);
-    ioctl(*uinput_fd, UI_SET_KEYBIT, KEY_DOWN);
+    ioctl(uinput_fd, UI_SET_EVBIT, EV_KEY);
+    ioctl(uinput_fd, UI_SET_KEYBIT, BTN_TOUCH);
+    ioctl(uinput_fd, UI_SET_KEYBIT, KEY_BACK);
+    ioctl(uinput_fd, UI_SET_KEYBIT, KEY_MENU);
+    ioctl(uinput_fd, UI_SET_KEYBIT, KEY_UP);
+    ioctl(uinput_fd, UI_SET_KEYBIT, KEY_DOWN);
 
-    ioctl(*uinput_fd, UI_SET_EVBIT, EV_ABS);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_X);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_Y);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_SLOT);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_X);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_Y);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_TRACKING_ID);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_TOOL_TYPE);
-    ioctl(*uinput_fd, UI_SET_ABSBIT, ABS_MT_DISTANCE);
+    ioctl(uinput_fd, UI_SET_EVBIT, EV_ABS);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_X);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_Y);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_SLOT);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_X);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_POSITION_Y);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_TRACKING_ID);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_TOOL_TYPE);
+    ioctl(uinput_fd, UI_SET_ABSBIT, ABS_MT_DISTANCE);
 
     // Set the INPUT_PROP_DIRECT property
-    ioctl(*uinput_fd, UI_SET_PROPBIT, INPUT_PROP_DIRECT);
+    ioctl(uinput_fd, UI_SET_PROPBIT, INPUT_PROP_DIRECT);
 
     // Set the ABS_MT_SLOT range
     memset(&abs_setup, 0, sizeof(abs_setup));
     abs_setup.code = ABS_MT_SLOT;
     abs_setup.absinfo.minimum = 0;
     abs_setup.absinfo.maximum = 1;  // 2 slots (0 and 1)
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
 
     // Set the ABS_X and ABS_MT_POSITION_X range based on the source
     // device's ABS_X
@@ -72,9 +72,9 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, const struct uinput
     abs_setup.code = ABS_X;
     abs_setup.absinfo = *abs_x_info;
     abs_setup.absinfo.value = 0;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
     abs_setup.code = ABS_MT_POSITION_X;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
 
     // Set the ABS_Y and ABS_MT_POSITION_Y range based on the source
     // device's ABS_Y
@@ -82,44 +82,44 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, const struct uinput
     abs_setup.code = ABS_Y;
     abs_setup.absinfo = *abs_y_info;
     abs_setup.absinfo.value = 0;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
     abs_setup.code = ABS_MT_POSITION_Y;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
 
     // Set the ABS_MT_TRACKING_ID range
     memset(&abs_setup, 0, sizeof(abs_setup));
     abs_setup.code = ABS_MT_TRACKING_ID;
     abs_setup.absinfo.minimum = 0;
     abs_setup.absinfo.maximum = TRKID_MAX;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
 
     // Set the ABS_MT_TOOL_TYPE range
     memset(&abs_setup, 0, sizeof(abs_setup));
     abs_setup.code = ABS_MT_TOOL_TYPE;
     abs_setup.absinfo.minimum = 0;
     abs_setup.absinfo.maximum = MT_TOOL_PEN;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
 
     // Set the ABS_MT_DISTANCE range
     memset(&abs_setup, 0, sizeof(abs_setup));
     abs_setup.code = ABS_MT_DISTANCE;
     abs_setup.absinfo.minimum = 0;
     abs_setup.absinfo.maximum = 1;
-    ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
+    ioctl(uinput_fd, UI_ABS_SETUP, &abs_setup);
 
-    if (ioctl(*uinput_fd, UI_DEV_SETUP, usetup) < 0) {
+    if (ioctl(uinput_fd, UI_DEV_SETUP, usetup) < 0) {
         LOG_ERROR("ioctl(UI_DEV_SETUP) failed\n");
-        close(*uinput_fd);
+        close(uinput_fd);
         return -1;
     }
 
-    if (ioctl(*uinput_fd, UI_DEV_CREATE) < 0) {
+    if (ioctl(uinput_fd, UI_DEV_CREATE) < 0) {
         LOG_ERROR("ioctl(UI_DEV_CREATE) failed\n");
-        close(*uinput_fd);
+        close(uinput_fd);
         return -1;
     }
 
-    return 0;
+    return uinput_fd;
 }
 
 // Function to send input events
