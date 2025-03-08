@@ -21,37 +21,60 @@
 #define LOG_INFO(...) KLOG_INFO(LOG_TAG, __VA_ARGS__)
 #endif
 
+#define BITS_PER_LONG (sizeof(unsigned long) * 8)
+#define BITS_TO_LONGS(bits) (((bits) + BITS_PER_LONG - 1) / BITS_PER_LONG)
+
+static bool test_bit(size_t bit, unsigned long* array) {
+    return (array[bit / BITS_PER_LONG] & (1UL << (bit % BITS_PER_LONG))) != 0;
+}
+
 int main() {
     int fd, uinput_fd;
     struct input_event ev;
     struct input_absinfo abs_x_info, abs_y_info;
-    const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet"};
+    bool device_name_matched = false;
+    const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet",
+                                  "VirtualPS/2 VMware VMMouse"};
     char device_path[64];
     int epoll_fd;
     struct epoll_event event, events[10];
+    unsigned long ev_bits[BITS_TO_LONGS(EV_MAX)];
 
     // Find the evdev device path
     for (int i = 0; i < 64; ++i) {
+        device_name_matched = false;
+        memset(ev_bits, 0, sizeof(ev_bits));
+
         snprintf(device_path, sizeof(device_path), "/dev/input/event%d", i);
         fd = open(device_path, O_RDONLY | O_NONBLOCK);
         if (fd < 0) continue;
 
         ioctl(fd, EVIOCGNAME(sizeof(device_path)), device_path);
-
         for (int j = 0; j < sizeof(device_names) / sizeof(device_names[0]); ++j) {
             if (strcmp(device_path, device_names[j]) == 0) {
-                goto device_found;
+                device_name_matched = true;
+                break;
             }
         }
 
+        if (!device_name_matched) {
+            LOG_ERROR("%s: Device name mismatching\n", device_path);
+        } else if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) == -1) {
+            LOG_ERROR("%s: ioctl(EVIOCGBIT) failed\n", device_path);
+        } else if (!test_bit(EV_ABS, ev_bits)) {
+            LOG_ERROR("%s: test_bit(EV_ABS) failed\n", device_path);
+        } else if (!test_bit(EV_KEY, ev_bits)) {
+            LOG_ERROR("%s: test_bit(EV_KEY) failed\n", device_path);
+        } else {
+            goto device_found;
+        }
+
         close(fd);
-        fd = -1;
+        continue;
     }
 
-    if (fd < 0) {
-        LOG_ERROR("Device not found\n");
-        return EXIT_SUCCESS;
-    }
+    LOG_ERROR("Device not found\n");
+    return EXIT_SUCCESS;
 
 device_found:
     LOG_INFO("Using device: %s\n", device_path);
