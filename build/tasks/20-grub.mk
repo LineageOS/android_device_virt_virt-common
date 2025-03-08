@@ -67,10 +67,10 @@ define make-espimage
 		$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkstandalone -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --locales="" --fonts="" --format=$(GRUB_MKSTANDALONE_FORMAT) --output=$(3)/fsroot/EFI/BOOT/$(BOOTMGR_EFI_BOOT_FILENAME) --modules="configfile disk fat part_gpt search" "boot/grub/grub.cfg=$(3)/grub-standalone.cfg"; \
 	fi
 
-	cp -r $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) $(3)/fsroot/boot/grub/$(TARGET_GRUB_ARCH)
+	cp -r $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) $(3)/fsroot/boot/grub/
 	cp $(GRUB_PREBUILT_DIR)/share/grub/unicode.pf2 $(3)/fsroot/boot/grub/fonts/unicode.pf2
 
-	$(if $(TARGET_GRUB_2ND_ARCH), cp -r $(GRUB_2ND_ARCH_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_2ND_ARCH) $(3)/fsroot/boot/grub/$(TARGET_GRUB_2ND_ARCH))
+	$(if $(TARGET_GRUB_2ND_ARCH), cp -r $(GRUB_2ND_ARCH_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_2ND_ARCH) $(3)/fsroot/boot/grub/)
 
 	touch $(3)/fsroot/boot/grub/.is_esp_part_on_android_$(4)_device
 
