@@ -3,5 +3,6 @@ cc_library {
     srcs: ["libtablet2multitouch.c"],
     export_include_dirs: ["include"],
     shared_libs: ["libcutils"],
+    recovery_available: true,
     vendor: true,
 }

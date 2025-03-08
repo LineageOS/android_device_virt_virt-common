@@ -3,15 +3,20 @@ soong_config_module_type {
     module_type: "cc_binary",
     config_namespace: "VIRT_PREINSTALL_CHECK",
     variables: ["AB_OTA_UPDATER"],
-    value_variables: ["BOOT_DISK_NAME", "DRM_CARD_NAME", "SUPER_PARTITION_SIZE", "USERDATA_DISK_NAME"],
+    value_variables: [
+        "BOOT_DISK_NAME",
+        "DRM_CARD_NAME",
+        "SUPER_PARTITION_SIZE",
+        "USERDATA_DISK_NAME",
+    ],
     properties: ["cppflags"],
 }
 
 soong_config_string_variable {
     name: "AB_OTA_UPDATER",
     values: [
-        "true",
         "false",
+        "true",
     ],
 }
 

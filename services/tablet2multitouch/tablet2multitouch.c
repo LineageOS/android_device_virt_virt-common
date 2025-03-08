@@ -21,54 +21,88 @@
 #define LOG_INFO(...) KLOG_INFO(LOG_TAG, __VA_ARGS__)
 #endif
 
-int main() {
-    int fd, uinput_fd;
-    struct input_event ev;
-    struct input_absinfo abs_x_info, abs_y_info;
-    const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet"};
-    char device_path[64];
-    int epoll_fd;
-    struct epoll_event event, events[10];
+#define BITS_PER_LONG (sizeof(unsigned long) * 8)
+#define BITS_TO_LONGS(bits) (((bits) + BITS_PER_LONG - 1) / BITS_PER_LONG)
 
-    // Find the evdev device path
-    for (int i = 0; i < 64; ++i) {
-        snprintf(device_path, sizeof(device_path), "/dev/input/event%d", i);
-        fd = open(device_path, O_RDONLY | O_NONBLOCK);
+static bool test_bit(size_t bit, unsigned long* array) {
+    return (array[bit / BITS_PER_LONG] & (1UL << (bit % BITS_PER_LONG))) != 0;
+}
+
+static const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet",
+                                     "VirtualPS/2 VMware VMMouse"};
+
+static const struct uinput_setup usetup = {
+        .id =
+                {
+                        .bustype = BUS_VIRTUAL,
+                        .vendor = 0xCAFE,
+                        .product = 0x7100,
+                },
+        .name = "virt-tablet2multitouch",
+};
+
+int main() {
+    bool device_name_matched = false;
+    char buf[64];
+    int fd, epoll_fd, uinput_fd;
+    struct input_absinfo abs_x_info, abs_y_info;
+    struct input_event ev;
+    struct epoll_event event, events[10];
+    unsigned long ev_bits[BITS_TO_LONGS(EV_MAX)];
+
+    // Find the source input device
+    for (int i = 0; i < 10; ++i) {
+        device_name_matched = false;
+        memset(ev_bits, 0, sizeof(ev_bits));
+
+        snprintf(buf, sizeof(buf), "/dev/input/event%d", i);
+        fd = open(buf, O_RDONLY | O_NONBLOCK);
         if (fd < 0) continue;
 
-        ioctl(fd, EVIOCGNAME(sizeof(device_path)), device_path);
-
+        ioctl(fd, EVIOCGNAME(sizeof(buf)), buf);
         for (int j = 0; j < sizeof(device_names) / sizeof(device_names[0]); ++j) {
-            if (strcmp(device_path, device_names[j]) == 0) {
-                goto device_found;
+            if (strcmp(buf, device_names[j]) == 0) {
+                device_name_matched = true;
+                break;
             }
         }
 
+        if (!device_name_matched) {
+            LOG_ERROR("%s: Device name mismatching\n", buf);
+        } else if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) == -1) {
+            LOG_ERROR("%s: ioctl(EVIOCGBIT) failed\n", buf);
+        } else if (!test_bit(EV_ABS, ev_bits)) {
+            LOG_ERROR("%s: test_bit(EV_ABS) failed\n", buf);
+        } else if (!test_bit(EV_KEY, ev_bits)) {
+            LOG_ERROR("%s: test_bit(EV_KEY) failed\n", buf);
+        } else {
+            goto device_found;
+        }
+
         close(fd);
-        fd = -1;
+        continue;
     }
 
-    if (fd < 0) {
-        LOG_ERROR("Device not found\n");
-        return EXIT_SUCCESS;
-    }
+    LOG_ERROR("Device not found\n");
+    return EXIT_SUCCESS;
 
 device_found:
-    LOG_INFO("Using device: %s\n", device_path);
+    LOG_INFO("Using device: %s\n", buf);
 
     // Read ABS_X and ABS_Y info from the source device
     if (ioctl(fd, EVIOCGABS(ABS_X), &abs_x_info) < 0) {
-        LOG_ERROR("ioctl EVIOCGABS(ABS_X)\n");
+        LOG_ERROR("ioctl EVIOCGABS(ABS_X) failed\n");
         return EXIT_FAILURE;
     }
 
     if (ioctl(fd, EVIOCGABS(ABS_Y), &abs_y_info) < 0) {
-        LOG_ERROR("ioctl EVIOCGABS(ABS_Y)\n");
+        LOG_ERROR("ioctl EVIOCGABS(ABS_Y) failed\n");
         return EXIT_FAILURE;
     }
 
     // Setup uinput device
-    if (libtablet2multitouch_setup_uinput_device(&uinput_fd, &abs_x_info, &abs_y_info) < 0) {
+    uinput_fd = libtablet2multitouch_setup_uinput_device(&usetup, &abs_x_info, &abs_y_info);
+    if (uinput_fd < 0) {
         LOG_ERROR("Failed to setup uinput device\n");
         return EXIT_FAILURE;
     }
@@ -76,18 +110,18 @@ device_found:
     // Setup epoll
     epoll_fd = epoll_create1(0);
     if (epoll_fd < 0) {
-        LOG_ERROR("epoll_create1\n");
+        LOG_ERROR("epoll_create1() failed\n");
         return EXIT_FAILURE;
     }
 
     event.events = EPOLLIN;
     event.data.fd = fd;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event) < 0) {
-        LOG_ERROR("epoll_ctl\n");
+        LOG_ERROR("epoll_ctl() failed\n");
         return EXIT_FAILURE;
     }
 
-    while (1) {
+    while (true) {
         int ret = epoll_wait(epoll_fd, events, 10, -1);
 
         if (ret > 0) {
@@ -97,13 +131,13 @@ device_found:
                     if (rc == sizeof(ev)) {
                         libtablet2multitouch_handle_event(uinput_fd, &ev);
                     } else if (rc < 0 && errno != EAGAIN) {
-                        LOG_ERROR("read\n");
+                        LOG_ERROR("read() failed\n");
                         break;
                     }
                 }
             }
         } else if (ret < 0) {
-            LOG_ERROR("epoll_wait\n");
+            LOG_ERROR("epoll_wait() failed\n");
             break;
         }
     }
