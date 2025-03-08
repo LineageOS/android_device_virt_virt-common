@@ -15,6 +15,8 @@ extern int libtablet2multitouch_setup_uinput_device(const struct uinput_setup* u
 // Function to send input events
 extern void libtablet2multitouch_send_input_event(int uinput_fd, __u16 type, __u16 code,
                                                   __s32 value);
+// Function to send SYN_REPORT
+extern void libtablet2multitouch_report_sync(int uinput_fd);
 // Function to send multitouch events
 extern void libtablet2multitouch_report_multitouch(int uinput_fd, bool active, bool contact,
                                                    int tracking_id, __s32 x, __s32 y);
