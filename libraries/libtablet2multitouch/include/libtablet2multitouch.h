@@ -10,6 +10,7 @@
 
 // Function to setup the uinput device
 extern int libtablet2multitouch_setup_uinput_device(int* uinput_fd,
+                                                    const struct uinput_setup* usetup,
                                                     struct input_absinfo* abs_x_info,
                                                     struct input_absinfo* abs_y_info);
 // Function to send input events

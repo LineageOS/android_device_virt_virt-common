@@ -28,10 +28,10 @@ static bool g_report_hover = true;
 #endif
 
 // Function to setup the uinput device
-int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinfo* abs_x_info,
+int libtablet2multitouch_setup_uinput_device(int* uinput_fd, const struct uinput_setup* usetup,
+                                             struct input_absinfo* abs_x_info,
                                              struct input_absinfo* abs_y_info) {
     struct uinput_abs_setup abs_setup;
-    struct uinput_setup usetup;
 
     *uinput_fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if (*uinput_fd < 0) {
@@ -107,13 +107,7 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinf
     abs_setup.absinfo.maximum = 1;
     ioctl(*uinput_fd, UI_ABS_SETUP, &abs_setup);
 
-    memset(&usetup, 0, sizeof(usetup));
-    usetup.id.bustype = BUS_USB;
-    usetup.id.vendor = 0x1234;
-    usetup.id.product = 0x7890;
-    strcpy(usetup.name, "uinput-multitouch-device");
-
-    if (ioctl(*uinput_fd, UI_DEV_SETUP, &usetup) < 0) {
+    if (ioctl(*uinput_fd, UI_DEV_SETUP, usetup) < 0) {
         LOG_ERROR("ioctl(UI_DEV_SETUP) failed\n");
         close(*uinput_fd);
         return -1;
