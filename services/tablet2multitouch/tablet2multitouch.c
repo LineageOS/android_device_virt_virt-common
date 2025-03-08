@@ -34,11 +34,11 @@ static const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet
 static const struct uinput_setup usetup = {
         .id =
                 {
-                        .bustype = BUS_USB,
-                        .vendor = 0x1234,
-                        .product = 0x7890,
+                        .bustype = BUS_VIRTUAL,
+                        .vendor = 0xCAFE,
+                        .product = 0x7100,
                 },
-        .name = "uinput-multitouch-device",
+        .name = "virt-tablet2multitouch",
 };
 
 int main() {
