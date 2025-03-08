@@ -28,43 +28,43 @@ static bool test_bit(size_t bit, unsigned long* array) {
     return (array[bit / BITS_PER_LONG] & (1UL << (bit % BITS_PER_LONG))) != 0;
 }
 
+static const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet",
+                                     "VirtualPS/2 VMware VMMouse"};
+
 int main() {
-    int fd, uinput_fd;
-    struct input_event ev;
-    struct input_absinfo abs_x_info, abs_y_info;
     bool device_name_matched = false;
-    const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet",
-                                  "VirtualPS/2 VMware VMMouse"};
-    char device_path[64];
-    int epoll_fd;
+    char buf[64];
+    int fd, epoll_fd, uinput_fd;
+    struct input_absinfo abs_x_info, abs_y_info;
+    struct input_event ev;
     struct epoll_event event, events[10];
     unsigned long ev_bits[BITS_TO_LONGS(EV_MAX)];
 
-    // Find the evdev device path
-    for (int i = 0; i < 64; ++i) {
+    // Find the source input device
+    for (int i = 0; i < 10; ++i) {
         device_name_matched = false;
         memset(ev_bits, 0, sizeof(ev_bits));
 
-        snprintf(device_path, sizeof(device_path), "/dev/input/event%d", i);
-        fd = open(device_path, O_RDONLY | O_NONBLOCK);
+        snprintf(buf, sizeof(buf), "/dev/input/event%d", i);
+        fd = open(buf, O_RDONLY | O_NONBLOCK);
         if (fd < 0) continue;
 
-        ioctl(fd, EVIOCGNAME(sizeof(device_path)), device_path);
+        ioctl(fd, EVIOCGNAME(sizeof(buf)), buf);
         for (int j = 0; j < sizeof(device_names) / sizeof(device_names[0]); ++j) {
-            if (strcmp(device_path, device_names[j]) == 0) {
+            if (strcmp(buf, device_names[j]) == 0) {
                 device_name_matched = true;
                 break;
             }
         }
 
         if (!device_name_matched) {
-            LOG_ERROR("%s: Device name mismatching\n", device_path);
+            LOG_ERROR("%s: Device name mismatching\n", buf);
         } else if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) == -1) {
-            LOG_ERROR("%s: ioctl(EVIOCGBIT) failed\n", device_path);
+            LOG_ERROR("%s: ioctl(EVIOCGBIT) failed\n", buf);
         } else if (!test_bit(EV_ABS, ev_bits)) {
-            LOG_ERROR("%s: test_bit(EV_ABS) failed\n", device_path);
+            LOG_ERROR("%s: test_bit(EV_ABS) failed\n", buf);
         } else if (!test_bit(EV_KEY, ev_bits)) {
-            LOG_ERROR("%s: test_bit(EV_KEY) failed\n", device_path);
+            LOG_ERROR("%s: test_bit(EV_KEY) failed\n", buf);
         } else {
             goto device_found;
         }
@@ -77,16 +77,16 @@ int main() {
     return EXIT_SUCCESS;
 
 device_found:
-    LOG_INFO("Using device: %s\n", device_path);
+    LOG_INFO("Using device: %s\n", buf);
 
     // Read ABS_X and ABS_Y info from the source device
     if (ioctl(fd, EVIOCGABS(ABS_X), &abs_x_info) < 0) {
-        LOG_ERROR("ioctl EVIOCGABS(ABS_X)\n");
+        LOG_ERROR("ioctl EVIOCGABS(ABS_X) failed\n");
         return EXIT_FAILURE;
     }
 
     if (ioctl(fd, EVIOCGABS(ABS_Y), &abs_y_info) < 0) {
-        LOG_ERROR("ioctl EVIOCGABS(ABS_Y)\n");
+        LOG_ERROR("ioctl EVIOCGABS(ABS_Y) failed\n");
         return EXIT_FAILURE;
     }
 
@@ -99,18 +99,18 @@ device_found:
     // Setup epoll
     epoll_fd = epoll_create1(0);
     if (epoll_fd < 0) {
-        LOG_ERROR("epoll_create1\n");
+        LOG_ERROR("epoll_create1() failed\n");
         return EXIT_FAILURE;
     }
 
     event.events = EPOLLIN;
     event.data.fd = fd;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event) < 0) {
-        LOG_ERROR("epoll_ctl\n");
+        LOG_ERROR("epoll_ctl() failed\n");
         return EXIT_FAILURE;
     }
 
-    while (1) {
+    while (true) {
         int ret = epoll_wait(epoll_fd, events, 10, -1);
 
         if (ret > 0) {
@@ -120,13 +120,13 @@ device_found:
                     if (rc == sizeof(ev)) {
                         libtablet2multitouch_handle_event(uinput_fd, &ev);
                     } else if (rc < 0 && errno != EAGAIN) {
-                        LOG_ERROR("read\n");
+                        LOG_ERROR("read() failed\n");
                         break;
                     }
                 }
             }
         } else if (ret < 0) {
-            LOG_ERROR("epoll_wait\n");
+            LOG_ERROR("epoll_wait() failed\n");
             break;
         }
     }

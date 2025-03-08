@@ -30,12 +30,12 @@ static bool g_report_hover = true;
 // Function to setup the uinput device
 int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinfo* abs_x_info,
                                              struct input_absinfo* abs_y_info) {
-    struct uinput_setup usetup;
     struct uinput_abs_setup abs_setup;
+    struct uinput_setup usetup;
 
     *uinput_fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if (*uinput_fd < 0) {
-        LOG_ERROR("open /dev/uinput\n");
+        LOG_ERROR("Failed to open /dev/uinput\n");
         return -1;
     }
 
@@ -114,13 +114,13 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinf
     strcpy(usetup.name, "uinput-multitouch-device");
 
     if (ioctl(*uinput_fd, UI_DEV_SETUP, &usetup) < 0) {
-        LOG_ERROR("ioctl UI_DEV_SETUP\n");
+        LOG_ERROR("ioctl(UI_DEV_SETUP) failed\n");
         close(*uinput_fd);
         return -1;
     }
 
     if (ioctl(*uinput_fd, UI_DEV_CREATE) < 0) {
-        LOG_ERROR("ioctl UI_DEV_CREATE\n");
+        LOG_ERROR("ioctl(UI_DEV_CREATE) failed\n");
         close(*uinput_fd);
         return -1;
     }
@@ -130,12 +130,12 @@ int libtablet2multitouch_setup_uinput_device(int* uinput_fd, struct input_absinf
 
 // Function to send input events
 void libtablet2multitouch_send_input_event(int uinput_fd, __u16 type, __u16 code, __s32 value) {
-    struct input_event ev;
-    memset(&ev, 0, sizeof(ev));
-    ev.type = type;
-    ev.code = code;
-    ev.value = value;
-    if (write(uinput_fd, &ev, sizeof(ev)) < 0) LOG_ERROR("write\n");
+    struct input_event ev = {
+            .code = code,
+            .type = type,
+            .value = value,
+    };
+    if (write(uinput_fd, &ev, sizeof(ev)) < 0) LOG_ERROR("write(uinput_fd) failed\n");
 }
 
 // Function to send multitouch events
