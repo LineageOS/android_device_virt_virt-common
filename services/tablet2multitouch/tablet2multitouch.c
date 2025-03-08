@@ -101,8 +101,8 @@ device_found:
     }
 
     // Setup uinput device
-    if (libtablet2multitouch_setup_uinput_device(&uinput_fd, &usetup, &abs_x_info, &abs_y_info) <
-        0) {
+    uinput_fd = libtablet2multitouch_setup_uinput_device(&usetup, &abs_x_info, &abs_y_info);
+    if (uinput_fd < 0) {
         LOG_ERROR("Failed to setup uinput device\n");
         return EXIT_FAILURE;
     }
