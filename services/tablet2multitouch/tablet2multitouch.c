@@ -31,6 +31,16 @@ static bool test_bit(size_t bit, unsigned long* array) {
 static const char* device_names[] = {"QEMU QEMU USB Tablet", "QEMU Virtio Tablet",
                                      "VirtualPS/2 VMware VMMouse"};
 
+static const struct uinput_setup usetup = {
+        .id =
+                {
+                        .bustype = BUS_USB,
+                        .vendor = 0x1234,
+                        .product = 0x7890,
+                },
+        .name = "uinput-multitouch-device",
+};
+
 int main() {
     bool device_name_matched = false;
     char buf[64];
@@ -91,7 +101,8 @@ device_found:
     }
 
     // Setup uinput device
-    if (libtablet2multitouch_setup_uinput_device(&uinput_fd, &abs_x_info, &abs_y_info) < 0) {
+    if (libtablet2multitouch_setup_uinput_device(&uinput_fd, &usetup, &abs_x_info, &abs_y_info) <
+        0) {
         LOG_ERROR("Failed to setup uinput device\n");
         return EXIT_FAILURE;
     }
