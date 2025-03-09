@@ -73,10 +73,17 @@ def main():
     parser = argparse.ArgumentParser(description="Calculate minimum FAT32 image size with metadata.")
     parser.add_argument("paths", nargs="+", help="File and directory paths.")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug output.")
+    parser.add_argument("-l", "--label", type=str, default="", help="Volume label. Quirks may apply depending on volume label.")
     args = parser.parse_args()
 
     image_size_mib = calculate_fat32_image_size(args.paths, args.debug)
     image_size_mib += 2 # reserved
+
+    # Quirks
+    if args.label == "boot":
+        if image_size_mib < 34:
+            image_size_mib = 34
+
     print(f"{image_size_mib:.0f}")
 
 if __name__ == "__main__":
