@@ -202,10 +202,10 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
 
             switch (*code) {
                 case BTN_MIDDLE:
-                    trans_keycode = KEY_BACK;
+                    trans_keycode = KEY_MENU;
                     break;
                 case BTN_RIGHT:
-                    trans_keycode = KEY_MENU;
+                    trans_keycode = KEY_BACK;
                     break;
                 case BTN_GEAR_DOWN:
                     key_report_up = true;
