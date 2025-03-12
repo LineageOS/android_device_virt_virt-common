@@ -67,6 +67,10 @@ const vector<MixerControl> kMixerControlVec_ENS1371 = {
         {"PCM Playback Switch", MIXER_CTL_TYPE_BOOL, {1, 1}},
         {"PCM Playback Volume", MIXER_CTL_TYPE_INT, {INT_MAX, INT_MAX}}};
 
+const vector<MixerControl> kMixerControlVec_HDA_Intel_VmwareFusionOnArmMac = {
+        {"Master Playback Switch", MIXER_CTL_TYPE_BOOL, {1}},
+        {"Master Playback Volume", MIXER_CTL_TYPE_INT, {INT_MAX}}};
+
 const vector<MixerControl> kMixerControlVec_AC97_AD1980 = {
         {"Master Playback Switch", MIXER_CTL_TYPE_BOOL, {1, 1}},
         {"Master Playback Volume", MIXER_CTL_TYPE_INT, {INT_MAX, INT_MAX}},
@@ -76,6 +80,8 @@ const vector<MixerControl> kMixerControlVec_AC97_AD1980 = {
 SoundCardSettingsMapType kSoundCardSettingsMap = {
         {"ENS1370 - Ensoniq AudioPCI", {"", 0, &kMixerControlVec_ENS1370, true, -1}},  // broken
         {"ENS1371 - Ensoniq AudioPCI", {"", 0, &kMixerControlVec_ENS1371, true, 200}},
+        {"HDA-Intel - HD-Audio Generic",
+         {"", 0, &kMixerControlVec_HDA_Intel_VmwareFusionOnArmMac, true, 200}},
         {"ICH - Intel 82801AA-ICH",
          {"Intel 82801AA-ICH with AD1980", 0, &kMixerControlVec_AC97_AD1980, true, 0}},
         {"ICH - Intel 82801AA-ICH", {"", 0, nullptr, false, 0}},
