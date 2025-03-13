@@ -77,7 +77,7 @@ def main():
     args = parser.parse_args()
 
     image_size_mib = calculate_fat32_image_size(args.paths, args.debug)
-    image_size_mib += 4 # reserved
+    image_size_mib += 8 # reserved
 
     # Quirks
     if args.label == "boot":
