@@ -15,6 +15,13 @@ service bt_vhci_forwarder /vendor/bin/true
     disabled
     oneshot
 
+service bt_socket /vendor/bin/true
+    user nobody
+    group system
+    override
+    disabled
+    oneshot
+
 # Boot manager
 service vendor.refind-update-default_selection /vendor/bin/refind-update-default_selection.sh ${sys.shutdown.requested}
     user root
