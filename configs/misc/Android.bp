@@ -1,7 +1,13 @@
-filegroup {
+prebuilt_root {
     name: "virt_pci_ids",
-    srcs: ["pci.ids"],
+    src: "pci.ids",
+    vendor: true,
+    filename_from_src: true,
     licenses: ["virt_pci_ids_license"],
+    enabled: select(soong_config_variable("device_virt_virt_common", "enabled"), {
+        true: true,
+        default: false,
+    }),
 }
 
 license {
