@@ -22,6 +22,7 @@ include device/mainline/common/optional/options.mk
 $(call inherit-product, device/mainline/common/mainline_common.mk)
 
 VIRT_COMMON_PATH := device/virt/virt-common
+$(call soong_config_set_bool,device_virt_virt-common,enabled,true)
 
 # A/B
 ifeq ($(AB_OTA_UPDATER),true)
@@ -215,15 +216,13 @@ PRODUCT_PACKAGES += \
     tablet2multitouch_recovery
 
 # Utilities
-PRODUCT_COPY_FILES += \
-    $(VIRT_COMMON_PATH)/configs/misc/pci.ids:$(TARGET_COPY_OUT_VENDOR)/pci.ids
-
 PRODUCT_PACKAGES += \
     grub-editenv \
     grub-editenv.recovery \
     grub_boot_control \
     grub_boot_control.recovery \
-    sgdisk.recovery
+    sgdisk.recovery \
+    virt_pci_ids
 
 PRODUCT_HOST_PACKAGES += \
     grub-editenv \
