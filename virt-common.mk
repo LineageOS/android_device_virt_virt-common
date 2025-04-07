@@ -111,6 +111,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     dlkm_loader
 
+# DRM
+PRODUCT_PACKAGES += \
+    android.hardware.drm@latest-service.clearkey
+
 # Fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.virt_recovery \
