@@ -75,6 +75,7 @@ BOARD_KERNEL_CMDLINE := \
     printk.devkmsg=on \
     rw \
     vt.global_cursor_default=0 \
+    androidboot.selinux=permissive \
     androidboot.verifiedbootstate=orange
 
 ifeq ($(EMULATOR_KERNEL_FILE),)
@@ -85,8 +86,14 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD := \
 endif
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
+LOCAL_DEFCONFIG := \
+    defconfig \
+    gki_pre.config \
+    gki.config \
+    gki_post.config
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
+    faster_build_time.config \
     lineageos/peripheral/bluetooth.config \
     lineageos/peripheral/wifi.config \
     lineageos/feature/fbcon.config

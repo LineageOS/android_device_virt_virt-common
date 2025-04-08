@@ -80,6 +80,10 @@ on early-boot && property:ro.boot.hwui_renderer=*
 on early-boot && property:ro.vendor.graphics.gpu=vkms
     setprop ro.vendor.graphics ${ro.boot.graphics:-swiftshader}
 
+# MEMFD
+on load-bpf-programs
+    setprop sys.use_memfd true
+
 # Suspend blocker
 service suspend_blocker /vendor/bin/suspend_blocker
     class early_hal # Start together with system_suspend HAL

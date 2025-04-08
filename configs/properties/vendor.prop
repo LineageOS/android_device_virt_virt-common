@@ -13,9 +13,6 @@ drm.service.enabled=true
 # Input
 qemu.hw.mainkeys=0
 
-# Incremental FS
-ro.incremental.enable=1
-
 # Media
 media.c2.hal.selection=aidl
 debug.c2.use_dmabufheaps=1
