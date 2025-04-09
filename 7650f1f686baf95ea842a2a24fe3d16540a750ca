@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33aee335_992510d4",
+        "filename": "BoardConfigVirtCommon.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 33662
+      },
+      "writtenOn": "2025-04-09T08:31:48Z",
+      "side": 1,
+      "message": "ouch",
+      "revId": "7650f1f686baf95ea842a2a24fe3d16540a750ca",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
