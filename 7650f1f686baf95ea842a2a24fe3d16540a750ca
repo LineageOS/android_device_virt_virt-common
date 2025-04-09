@@ -16,6 +16,24 @@
       "message": "ouch",
       "revId": "7650f1f686baf95ea842a2a24fe3d16540a750ca",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d26304db_48ce5aee",
+        "filename": "BoardConfigVirtCommon.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2025-04-09T09:41:43Z",
+      "side": 1,
+      "message": "yeah, denials that prevents the system to boot pops up...",
+      "parentUuid": "33aee335_992510d4",
+      "revId": "7650f1f686baf95ea842a2a24fe3d16540a750ca",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
