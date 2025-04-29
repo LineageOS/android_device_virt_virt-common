@@ -59,9 +59,6 @@ endif
 # Graphics (Swiftshader)
 include device/google/cuttlefish/shared/swiftshader/BoardConfig.mk
 
-# Init
-TARGET_INIT_VENDOR_LIB ?= //$(VIRT_COMMON_PATH):init_virt
-
 # Kernel
 BOARD_KERNEL_CMDLINE := \
     log_buf_len=4M \
