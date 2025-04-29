@@ -60,7 +60,7 @@ endif
 include device/google/cuttlefish/shared/swiftshader/BoardConfig.mk
 
 # Init
-TARGET_INIT_VENDOR_LIB ?= //$(VIRT_COMMON_PATH):init_virt
+$(call soong_config_set,libinit,vendor_init_lib,//$(VIRT_COMMON_PATH):init_virt)
 
 # Kernel
 BOARD_KERNEL_CMDLINE := \
