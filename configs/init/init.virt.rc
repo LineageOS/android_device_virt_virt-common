@@ -23,15 +23,6 @@ service bt_socket /vendor/bin/true
     oneshot
 
 # Boot manager
-service vendor.refind-update-default_selection /vendor/bin/refind-update-default_selection.sh ${sys.shutdown.requested}
-    user root
-    group root
-    disabled
-    oneshot
-
-on property:sys.shutdown.requested=*
-    start vendor.refind-update-default_selection
-
 service vendor.grub-editenv-set-android_theme /vendor/bin/grub-editenv /mnt/vendor/persist/grubenv set android_theme=${persist.sys.theme}
     user system
     group system
