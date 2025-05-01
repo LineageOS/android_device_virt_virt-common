@@ -11,10 +11,15 @@ TARGET_GRUB_BOOT_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-boot.cfg
 TARGET_GRUB_INSTALL_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-install.cfg
 
 # Bootconfig
-TARGET_BOOTCONFIG_FILES := $(VIRT_COMMON_PATH)/configs/misc/bootconfig.txt
+BOARD_BOOTCONFIG := \
+    androidboot.boot_devices=any \
+    androidboot.first_stage_console=0 \
+    androidboot.hypervisor.version=1 \
+    androidboot.hypervisor.vm.supported=1 \
+    androidboot.hypervisor.protected_vm.supported=0
 
 # Bootloader
-BOARD_BOOT_HEADER_VERSION := 3
+BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_NO_BOOTLOADER := true
 
@@ -93,10 +98,15 @@ endif
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 4096
 BOARD_USES_METADATA_PARTITION := true
+BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 104857600
 
-ifneq ($(AB_OTA_UPDATER),true)
+ifeq ($(AB_OTA_UPDATER),true)
+BOARD_BOOTIMAGE_PARTITION_SIZE := 83886080
+else
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 52428800 # 50 MB
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 endif
 
 DLKM_PARTITIONS := system_dlkm vendor_dlkm
@@ -141,7 +151,7 @@ AB_OTA_PARTITIONS := \
     $(ALL_PARTITIONS) \
     boot \
     EFI \
-    grub_boot
+    vendor_boot
 ifeq ($(TARGET_GRUB_2ND_ARCH),i386-pc)
 AB_OTA_PARTITIONS += BIOS
 endif
@@ -177,6 +187,7 @@ TARGET_RECOVERY_UI_LIB := librecovery_ui_virt
 
 ifeq ($(AB_OTA_UPDATER),true)
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
+BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 TARGET_NO_RECOVERY := true
 endif
 
