@@ -24,6 +24,10 @@ def IncrementalOTA_InstallEnd(info):
   OTA_InstallEnd(info)
   return
 
+def AddImageExtractScript(info, basename, dest):
+  info.script.Print("Patching {} image unconditionally...".format(dest.split('/')[-1]))
+  info.script.AppendExtra('package_extract_file("%s", "%s");' % (basename, dest))
+
 def AddImage(info, basename, dest, images_dir = "IMAGES"):
   path = images_dir + "/" + basename
   if path not in info.input_zip.namelist():
@@ -31,10 +35,11 @@ def AddImage(info, basename, dest, images_dir = "IMAGES"):
 
   data = info.input_zip.read(path)
   common.ZipWriteStr(info.output_zip, basename, data)
-  info.script.Print("Patching {} image unconditionally...".format(dest.split('/')[-1]))
-  info.script.AppendExtra('package_extract_file("%s", "%s");' % (basename, dest))
+  AddImageExtractScript(info, basename, dest)
 
 def OTA_InstallEnd(info):
+  AddImage(info, "vendor_boot.img", "/dev/block/by-name/vendor_boot")
   AddImage(info, "BIOS.img", "/dev/block/by-name/BIOS", images_dir = "RADIO")
   AddImage(info, "EFI.img", "/dev/block/by-name/EFI", images_dir = "RADIO")
+  AddImageExtractScript(info, "recovery.img", "/dev/block/by-name/recovery")
   return
