@@ -30,7 +30,7 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                 "persist": {"start": 25432064, "sectors": 32768},
                 "metadata": {"start": 25464832, "sectors": 65536},
                 "firmware": {"start": 25530368, "sectors": 262144},
-                "grub_boot": {"start": 25792512, "sectors": 204800, "ab": True},
+                "vendor_boot": {"start": 25792512, "sectors": 204800, "ab": True},
                 "boot": {"start": 26202112, "sectors": 163840, "ab": True},
                 "BIOS": {"start": 26529792, "sectors": 8192, "ab": True, "fake_ab": True},
             },
@@ -52,6 +52,7 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                     "firmware": {"start": 7249920, "sectors": 262144},
                     "persist": {"start": 7512064, "sectors": 32768},
                     "BIOS": {"start": 7544832, "sectors": 8192},
+                    "vendor_boot": {"start": 7553024, "sectors": 204800},
                 },
             })
         elif board_super_partition_size == "4294967296":
@@ -69,6 +70,7 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                     "firmware": {"start": 9359104, "sectors": 262144},
                     "persist": {"start": 9621248, "sectors": 32768},
                     "BIOS": {"start": 9654016, "sectors": 8192},
+                    "vendor_boot": {"start": 9662208, "sectors": 204800},
                 },
             })
         else:
