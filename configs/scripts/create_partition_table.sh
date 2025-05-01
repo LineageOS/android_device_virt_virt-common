@@ -28,11 +28,13 @@ case "$DISK_NAME" in
                 $SGDISK_EXEC --new=4:0:+16M --change-name=4:persist $TARGET
                 $SGDISK_EXEC --new=5:0:+32M --change-name=5:metadata $TARGET
                 $SGDISK_EXEC --new=6:0:+128M --change-name=6:firmware $TARGET
-                $SGDISK_EXEC --new=7:0:+100M --change-name=7:grub_boot_a $TARGET
-                $SGDISK_EXEC --new=8:0:+100M --change-name=8:grub_boot_b $TARGET
+                $SGDISK_EXEC --new=7:0:+100M --change-name=7:vendor_boot_a $TARGET
+                $SGDISK_EXEC --new=8:0:+100M --change-name=8:vendor_boot_b $TARGET
                 $SGDISK_EXEC --new=9:0:+80M --change-name=9:boot_a $TARGET
                 $SGDISK_EXEC --new=10:0:+80M --change-name=10:boot_b $TARGET
             fi
+            $SGDISK_EXEC --change-name=7:vendor_boot_a $TARGET
+            $SGDISK_EXEC --change-name=8:vendor_boot_b $TARGET
             [ -e "${TARGET}11" ] || $SGDISK_EXEC --new=11:0:+4M --typecode=11:ef02 --change-name=11:BIOS $TARGET
         else
             if [ "$HAVE_INITIAL_PARTITION_TABLE" != "1" ]; then
@@ -51,6 +53,7 @@ case "$DISK_NAME" in
                 $SGDISK_EXEC --new=9:0:+16M --change-name=9:persist $TARGET
             fi
             [ -e "${TARGET}10" ] || $SGDISK_EXEC --new=10:0:+4M --typecode=10:ef02 --change-name=10:BIOS $TARGET
+            [ -e "${TARGET}11" ] || $SGDISK_EXEC --new=11:0:+100M --change-name=11:vendor_boot $TARGET
         fi
         ;;
     *)
