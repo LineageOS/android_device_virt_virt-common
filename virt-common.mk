@@ -168,8 +168,6 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/input/virt_tablet2multitouch.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/virt_tablet2multitouch.idc
 
 # Images
-PRODUCT_BUILD_BOOT_IMAGE := true
-PRODUCT_BUILD_RAMDISK_IMAGE := true
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
 
 ifneq ($(AB_OTA_UPDATER),true)
