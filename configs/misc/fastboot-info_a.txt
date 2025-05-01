@@ -16,6 +16,7 @@ flash vendor_dlkm
 
 flash boot
 flash recovery
+flash vendor_boot
 
 if-wipe erase cache
 if-wipe erase metadata
