@@ -35,6 +35,8 @@ def AddImage(info, basename, dest, images_dir = "IMAGES"):
   info.script.AppendExtra('package_extract_file("%s", "%s");' % (basename, dest))
 
 def OTA_InstallEnd(info):
+  AddImage(info, "recovery.img", "/dev/block/by-name/recovery")
+  AddImage(info, "vendor_boot.img", "/dev/block/by-name/vendor_boot")
   AddImage(info, "BIOS.img", "/dev/block/by-name/BIOS", images_dir = "RADIO")
   AddImage(info, "EFI.img", "/dev/block/by-name/EFI", images_dir = "RADIO")
   return
