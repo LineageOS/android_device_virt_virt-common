@@ -76,10 +76,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 endif
 endif
 
-# Boot manager
-PRODUCT_COPY_FILES += \
-    $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_VENDOR)/bin/refind-update-default_selection.sh
-
 # Bootanimation
 ifeq ($(PRODUCT_IS_GO),true)
 TARGET_SCREEN_WIDTH := 100
@@ -267,7 +263,6 @@ PRODUCT_PACKAGES += \
 
 # Recovery
 PRODUCT_COPY_FILES += \
-    $(VIRT_COMMON_PATH)/bootmgr/rEFInd/refind-update-default_selection.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/refind-update-default_selection.sh \
     $(VIRT_COMMON_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
     $(VIRT_COMMON_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
     $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
