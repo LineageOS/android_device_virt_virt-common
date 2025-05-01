@@ -32,20 +32,26 @@ using PartitionNameSizeVecType = std::vector<std::pair<std::string, unsigned lon
 
 #ifdef AB_OTA_UPDATER
 PartitionNameSizeVecType kBootDiskPartitionNameSizeVec = {
-        {"EFI", MB(128)},         {"super", SUPER_PARTITION_SIZE},
-        {"misc", MB(1)},          {"persist", MB(16)},
-        {"metadata", MB(32)},     {"firmware", MB(128)},
-        {"grub_boot_a", MB(100)}, {"grub_boot_b", MB(100)},
-        {"boot_a", MB(80)},       {"boot_b", MB(80)},
+        {"EFI", MB(128)},
+        {"super", SUPER_PARTITION_SIZE},
+        {"misc", MB(1)},
+        {"persist", MB(16)},
+        {"metadata", MB(32)},
+        {"firmware", MB(128)},
+        {"vendor_boot_a", MB(100)},
+        {"vendor_boot_b", MB(100)},
+        {"boot_a", MB(80)},
+        {"boot_b", MB(80)},
         {"BIOS", MB(4)},
 };
 #else
 PartitionNameSizeVecType kBootDiskPartitionNameSizeVec = {
-        {"EFI", MB(256)},     {"super", SUPER_PARTITION_SIZE},
-        {"misc", MB(1)},      {"metadata", MB(32)},
-        {"cache", MB(50)},    {"boot", MB(64)},
-        {"recovery", MB(64)}, {"firmware", MB(128)},
-        {"persist", MB(16)},  {"BIOS", MB(4)},
+        {"EFI", MB(256)},         {"super", SUPER_PARTITION_SIZE},
+        {"misc", MB(1)},          {"metadata", MB(32)},
+        {"cache", MB(50)},        {"boot", MB(64)},
+        {"recovery", MB(64)},     {"firmware", MB(128)},
+        {"persist", MB(16)},      {"BIOS", MB(4)},
+        {"vendor_boot", MB(100)},
 };
 #endif
 
