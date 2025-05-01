@@ -15,7 +15,7 @@ flash vendor
 flash vendor_dlkm
 
 flash boot
-flash grub_boot
+flash vendor_boot
 
 if-wipe erase metadata
 if-wipe erase userdata
