@@ -16,6 +16,4 @@ vendor_dlkm /vendor_dlkm erofs ro logical,first_stage_mount,slotselect
 
 # Boot
 /dev/block/by-name/boot /boot emmc defaults slotselect
-
-# GRUB Boot
-/dev/block/by-name/grub_boot /grub_boot emmc defaults slotselect
+/dev/block/by-name/vendor_boot /vendor_boot emmc defaults slotselect

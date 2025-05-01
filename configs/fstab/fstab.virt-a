@@ -20,6 +20,7 @@ vendor_dlkm /vendor_dlkm erofs ro logical,first_stage_mount
 
 # Boot
 /dev/block/by-name/boot /boot emmc defaults defaults
+/dev/block/by-name/vendor_boot /vendor_boot emmc defaults defaults
 
 # Recovery
 /dev/block/by-name/recovery /recovery emmc defaults defaults
