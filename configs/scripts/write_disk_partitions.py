@@ -133,6 +133,8 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                     ])
 
                 print(f"INFO:   dd command complete for partition {partition_name}{ab_slot_suffix}")
+        else:
+            print(f"ERROR: Partition {partition_name} info not found")
 
 if __name__ == "__main__":
     output_file = sys.argv[1]
