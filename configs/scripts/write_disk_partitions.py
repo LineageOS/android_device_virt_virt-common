@@ -30,7 +30,7 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                 "persist": {"start": 25432064, "sectors": 32768},
                 "metadata": {"start": 25464832, "sectors": 65536},
                 "firmware": {"start": 25530368, "sectors": 262144},
-                "grub_boot": {"start": 25792512, "sectors": 204800, "ab": True},
+                "vendor_boot": {"start": 25792512, "sectors": 204800, "ab": True},
                 "boot": {"start": 26202112, "sectors": 163840, "ab": True},
                 "BIOS": {"start": 26529792, "sectors": 8192, "ab": True, "fake_ab": True},
             },
@@ -52,6 +52,7 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                     "firmware": {"start": 7249920, "sectors": 262144},
                     "persist": {"start": 7512064, "sectors": 32768},
                     "BIOS": {"start": 7544832, "sectors": 8192},
+                    "vendor_boot": {"start": 7553024, "sectors": 204800},
                 },
             })
         elif board_super_partition_size == "4294967296":
@@ -61,14 +62,15 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                 "partitions": {
                     "EFI": {"start": 2048, "sectors": 524288},
                     "super": {"start": 526336, "sectors": 8388608},
-                    "misc": {"start": 8925184, "sectors": 2048},
-                    "metadata": {"start": 8927232, "sectors": 65536},
-                    "cache": {"start": 8992768, "sectors": 102400},
-                    "boot": {"start": 9096960, "sectors": 131072},
-                    "recovery": {"start": 9228032, "sectors": 131072},
-                    "firmware": {"start": 9359104, "sectors": 262144},
-                    "persist": {"start": 9621248, "sectors": 32768},
-                    "BIOS": {"start": 9654016, "sectors": 8192},
+                    "misc": {"start": 8914944, "sectors": 2048},
+                    "metadata": {"start": 8916992, "sectors": 65536},
+                    "cache": {"start": 8982528, "sectors": 102400},
+                    "boot": {"start": 9084928, "sectors": 131072},
+                    "recovery": {"start": 9216000, "sectors": 131072},
+                    "firmware": {"start": 9347072, "sectors": 262144},
+                    "persist": {"start": 9609216, "sectors": 32768},
+                    "BIOS": {"start": 9641984, "sectors": 8192},
+                    "vendor_boot": {"start": 9650176, "sectors": 204800},
                 },
             })
         else:
@@ -131,6 +133,8 @@ def write_disk_partitions(output_file, product_out, disk_name, board_super_parti
                     ])
 
                 print(f"INFO:   dd command complete for partition {partition_name}{ab_slot_suffix}")
+        else:
+            print(f"ERROR: Partition {partition_name} info not found")
 
 if __name__ == "__main__":
     output_file = sys.argv[1]

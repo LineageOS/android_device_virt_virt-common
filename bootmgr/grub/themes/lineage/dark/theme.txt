@@ -5,7 +5,7 @@
 #
 
 desktop-color: "#202626"
-terminal-font: "GNU Unifont Regular 16"
+terminal-font: "Unifont Regular 16"
 terminal-left: "0"
 terminal-top: "0"
 terminal-width: "100%"
@@ -88,7 +88,7 @@ title-text: ""
     top = 90%
 
     text = "Booting in    seconds"
-    font = "GNU Unifont Regular 16"
+    font = "Unifont Regular 16"
     color = "#808D8D"
 }
 
@@ -97,7 +97,7 @@ title-text: ""
     top = 90%
 
     id = "__timeout__"
-    font = "GNU Unifont Regular 16"
+    font = "Unifont Regular 16"
     color = "#808D8D"
 }
 
@@ -106,6 +106,6 @@ title-text: ""
     top = 98%
 
     text = "@LINEAGE_VERSION@"
-    font = "GNU Unifont Regular 16"
+    font = "Unifont Regular 16"
     color = "#808D8D"
 }
