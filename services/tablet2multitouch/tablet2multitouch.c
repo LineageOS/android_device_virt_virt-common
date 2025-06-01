@@ -69,18 +69,16 @@ int main() {
 
         if (!device_name_matched) {
             LOG_ERROR("%s: Device name mismatching\n", buf);
-        } else if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) == -1) {
-            LOG_ERROR("%s: ioctl(EVIOCGBIT) failed\n", buf);
-        } else if (!test_bit(EV_ABS, ev_bits)) {
-            LOG_ERROR("%s: test_bit(EV_ABS) failed\n", buf);
-        } else if (!test_bit(EV_KEY, ev_bits)) {
-            LOG_ERROR("%s: test_bit(EV_KEY) failed\n", buf);
         } else {
-            goto device_found;
+            if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) >= 0 &&
+                test_bit(EV_ABS, ev_bits) && test_bit(EV_KEY, ev_bits)) {
+                goto device_found;
+            } else {
+                LOG_ERROR("Device does not meet requirements\n");
+            }
         }
 
         close(fd);
-        continue;
     }
 
     LOG_ERROR("Device not found\n");
@@ -92,60 +90,61 @@ device_found:
     // Read ABS_X and ABS_Y info from the source device
     if (ioctl(fd, EVIOCGABS(ABS_X), &abs_x_info) < 0) {
         LOG_ERROR("ioctl EVIOCGABS(ABS_X) failed\n");
-        return EXIT_FAILURE;
+        goto err_read_abs;
     }
 
     if (ioctl(fd, EVIOCGABS(ABS_Y), &abs_y_info) < 0) {
         LOG_ERROR("ioctl EVIOCGABS(ABS_Y) failed\n");
-        return EXIT_FAILURE;
+        goto err_read_abs;
     }
 
     // Setup uinput device
     uinput_fd = libtablet2multitouch_setup_uinput_device(&usetup, &abs_x_info, &abs_y_info);
     if (uinput_fd < 0) {
         LOG_ERROR("Failed to setup uinput device\n");
-        return EXIT_FAILURE;
+        goto err_setup_uinput;
     }
 
     // Setup epoll
     epoll_fd = epoll_create1(0);
     if (epoll_fd < 0) {
         LOG_ERROR("epoll_create1() failed\n");
-        return EXIT_FAILURE;
+        goto err_epoll;
     }
 
     event.events = EPOLLIN;
     event.data.fd = fd;
     if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event) < 0) {
         LOG_ERROR("epoll_ctl() failed\n");
-        return EXIT_FAILURE;
+        goto err_epoll;
     }
 
     while (true) {
-        int ret = epoll_wait(epoll_fd, events, 10, -1);
-
-        if (ret > 0) {
-            for (int i = 0; i < ret; ++i) {
+        int epoll_ret = epoll_wait(epoll_fd, events, 10, -1);
+        if (epoll_ret > 0) {
+            for (int i = 0; i < epoll_ret; ++i) {
                 if (events[i].events & EPOLLIN) {
-                    int rc = read(fd, &ev, sizeof(ev));
-                    if (rc == sizeof(ev)) {
+                    int read_ret = read(fd, &ev, sizeof(ev));
+                    if (read_ret == sizeof(ev)) {
                         libtablet2multitouch_handle_event(uinput_fd, &ev);
-                    } else if (rc < 0 && errno != EAGAIN) {
+                    } else if (read_ret < 0 && errno != EAGAIN) {
                         LOG_ERROR("read() failed\n");
                         break;
                     }
                 }
             }
-        } else if (ret < 0) {
+        } else if (epoll_ret < 0) {
             LOG_ERROR("epoll_wait() failed\n");
             break;
         }
     }
 
+    close(epoll_fd);
+err_epoll:
     ioctl(uinput_fd, UI_DEV_DESTROY);
     close(uinput_fd);
+err_setup_uinput:
+err_read_abs:
     close(fd);
-    close(epoll_fd);
-
-    return EXIT_SUCCESS;
+    return EXIT_FAILURE;
 }
