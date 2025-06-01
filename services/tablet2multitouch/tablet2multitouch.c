@@ -69,14 +69,13 @@ int main() {
 
         if (!device_name_matched) {
             LOG_ERROR("%s: Device name mismatching\n", buf);
-        } else if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) == -1) {
-            LOG_ERROR("%s: ioctl(EVIOCGBIT) failed\n", buf);
-        } else if (!test_bit(EV_ABS, ev_bits)) {
-            LOG_ERROR("%s: test_bit(EV_ABS) failed\n", buf);
-        } else if (!test_bit(EV_KEY, ev_bits)) {
-            LOG_ERROR("%s: test_bit(EV_KEY) failed\n", buf);
         } else {
-            goto device_found;
+            if (ioctl(fd, EVIOCGBIT(0, sizeof(ev_bits)), ev_bits) >= 0 &&
+                test_bit(EV_ABS, ev_bits) && test_bit(EV_KEY, ev_bits)) {
+                goto device_found;
+            } else {
+                LOG_ERROR("Device does not meet requirements\n");
+            }
         }
 
         close(fd);
