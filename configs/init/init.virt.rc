@@ -15,13 +15,6 @@ service bt_vhci_forwarder /vendor/bin/true
     disabled
     oneshot
 
-service bt_socket /vendor/bin/true
-    user nobody
-    group system
-    override
-    disabled
-    oneshot
-
 # Boot manager
 service vendor.grub-editenv-set-android_theme /vendor/bin/grub-editenv /mnt/vendor/persist/grubenv set android_theme=${persist.sys.theme}
     user system
