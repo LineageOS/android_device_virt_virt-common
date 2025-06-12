@@ -60,7 +60,7 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    com.google.cf.bt
+    android.hardware.bluetooth-service.default
 
 ifneq ($(PRODUCT_IS_ATV),true)
 ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
@@ -228,6 +228,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
 
 PRODUCT_PACKAGES += \
+    android.hardware.bluetooth.prebuilt.xml \
+    android.hardware.bluetooth_le.prebuilt.xml \
     android.hardware.ethernet.prebuilt.xml \
     android.hardware.usb.host.prebuilt.xml \
     android.hardware.wifi.prebuilt.xml \
