@@ -180,7 +180,7 @@ endif
 BOARD_RAMDISK_USE_LZ4 := true
 
 # Recovery
-TARGET_RECOVERY_UI_LIB := librecovery_ui_virt
+TARGET_RECOVERY_UI_LIB := //$(VIRT_COMMON_PATH):librecovery_ui_virt
 
 ifeq ($(AB_OTA_UPDATER),true)
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
