@@ -20,12 +20,6 @@ package {
 
 cc_library {
     name: "librecovery_ui_virt",
-    cflags: [
-        "-Wall",
-        "-Werror",
-        "-Wextra",
-        "-pedantic",
-    ],
     srcs: [
         "recovery_ui.cpp",
     ],
