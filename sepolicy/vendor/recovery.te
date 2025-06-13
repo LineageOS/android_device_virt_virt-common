@@ -16,6 +16,7 @@ recovery_only(`
     allowxperm recovery rootfs:dir ioctl { 0x204 BLKGETSIZE 0x1272 };
 
     # For /system/bin/preinstall_check. Uses recovery seclabel to avoid some neverallows.
+    set_prop(recovery, vendor_preinstall_check_prop)
     allow recovery block_device:dir r_dir_perms;
     allow recovery block_device:blk_file r_file_perms;
 ')
