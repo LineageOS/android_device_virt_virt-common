@@ -184,7 +184,11 @@ PRODUCT_PACKAGES += \
     android.hardware.security.keymint-service
 
 # Media
+PRODUCT_PACKAGES += \
+    android.hardware.media.c2-ffmpeg-service
+
 PRODUCT_COPY_FILES += \
+    $(VIRT_COMMON_PATH)/configs/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
     device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
     device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml
 
