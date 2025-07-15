@@ -115,7 +115,6 @@ PRODUCT_PACKAGES += \
 
 # First stage init
 PRODUCT_PACKAGES += \
-    linker.vendor_ramdisk \
     resize2fs.vendor_ramdisk \
     shell_and_utilities_vendor_ramdisk \
     tune2fs.vendor_ramdisk
