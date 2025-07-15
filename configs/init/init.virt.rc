@@ -42,6 +42,7 @@ on property:ro.vendor.graphics=swiftshader
     setprop ro.hardware.egl angle
     setprop ro.hardware.vulkan pastel
     setprop ro.opengles.version 196609
+    setprop ro.surface_flinger.native_window_buffers_format 5
     setprop ro.vulkan.apex com.google.cf.vulkan
 
 on early-boot && property:ro.boot.hwui_renderer=*
