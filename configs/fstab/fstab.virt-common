@@ -8,7 +8,7 @@
 /dev/block/by-name/metadata /metadata ext4 nodev,noatime,nosuid,discard,data=journal,commit=1 check,formattable,first_stage_mount,metadata_csum
 
 # Firmware
-/dev/block/by-name/firmware /vendor/firmware_mnt vfat rw,shortname=lower,uid=0,gid=1000,dmask=007,fmask=117,context=u:object_r:firmware_file:s0 nofail
+/dev/block/by-name/firmware /vendor/firmware vfat rw,shortname=lower,uid=0,gid=1000,dmask=007,fmask=117,context=u:object_r:firmware_file:s0 nofail
 
 # Persist
 /dev/block/by-name/persist /mnt/vendor/persist vfat rw,sync,shortname=lower,uid=1000,gid=1000,dmask=007,fmask=117,context=u:object_r:persist_file:s0 formattable

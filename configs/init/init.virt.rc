@@ -30,7 +30,7 @@ service vendor.dlkm_loader /vendor/bin/dlkm_loader
     oneshot
 
 on post-fs
-    write /sys/module/firmware_class/parameters/path /vendor/firmware_mnt/
+    write /sys/module/firmware_class/parameters/path /vendor/firmware/
     start vendor.dlkm_loader
 
 # Graphics

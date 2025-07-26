@@ -10,7 +10,7 @@
 /vendor/bin/tablet2multitouch						u:object_r:tablet2multitouch_exec:s0
 
 # Firmware
-/vendor/firmware_mnt(/.*)?		u:object_r:firmware_file:s0
+/vendor/firmware(/.*)?			u:object_r:firmware_file:s0
 
 # Persist
 /mnt/vendor/persist(/.*)?		u:object_r:persist_file:s0
