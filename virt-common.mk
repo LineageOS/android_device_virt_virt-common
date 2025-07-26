@@ -113,6 +113,10 @@ PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.virt_recovery \
     fastbootd
 
+# Firmware
+PRODUCT_COPY_FILES += \
+    $(VIRT_COMMON_PATH)/configs/misc/.emptyfile:$(TARGET_COPY_OUT_VENDOR)/firmware_mnt/.placeholder
+
 # First stage init
 PRODUCT_PACKAGES += \
     linker.vendor_ramdisk \

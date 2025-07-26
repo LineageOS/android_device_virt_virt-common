@@ -9,10 +9,6 @@ ifeq ($(USES_DEVICE_VIRT_VIRT_COMMON),true)
 # Disk image
 INSTALLED_DISKIMAGE_VDA_TARGET := $(PRODUCT_OUT)/disk-vda.img
 
-# Firmware mount point
-FIRMWARE_MOUNT_POINT := $(TARGET_OUT_VENDOR)/firmware_mnt
-ALL_DEFAULT_INSTALLED_MODULES += $(FIRMWARE_MOUNT_POINT)
-
 # Partition images
 
 ##### BIOS.img #####
