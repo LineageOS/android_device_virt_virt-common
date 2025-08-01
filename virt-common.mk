@@ -343,3 +343,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     CuttlefishTetheringOverlay \
     CuttlefishWifiOverlay
+
+# Window extensions
+ifeq ($(LINEAGE_BUILD),)
+$(call inherit-product, build/target/product/window_extensions.mk)
+endif
