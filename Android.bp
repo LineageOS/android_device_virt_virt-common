@@ -1,2 +1,9 @@
 soong_namespace {
 }
+
+install_symlink {
+    name: "vendor_firmware_mnt_placeholder_symlink",
+    installed_location: "firmware_mnt/.placeholder",
+    symlink_target: "/dev/null",
+    vendor: true,
+}
