@@ -40,6 +40,9 @@ endif
 
 GRUB_DEFAULT_ENV_VARS_FILE := $(VIRT_COMMON_PATH)/configs/misc/grubenv.txt
 
+ifneq ($(TARGET_GRUB_THEME_CUSTOM_MK),)
+include $(TARGET_GRUB_THEME_CUSTOM_MK)
+else
 # $(1): filesystem root directory
 # $(2): path to grub.cfg file
 define install-grub-theme
@@ -48,6 +51,7 @@ define install-grub-theme
 	rm -rf $(1)/boot/grub/themes/$(BOOTMGR_THEME)
 	$(if $(BOOTMGR_THEME), cp -r $(COMMON_GRUB_PATH)/themes/$(BOOTMGR_THEME) $(1)/boot/grub/themes/)
 endef
+endif
 
 # $(1): output file
 # $(2): files to include
