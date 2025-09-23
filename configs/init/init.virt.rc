@@ -1,4 +1,5 @@
 import /vendor/etc/init/hw/init.low_performance.rc
+import /vendor/etc/init/hw/init.mainline.rc
 
 # Block devices
 on early-fs
@@ -22,13 +23,6 @@ on early-init
     setprop ro.sf.lcd_density ${ro.boot.lcd_density:-160}
 
 # DLKM Loader
-service vendor.dlkm_loader /vendor/bin/dlkm_loader
-    class main
-    user root
-    group root system
-    disabled
-    oneshot
-
 on post-fs
     write /sys/module/firmware_class/parameters/path /vendor/firmware_mnt/
     start vendor.dlkm_loader
@@ -72,9 +66,3 @@ service setup_wifi /vendor/bin/setup_wifi --interface=${ro.vendor.virtwifi.port}
 
 on post-fs-data && property:ro.boot.wifi_impl=virt_wifi
     start setup_wifi
-
-# Wi-Fi
-on early-boot
-    mkdir /data/vendor/wifi 0770 wifi wifi
-    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
-    mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi

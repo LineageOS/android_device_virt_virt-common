@@ -6,6 +6,9 @@
 
 USES_DEVICE_VIRT_VIRT_COMMON := true
 
+# Inherit from mainline/common
+include device/mainline/common/BoardConfigMainlineCommon.mk
+
 # Boot manager
 TARGET_GRUB_BOOT_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-boot.cfg
 TARGET_GRUB_INSTALL_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-install.cfg
@@ -21,7 +24,6 @@ BOARD_BOOTCONFIG := \
 # Bootloader
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
-TARGET_NO_BOOTLOADER := true
 
 # Fastboot
 ifeq ($(AB_OTA_UPDATER),true)
@@ -37,11 +39,6 @@ BOARD_EROFS_SHARE_DUP_BLOCKS := true
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USERIMAGES_USE_EXT4 := true
-
-ifeq ($(TARGET_BOOTS_16K),true)
-BOARD_EROFS_BLOCKSIZE := 16384
-BOARD_F2FS_BLOCKSIZE := 16384
-endif
 
 # Graphics (Mesa)
 BOARD_MESA3D_USES_MESON_BUILD := true
@@ -72,11 +69,7 @@ include device/google/cuttlefish/shared/swiftshader/BoardConfig.mk
 
 # Kernel
 BOARD_KERNEL_CMDLINE := \
-    log_buf_len=4M \
-    loop.max_part=7 \
-    printk.devkmsg=on \
-    rw \
-    vt.global_cursor_default=0 \
+    $(MAINLINE_COMMON_KERNEL_PARAMS) \
     androidboot.verifiedbootstate=orange
 
 ifeq ($(EMULATOR_KERNEL_FILE),)
@@ -96,11 +89,6 @@ ifeq ($(PRODUCT_IS_GO),true)
 TARGET_KERNEL_CONFIG += \
     lineageos/go.config
 endif
-endif
-
-# Memory allocator
-ifeq ($(PRODUCT_IS_GO),true)
-MALLOC_SVELTE := true
 endif
 
 # Partitions
@@ -172,19 +160,14 @@ $(call soong_config_set,VIRT_PREINSTALL_CHECK,SUPER_PARTITION_SIZE,$(BOARD_SUPER
 TARGET_BOARD_PLATFORM := virt
 
 # Properties
-TARGET_PRODUCT_PROP := $(VIRT_COMMON_PATH)/configs/properties/product.prop
-TARGET_VENDOR_PROP := $(VIRT_COMMON_PATH)/configs/properties/vendor.prop
+TARGET_PRODUCT_PROP += $(VIRT_COMMON_PATH)/configs/properties/product.prop
+TARGET_VENDOR_PROP += $(VIRT_COMMON_PATH)/configs/properties/vendor.prop
 
 ifneq ($(PRODUCT_IS_ATV),true)
 ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
 TARGET_VENDOR_PROP += \
     $(VIRT_COMMON_PATH)/configs/properties/vendor_bluetooth_profiles.prop
 endif
-endif
-
-ifeq ($(PRODUCT_IS_GO),true)
-TARGET_PRODUCT_PROP += $(VIRT_COMMON_PATH)/configs/properties/product_go.prop
-TARGET_VENDOR_PROP += $(VIRT_COMMON_PATH)/configs/properties/vendor_go.prop
 endif
 
 # Ramdisk
@@ -202,14 +185,8 @@ endif
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(VIRT_COMMON_PATH)
 
-# RIL
-ENABLE_VENDOR_RIL_SERVICE := true
-
-# Security patch level
-VENDOR_SECURITY_PATCH = $(PLATFORM_SECURITY_PATCH)
-
 # SELinux
-BOARD_VENDOR_SEPOLICY_DIRS := \
+BOARD_VENDOR_SEPOLICY_DIRS += \
     $(VIRT_COMMON_PATH)/sepolicy/vendor \
     $(VIRT_COMMON_PATH)/sepolicy/vendor/cuttlefish_graphics \
     $(VIRT_COMMON_PATH)/sepolicy/vendor/minigbm \
@@ -225,9 +202,3 @@ ifeq ($(TARGET_AUDIO_HAL_USE),ranchu-hidl)
 DEVICE_MANIFEST_FILE += \
     device/google/cuttlefish/guest/hals/audio/effects/manifest.xml
 endif
-
-# Wi-Fi
-BOARD_HOSTAPD_DRIVER := NL80211
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
-WPA_SUPPLICANT_VERSION := VER_0_8_X
