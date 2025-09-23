@@ -1,0 +1,4 @@
+firmware_directories /vendor/firmware_mnt
+
+# Serial console
+/dev/hvc*	0666	system	system
