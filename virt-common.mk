@@ -4,49 +4,34 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Defaults
+AB_OTA_UPDATER ?= true
+
+# Inherit from mainline/common
+TARGET_GRAPHICS := mesa
+TARGET_HAS_BATTERY := false
+TARGET_HAS_VIBRATOR := false
+TARGET_SUPPORTS_SUSPEND := false
+TARGET_SUPPORTS_USB_ACCESSORY_MODE := false
+include device/mainline/common/optional/options.mk
+$(call inherit-product, device/mainline/common/mainline_common.mk)
+
 VIRT_COMMON_PATH := device/virt/virt-common
 
 # A/B
-AB_OTA_UPDATER ?= true
 ifeq ($(AB_OTA_UPDATER),true)
 AB_OTA_POSTINSTALL_CONFIG += \
-    RUN_POSTINSTALL_system=true \
-    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
-    FILESYSTEM_TYPE_system=ext4 \
-    POSTINSTALL_OPTIONAL_system=true
+    FILESYSTEM_TYPE_system=ext4
 
 PRODUCT_PACKAGES += \
     android.hardware.boot-service.virt_recovery \
-    com.android.hardware.boot.virt \
-    otapreopt_script \
-    update_engine \
-    update_engine_sideload \
-    update_verifier
-
-PRODUCT_PACKAGES_DEBUG += \
-    update_engine_client
+    com.android.hardware.boot.virt
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 $(call soong_config_set,VIRT_PREINSTALL_CHECK,AB_OTA_UPDATER,$(AB_OTA_UPDATER))
 endif
 
 # Audio
-ifeq ($(TARGET_AUDIO_HAL_USE),ranchu-hidl)
-PRODUCT_PACKAGES += \
-    android.hardware.audio@7.1-impl.ranchu \
-    android.hardware.audio.effect@7.0-impl \
-    android.hardware.audio.service
-
-PRODUCT_COPY_FILES += \
-    frameworks/av/media/libeffects/data/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml
-else
-PRODUCT_PACKAGES += \
-    com.android.hardware.audio
-
-PRODUCT_COPY_FILES += \
-    hardware/interfaces/audio/aidl/default/audio_effects_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects_config.xml
-endif
-
 PRODUCT_PACKAGES += \
     setup_sound_card
 
@@ -59,9 +44,6 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml
 
 # Bluetooth
-PRODUCT_PACKAGES += \
-    android.hardware.bluetooth-service.default
-
 ifneq ($(PRODUCT_IS_ATV),true)
 ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
 # Set the Bluetooth Class of Device
@@ -100,18 +82,9 @@ endif
 PRODUCT_PACKAGES += \
     virt_dhcpclient.recovery
 
-# DLKM Loader
-PRODUCT_PACKAGES += \
-    dlkm_loader
-
-# DRM
-PRODUCT_PACKAGES += \
-    android.hardware.drm@latest-service.clearkey
-
 # Fastbootd
 PRODUCT_PACKAGES += \
-    android.hardware.fastboot-service.virt_recovery \
-    fastbootd
+    android.hardware.fastboot-service.virt_recovery
 
 # Firmware
 PRODUCT_PACKAGES += \
@@ -124,26 +97,8 @@ PRODUCT_PACKAGES += \
     shell_and_utilities_vendor_ramdisk \
     tune2fs.vendor_ramdisk
 
-# Gatekeeper
-PRODUCT_PACKAGES += \
-    com.android.hardware.gatekeeper.nonsecure
-
-# Go
-ifeq ($(PRODUCT_IS_GO),true)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/go_defaults_512.mk)
-$(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackageGo.mk)
-# Enable DM file preopting to reduce first boot time
-PRODUCT_DEX_PREOPT_GENERATE_DM_FILES := true
-PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := verify
-ifeq ($(LINEAGE_BUILD),)
-PRODUCT_PACKAGES += \
-    Launcher3QuickStepGo
-endif
-endif
-
 # Graphics (Mesa)
-PRODUCT_PACKAGES += \
-    mesa3d
+TARGET_MESA_DO_NOT_SET_AS_DEFAULT := true
 
 # Graphics (Swiftshader)
 PRODUCT_PACKAGES += \
@@ -151,16 +106,11 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_REQUIRES_INSECURE_EXECMEM_FOR_SWIFTSHADER := true
 
-# Health
-PRODUCT_PACKAGES += \
-    android.hardware.health-service.cuttlefish_recovery \
-    com.google.cf.health
-
 # Init
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc \
     $(VIRT_COMMON_PATH)/configs/init/init.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.virt.rc \
-    $(VIRT_COMMON_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
+    $(VIRT_COMMON_PATH)/configs/init/ueventd.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.virt.rc
 
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/device_virt_settings.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/device_virt_settings.rc \
@@ -183,18 +133,10 @@ endif
 # Kernel
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
-# Keymint
-PRODUCT_PACKAGES += \
-    android.hardware.security.keymint-service
-
 # Media
 PRODUCT_COPY_FILES += \
     device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
     device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml
-
-# Memtrack
-PRODUCT_PACKAGES += \
-    com.android.hardware.memtrack
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
@@ -205,8 +147,7 @@ ifeq ($(PRODUCT_IS_ATV),true)
 else ifeq ($(PRODUCT_IS_AUTOMOTIVE),true)
 # nothing
 else ifeq ($(PRODUCT_IS_GO),true)
-DEVICE_PACKAGE_OVERLAYS += \
-    $(VIRT_COMMON_PATH)/overlays/overlay-go
+# nothing
 else
 PRODUCT_PACKAGE_OVERLAYS += \
     $(VIRT_COMMON_PATH)/overlays/product_overlay-tablet
@@ -217,21 +158,16 @@ DEVICE_PACKAGE_OVERLAYS += \
     $(VIRT_COMMON_PATH)/overlays/overlay-lineage
 endif
 
-PRODUCT_ENFORCE_RRO_TARGETS := *
-
 PRODUCT_PACKAGES += \
+    AodDefaultOnOverlay \
     LowPerformanceSettingsProviderOverlay
 
 # Page size
 PRODUCT_CHECK_PREBUILT_MAX_PAGE_SIZE := true
-PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 16384
-PRODUCT_NO_BIONIC_PAGE_SIZE_MACRO := true
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.software.credentials.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.credentials.xml \
-    frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
 
 PRODUCT_PACKAGES += \
     android.hardware.bluetooth.prebuilt.xml \
@@ -239,8 +175,7 @@ PRODUCT_PACKAGES += \
     android.hardware.ethernet.prebuilt.xml \
     android.hardware.usb.host.prebuilt.xml \
     android.hardware.wifi.prebuilt.xml \
-    android.hardware.wifi.direct.prebuilt.xml \
-    android.software.ipsec_tunnels.prebuilt.xml
+    android.hardware.wifi.direct.prebuilt.xml
 
 ifeq ($(PRODUCT_IS_ATV),true)
 # nothing
@@ -248,8 +183,7 @@ else ifeq ($(PRODUCT_IS_AUTOMOTIVE),true)
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/car_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/car_core_hardware.xml
 else ifeq ($(PRODUCT_IS_GO),true)
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/go_handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/go_handheld_core_hardware.xml
+# nothing
 else
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/misc/android.hardware.type.pc.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.type.pc.xml \
@@ -263,14 +197,10 @@ PRODUCT_PACKAGES += \
     android.software.vulkan.deqp.level-latest.prebuilt.xml \
     android.software.opengles.deqp.level-latest.prebuilt.xml
 
-# Power
-PRODUCT_PACKAGES += \
-    com.android.hardware.power
-
 # Recovery
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/init.recovery.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.virt.rc \
-    $(VIRT_COMMON_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.rc \
+    $(VIRT_COMMON_PATH)/configs/init/ueventd.virt.rc:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/ueventd.virt.rc \
     $(VIRT_COMMON_PATH)/configs/scripts/create_partition_table.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/create_partition_table.sh \
     $(VIRT_COMMON_PATH)/configs/scripts/flash_persist_partition.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/flash_persist_partition.sh \
     device/google/cuttlefish/shared/config/cgroups.json:$(TARGET_COPY_OUT_RECOVERY)/root/vendor/etc/cgroups.json
@@ -286,20 +216,12 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    device/generic/goldfish \
     $(VIRT_COMMON_PATH)
-
-# Suspend blocker
-PRODUCT_PACKAGES += \
-    suspend_blocker
 
 # Tablet to multitouch
 PRODUCT_PACKAGES += \
     tablet2multitouch \
     tablet2multitouch_recovery
-
-# UFFD GC
-PRODUCT_ENABLE_UFFD_GC := true
 
 # Utilities
 PRODUCT_COPY_FILES += \
@@ -311,12 +233,6 @@ PRODUCT_PACKAGES += \
     grub_boot_control \
     grub_boot_control.recovery \
     sgdisk.recovery
-
-PRODUCT_PACKAGES_DEBUG += \
-    tinycap2 \
-    tinymix2 \
-    tinypcminfo2 \
-    tinyplay2
 
 PRODUCT_HOST_PACKAGES += \
     grub-editenv \
@@ -335,10 +251,6 @@ PRODUCT_COPY_FILES += \
     device/google/cuttlefish/shared/config/p2p_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant.conf \
     device/google/cuttlefish/shared/config/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
     external/wpa_supplicant_8/wpa_supplicant/wpa_supplicant_template.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf
-
-PRODUCT_PACKAGES += \
-    hostapd \
-    wpa_supplicant
 
 PRODUCT_PACKAGES += \
     CuttlefishTetheringOverlay \
