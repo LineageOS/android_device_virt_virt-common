@@ -1,2 +1,0 @@
-dontaudit crash_dump file_type:dir *;
-dontaudit crash_dump file_type:file *;
