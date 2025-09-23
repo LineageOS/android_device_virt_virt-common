@@ -6,12 +6,8 @@
 
 cc_library_static {
     name: "libinit_virt",
-    srcs: [
-        "libinit_dalvik_heap.cpp",
-        "libinit_utils.cpp",
-        "libinit_virt.cpp",
-    ],
-    whole_static_libs: ["libbase"],
+    srcs: ["libinit_virt.cpp"],
+    whole_static_libs: ["//device/mainline/common:libinit_mainline_common"],
     export_include_dirs: ["include"],
     recovery_available: true,
 }

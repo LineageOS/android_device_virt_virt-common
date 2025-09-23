@@ -1,3 +1,0 @@
-gpu_access(bootanim)
-
-allow bootanim tmpfs:file write;
