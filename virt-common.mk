@@ -8,6 +8,7 @@
 AB_OTA_UPDATER ?= true
 
 # Inherit from mainline/common
+TARGET_ENABLE_LOGCAT_TO_SERIAL := true
 TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
 TARGET_HAS_VIBRATOR := false
