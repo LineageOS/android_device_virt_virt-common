@@ -153,6 +153,10 @@ PRODUCT_PACKAGES += \
     android.hardware.health-service.cuttlefish_recovery \
     com.google.cf.health
 
+# HIDL
+PRODUCT_PACKAGES_SHIPPING_API_LEVEL_34 += \
+    vndservicemanager
+
 # Init
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc \
