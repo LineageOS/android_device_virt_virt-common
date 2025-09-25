@@ -107,6 +107,10 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_REQUIRES_INSECURE_EXECMEM_FOR_SWIFTSHADER := true
 
+# HIDL
+PRODUCT_PACKAGES_SHIPPING_API_LEVEL_34 += \
+    vndservicemanager
+
 # Init
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/init.low_performance.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.low_performance.rc \
