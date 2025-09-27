@@ -167,7 +167,6 @@ BOARD_VENDOR_SEPOLICY_DIRS += \
     $(VIRT_COMMON_PATH)/sepolicy/vendor \
     $(VIRT_COMMON_PATH)/sepolicy/vendor/cuttlefish_graphics \
     device/google/cuttlefish/shared/sensors/sepolicy \
-    device/google/cuttlefish/shared/swiftshader/sepolicy \
     device/google/cuttlefish/shared/virgl/sepolicy
 
 SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(VIRT_COMMON_PATH)/sepolicy/private

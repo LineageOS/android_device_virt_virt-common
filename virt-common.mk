@@ -13,6 +13,7 @@ TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
 TARGET_HAS_VIBRATOR := false
 TARGET_LIGHT_HAL := none
+TARGET_SENSORS_HAL := cuttlefish
 TARGET_SUPPORTS_SUSPEND := false
 TARGET_SUPPORTS_USB_ACCESSORY_MODE := false
 include device/mainline/common/optional/options.mk
@@ -213,9 +214,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     preinstall_check
-
-# Sensors
-$(call inherit-product, device/google/cuttlefish/shared/sensors/device_vendor.mk)
 
 # Scoped Storage
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
