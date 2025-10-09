@@ -45,6 +45,8 @@ int libtablet2multitouch_setup_uinput_device(const struct uinput_setup* usetup,
     ioctl(uinput_fd, UI_SET_KEYBIT, KEY_MENU);
     ioctl(uinput_fd, UI_SET_KEYBIT, KEY_UP);
     ioctl(uinput_fd, UI_SET_KEYBIT, KEY_DOWN);
+    ioctl(uinput_fd, UI_SET_KEYBIT, KEY_VOLUMEUP);
+    ioctl(uinput_fd, UI_SET_KEYBIT, KEY_VOLUMEDOWN);
 
     ioctl(uinput_fd, UI_SET_EVBIT, EV_ABS);
     ioctl(uinput_fd, UI_SET_ABSBIT, ABS_X);
@@ -224,6 +226,20 @@ void libtablet2multitouch_handle_event(int uinput_fd, struct input_event* ev) {
             } else {
                 libtablet2multitouch_report_key(uinput_fd, trans_keycode, *value);
             }
+            pending_report = true;
+            return;
+
+        case EV_REL:
+            if (*code != REL_WHEEL) return;
+
+            if (*value == 1)
+                trans_keycode = KEY_VOLUMEUP;
+            else
+                trans_keycode = KEY_VOLUMEDOWN;
+
+            libtablet2multitouch_report_key(uinput_fd, trans_keycode, 1);
+            libtablet2multitouch_report_key(uinput_fd, trans_keycode, 0);
+
             pending_report = true;
             return;
 
