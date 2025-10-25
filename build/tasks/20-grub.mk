@@ -40,6 +40,9 @@ endif
 
 GRUB_DEFAULT_ENV_VARS_FILE := $(VIRT_COMMON_PATH)/configs/misc/grubenv.txt
 
+ifneq ($(TARGET_GRUB_THEME_CUSTOM_MK),)
+include $(TARGET_GRUB_THEME_CUSTOM_MK)
+else
 # $(1): filesystem root directory
 # $(2): path to grub.cfg file
 define install-grub-theme
@@ -52,6 +55,7 @@ define install-grub-theme
 		sed -i "s|@LINEAGE_VERSION@|$(LINEAGE_VERSION)|g" $(1)/boot/grub/themes/lineage/dark/theme.txt $(1)/boot/grub/themes/lineage/light/theme.txt;\
 	)
 endef
+endif
 
 # $(1): output file
 # $(2): files to include
