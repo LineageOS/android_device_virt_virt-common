@@ -1,4 +1,4 @@
-service vendor.boot-default /apex/com.android.hardware.boot.virt/bin/hw/android.hardware.boot-service.virt
+service vendor.boot-default /apex/com.android.hardware.boot/bin/hw/android.hardware.boot-service.virt
     class early_hal
     user system
     group system

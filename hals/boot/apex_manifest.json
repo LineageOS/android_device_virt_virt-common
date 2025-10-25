@@ -1,5 +1,5 @@
 {
-    "name": "com.android.hardware.boot.virt",
+    "name": "com.android.hardware.boot",
     "version": 1,
     "vendorBootstrap": true
 }
