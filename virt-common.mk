@@ -27,8 +27,8 @@ AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4
 
 PRODUCT_PACKAGES += \
-    android.hardware.boot-service.virt_recovery \
-    com.android.hardware.boot.virt
+    android.hardware.boot-service.grub_recovery \
+    com.android.hardware.boot.grub
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 $(call soong_config_set,VIRT_PREINSTALL_CHECK,AB_OTA_UPDATER,$(AB_OTA_UPDATER))

@@ -14,6 +14,6 @@ cc_library {
     vendor: true,
     apex_available: [
         "//apex_available:platform",
-        "com.android.hardware.boot.virt",
+        "com.android.hardware.boot.grub",
     ],
 }

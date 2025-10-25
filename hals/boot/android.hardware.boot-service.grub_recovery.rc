@@ -1,4 +1,4 @@
-service vendor.boot-default /system/bin/hw/android.hardware.boot-service.virt_recovery
+service vendor.boot-default /system/bin/hw/android.hardware.boot-service.grub_recovery
     class early_hal
     user system
     group system

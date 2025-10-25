@@ -55,40 +55,40 @@ MergeStatus ConvertGrubStringToMergeStatus(std::string str) {
 
 BootControl::BootControl() {
 #if defined(__ANDROID_RECOVERY__)
-    mBackendGrub =
+    mBackend =
             new libgrub_boot_control::GrubBootControl("/mnt/vendor/_persist/grubenv_abootctrl");
 #else
-    mBackendGrub = new libgrub_boot_control::GrubBootControl();
+    mBackend = new libgrub_boot_control::GrubBootControl();
 #endif
 }
 
 ScopedAStatus BootControl::getActiveBootSlot(int32_t* _aidl_return) {
-    *_aidl_return = mBackendGrub->getActiveBootSlot();
+    *_aidl_return = mBackend->getActiveBootSlot();
     return ScopedAStatus::ok();
 }
 
 ScopedAStatus BootControl::getCurrentSlot(int32_t* _aidl_return) {
-    *_aidl_return = mBackendGrub->getCurrentSlot();
+    *_aidl_return = mBackend->getCurrentSlot();
     return ScopedAStatus::ok();
 }
 
 ScopedAStatus BootControl::getNumberSlots(int32_t* _aidl_return) {
-    *_aidl_return = mBackendGrub->getNumberSlots();
+    *_aidl_return = mBackend->getNumberSlots();
     return ScopedAStatus::ok();
 }
 
 ScopedAStatus BootControl::getSnapshotMergeStatus(MergeStatus* _aidl_return) {
-    *_aidl_return = ConvertGrubStringToMergeStatus(mBackendGrub->getSnapshotMergeStatus());
+    *_aidl_return = ConvertGrubStringToMergeStatus(mBackend->getSnapshotMergeStatus());
     return ScopedAStatus::ok();
 }
 
 ScopedAStatus BootControl::getSuffix(int32_t in_slot, std::string* _aidl_return) {
-    *_aidl_return = mBackendGrub->getSuffix(in_slot);
+    *_aidl_return = mBackend->getSuffix(in_slot);
     return ScopedAStatus::ok();
 }
 
 ScopedAStatus BootControl::isSlotBootable(int32_t in_slot, bool* _aidl_return) {
-    int32_t val = mBackendGrub->isSlotBootable(in_slot);
+    int32_t val = mBackend->isSlotBootable(in_slot);
     if (val == INVALID_SLOT) {
         return ScopedAStatus::fromServiceSpecificErrorWithMessage(
                 INVALID_SLOT, (std::string("Invalid slot ") + std::to_string(in_slot)).c_str());
@@ -98,7 +98,7 @@ ScopedAStatus BootControl::isSlotBootable(int32_t in_slot, bool* _aidl_return) {
 }
 
 ScopedAStatus BootControl::isSlotMarkedSuccessful(int32_t in_slot, bool* _aidl_return) {
-    int32_t val = mBackendGrub->isSlotMarkedSuccessful(in_slot);
+    int32_t val = mBackend->isSlotMarkedSuccessful(in_slot);
     if (val == INVALID_SLOT) {
         return ScopedAStatus::fromServiceSpecificErrorWithMessage(
                 INVALID_SLOT, (std::string("Invalid slot ") + std::to_string(in_slot)).c_str());
@@ -108,7 +108,7 @@ ScopedAStatus BootControl::isSlotMarkedSuccessful(int32_t in_slot, bool* _aidl_r
 }
 
 ScopedAStatus BootControl::markBootSuccessful() {
-    int32_t ret = mBackendGrub->markBootSuccessful();
+    int32_t ret = mBackend->markBootSuccessful();
     if (ret == COMMAND_FAILED) {
         return ScopedAStatus::fromServiceSpecificErrorWithMessage(COMMAND_FAILED,
                                                                   "Operation failed");
@@ -117,7 +117,7 @@ ScopedAStatus BootControl::markBootSuccessful() {
 }
 
 ScopedAStatus BootControl::setActiveBootSlot(int32_t in_slot) {
-    int32_t ret = mBackendGrub->setActiveBootSlot(in_slot);
+    int32_t ret = mBackend->setActiveBootSlot(in_slot);
     switch (ret) {
         case COMMAND_FAILED:
             return ScopedAStatus::fromServiceSpecificErrorWithMessage(COMMAND_FAILED,
@@ -132,7 +132,7 @@ ScopedAStatus BootControl::setActiveBootSlot(int32_t in_slot) {
 }
 
 ScopedAStatus BootControl::setSlotAsUnbootable(int32_t in_slot) {
-    int32_t ret = mBackendGrub->setSlotAsUnbootable(in_slot);
+    int32_t ret = mBackend->setSlotAsUnbootable(in_slot);
     switch (ret) {
         case COMMAND_FAILED:
             return ScopedAStatus::fromServiceSpecificErrorWithMessage(COMMAND_FAILED,
@@ -147,7 +147,7 @@ ScopedAStatus BootControl::setSlotAsUnbootable(int32_t in_slot) {
 }
 
 ScopedAStatus BootControl::setSnapshotMergeStatus(MergeStatus in_status) {
-    int32_t ret = mBackendGrub->setSnapshotMergeStatus(ConvertMergeStatusToGrubString(in_status));
+    int32_t ret = mBackend->setSnapshotMergeStatus(ConvertMergeStatusToGrubString(in_status));
     if (ret == COMMAND_FAILED) {
         return ScopedAStatus::fromServiceSpecificErrorWithMessage(COMMAND_FAILED,
                                                                   "Operation failed");

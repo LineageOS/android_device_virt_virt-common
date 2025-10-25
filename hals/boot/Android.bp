@@ -15,7 +15,7 @@
 //
 
 cc_defaults {
-    name: "android.hardware.boot-service.virt_common",
+    name: "android.hardware.boot-service.grub_common",
     relative_install_path: "hw",
     defaults: ["libboot_control_defaults"],
     srcs: [
@@ -25,8 +25,8 @@ cc_defaults {
 }
 
 cc_binary {
-    name: "android.hardware.boot-service.virt",
-    defaults: ["android.hardware.boot-service.virt_common"],
+    name: "android.hardware.boot-service.grub",
+    defaults: ["android.hardware.boot-service.grub_common"],
     vendor: true,
 
     stl: "c++_static",
@@ -45,10 +45,10 @@ cc_binary {
 }
 
 cc_binary {
-    name: "android.hardware.boot-service.virt_recovery",
-    defaults: ["android.hardware.boot-service.virt_common"],
-    init_rc: ["android.hardware.boot-service.virt_recovery.rc"],
-    vintf_fragments: ["android.hardware.boot-service.virt.xml"],
+    name: "android.hardware.boot-service.grub_recovery",
+    defaults: ["android.hardware.boot-service.grub_common"],
+    init_rc: ["android.hardware.boot-service.grub_recovery.rc"],
+    vintf_fragments: ["android.hardware.boot-service.grub.xml"],
     recovery: true,
 
     shared_libs: [
@@ -61,20 +61,20 @@ cc_binary {
 }
 
 prebuilt_etc {
-    name: "android.hardware.boot-service.virt.rc",
-    src: "android.hardware.boot-service.virt.rc",
+    name: "android.hardware.boot-service.grub.rc",
+    src: "android.hardware.boot-service.grub.rc",
     installable: false,
 }
 
 prebuilt_etc {
-    name: "android.hardware.boot-service.virt.xml",
-    src: "android.hardware.boot-service.virt.xml",
+    name: "android.hardware.boot-service.grub.xml",
+    src: "android.hardware.boot-service.grub.xml",
     sub_dir: "vintf",
     installable: false,
 }
 
 apex {
-    name: "com.android.hardware.boot.virt",
+    name: "com.android.hardware.boot.grub",
     vendor: true,
     manifest: "apex_manifest.json",
     file_contexts: "apex_file_contexts",
@@ -83,10 +83,10 @@ apex {
     updatable: false,
 
     binaries: [
-        "android.hardware.boot-service.virt",
+        "android.hardware.boot-service.grub",
     ],
     prebuilts: [
-        "android.hardware.boot-service.virt.rc",
-        "android.hardware.boot-service.virt.xml",
+        "android.hardware.boot-service.grub.rc",
+        "android.hardware.boot-service.grub.xml",
     ],
 }

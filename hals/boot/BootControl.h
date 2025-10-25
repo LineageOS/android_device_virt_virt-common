@@ -40,7 +40,7 @@ class BootControl final : public BnBootControl {
             ::aidl::android::hardware::boot::MergeStatus in_status) override;
 
   private:
-    ::libgrub_boot_control::GrubBootControl* mBackendGrub;
+    ::libgrub_boot_control::GrubBootControl* mBackend;
 };
 
 }  // namespace aidl::android::hardware::boot
