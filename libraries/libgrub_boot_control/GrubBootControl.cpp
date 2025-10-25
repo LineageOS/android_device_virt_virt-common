@@ -34,7 +34,7 @@ const string kItemSlotIsSuccessful = "is_successful";  // default is false
 // Should be set by GRUB prior to booting entry
 const string kItemGlobalActiveSlot = "active_slot";    // e.g. "a"
 const string kItemGlobalCurrentSlot = "current_slot";  // e.g. "a"
-const string kItemSlotBootCount = "boot_count";    // default is empty. length of its value = times
+const string kItemSlotRetryCount = "retry_count";  // default is empty. length of its value = times
                                                    // that GRUB tried to boot the slot
 const string kItemSlotIsBootable = "is_bootable";  // default is true.
 
@@ -48,7 +48,7 @@ const vector<const string*> kAllGlobalItems = {
 };
 
 const vector<const string*> kAllSlotItems = {
-        &kItemSlotBootCount,
+        &kItemSlotRetryCount,
         &kItemSlotIsBootable,
         &kItemSlotIsSuccessful,
 };
@@ -86,19 +86,19 @@ void GrubBootControl::InitGrubVars() {
     SetItemValueForGlobal(kItemGlobalCurrentSlot, current_slot, false);
 
     // Slot
-    SetItemValueForAllSlots(kItemSlotBootCount, "", false);
+    SetItemValueForAllSlots(kItemSlotRetryCount, "", false);
     SetItemValueForAllSlots(kItemSlotIsBootable, "true", false);
     SetItemValueForAllSlots(kItemSlotIsSuccessful, "false", false);
 }
 
-void GrubBootControl::DecreaseBootCountForCurrentSlot() {
+void GrubBootControl::DecreaseRetryCountForCurrentSlot() {
     // getCurrentSlot() may return invalid slot number (on error)
     int slot = getCurrentSlot();
     if (!IsValidSlot(slot)) return;
 
-    string boot_count_str = GetItemValueForSlot(slot, kItemSlotBootCount);
-    if (!boot_count_str.empty()) boot_count_str.pop_back();
-    SetItemValueForSlot(slot, kItemSlotBootCount, boot_count_str);
+    string retry_count_str = GetItemValueForSlot(slot, kItemSlotRetryCount);
+    if (!retry_count_str.empty()) retry_count_str.pop_back();
+    SetItemValueForSlot(slot, kItemSlotRetryCount, retry_count_str);
 }
 
 // android.hardware.boot
@@ -154,7 +154,7 @@ int GrubBootControl::markBootSuccessful() {
     if (!IsValidSlot(slot)) return COMMAND_FAILED;
 
     // Ensure GRUB would consider the slot as bootable next time
-    SetItemValueForSlot(slot, kItemSlotBootCount, "", false);
+    SetItemValueForSlot(slot, kItemSlotRetryCount, "", false);
     SetItemValueForSlot(slot, kItemSlotIsBootable, "true", false);
 
     SetItemValueForSlot(slot, kItemSlotIsSuccessful, "true", false);
@@ -168,7 +168,7 @@ int GrubBootControl::setActiveBootSlot(int slot) {
     if (!IsValidSlot(slot)) return INVALID_SLOT;
 
     // Ensure GRUB would consider the slot as bootable next time
-    SetItemValueForSlot(slot, kItemSlotBootCount, "", false);
+    SetItemValueForSlot(slot, kItemSlotRetryCount, "", false);
     SetItemValueForSlot(slot, kItemSlotIsBootable, "true", false);
 
     SetItemValueForGlobal(kItemGlobalActiveSlot, GetStringFromSlotNumber(slot), false);
