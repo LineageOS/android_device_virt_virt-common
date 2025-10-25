@@ -8,6 +8,7 @@
 AB_OTA_UPDATER ?= true
 
 # Inherit from mainline/common
+TARGET_BOOT_HAL := grub
 TARGET_ENABLE_LOGCAT_TO_SERIAL := true
 TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
@@ -25,10 +26,6 @@ VIRT_COMMON_PATH := device/virt/virt-common
 ifeq ($(AB_OTA_UPDATER),true)
 AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_system=ext4
-
-PRODUCT_PACKAGES += \
-    android.hardware.boot-service.grub_recovery \
-    com.android.hardware.boot.grub
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 $(call soong_config_set,VIRT_PREINSTALL_CHECK,AB_OTA_UPDATER,$(AB_OTA_UPDATER))
