@@ -45,7 +45,7 @@ GrubBootControl::GrubBootControl(string grubenv_path, vector<string> slots, stri
     }
 
 #if defined(__ANDROID_RECOVERY__)
-    DecreaseBootCountForCurrentSlot();
+    DecreaseRetryCountForCurrentSlot();
 #endif
 }
 
