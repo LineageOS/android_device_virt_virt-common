@@ -13,7 +13,6 @@ cc_library {
     recovery_available: true,
     vendor: true,
     apex_available: [
-        "//apex_available:platform",
         "com.android.hardware.boot.grub",
     ],
 }

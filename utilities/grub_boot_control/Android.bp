@@ -16,7 +16,4 @@ cc_binary {
     host_supported: true,
     recovery_available: true,
     vendor: true,
-    apex_available: [
-        "//apex_available:platform",
-    ],
 }
