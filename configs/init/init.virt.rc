@@ -36,7 +36,7 @@ on property:ro.vendor.graphics=mesa
 
 on property:ro.vendor.graphics=mesa_swrast
     setprop ro.hardware.egl mesa
-    setprop ro.hardware.vulkan lvp
+    setprop ro.hardware.vulkan lvp_mesa3d
     setprop ro.opengles.version 196610
     setprop ro.surface_flinger.native_window_buffers_format 5
     setprop vendor.mesa.android.no.kms.swrast true
