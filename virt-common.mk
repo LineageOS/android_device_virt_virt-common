@@ -121,6 +121,7 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/scripts/device_virt_settings.sh:$(TARGET_COPY_OUT_PRODUCT)/bin/device_virt_settings.sh
 
 $(call soong_config_set,libinit,vendor_init_lib,//$(VIRT_COMMON_PATH):init_virt)
+$(call soong_config_set,mainline_common_libinit,set_properties_from,dmi_id)
 
 # Input
 PRODUCT_COPY_FILES += \
