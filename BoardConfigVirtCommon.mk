@@ -57,14 +57,14 @@ BOARD_VENDOR_KERNEL_MODULES_LOAD := \
 endif
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
-TARGET_KERNEL_CONFIG := \
-    gki_defconfig \
-    lineageos/peripheral/bluetooth.config \
-    lineageos/peripheral/wifi.config \
-    lineageos/feature/fbcon.config
+TARGET_KERNEL_CONFIG := gki_defconfig
+TARGET_KERNEL_CONFIG_EXT := \
+    $(VIRT_COMMON_PATH)/configs/kernel/bluetooth.config \
+    $(VIRT_COMMON_PATH)/configs/kernel/wifi.config \
+    kernel/mainline/configs/fragments/y/fbcon.config
 ifeq ($(PRODUCT_IS_GO),true)
-TARGET_KERNEL_CONFIG += \
-    lineageos/go.config
+TARGET_KERNEL_CONFIG_EXT += \
+    kernel/mainline/configs/fragments/n/go.config
 endif
 endif
 
