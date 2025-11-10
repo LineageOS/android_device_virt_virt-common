@@ -4,12 +4,6 @@ set_prop(init, vendor_audio_prop)
 # Block device
 allow init persist_block_device:blk_file relabelto;
 
-# DHCP
-recovery_only(`
-    get_prop(init, vendor_recovery_ethernet_dhcp_prop)
-    set_prop(init, vendor_recovery_ethernet_dhcp_prop)
-')
-
 # EFI
 allow init efi_file:filesystem { mount unmount relabelfrom relabelto };
 

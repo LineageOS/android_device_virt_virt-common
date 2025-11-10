@@ -10,6 +10,7 @@ AB_OTA_UPDATER ?= true
 # Inherit from mainline/common
 TARGET_BOOT_HAL := grub
 TARGET_ENABLE_LOGCAT_TO_SERIAL := true
+TARGET_ENABLE_RECOVERY_ETHERNET_DHCP := true
 TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
 TARGET_HAS_VIBRATOR := false
@@ -77,10 +78,6 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 else
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 endif
-
-# DHCP client
-PRODUCT_PACKAGES += \
-    virt_dhcpclient.recovery
 
 # Fastbootd
 PRODUCT_PACKAGES += \

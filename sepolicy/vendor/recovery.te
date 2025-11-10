@@ -1,6 +1,4 @@
 recovery_only(`
-    get_prop(recovery, vendor_recovery_ethernet_dhcp_prop)
-
     # For /system/bin/preinstall_check. Uses recovery seclabel to avoid some neverallows.
     set_prop(recovery, vendor_preinstall_check_prop)
     allow recovery block_device:dir r_dir_perms;

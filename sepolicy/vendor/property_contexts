@@ -5,15 +5,9 @@ ro.hardware.audio.tinyalsa.	u:object_r:vendor_audio_prop:s0
 # Create partition table
 vendor.create_partition_table.	u:object_r:vendor_create_partition_table_prop:s0
 
-# DHCP
-vendor.recovery.ethernet.dhcp.iface		u:object_r:vendor_recovery_ethernet_dhcp_prop:s0 exact string
-
 # Graphics
 ro.vendor.graphics		u:object_r:vendor_graphics_prop:s0
 ro.vendor.graphics.		u:object_r:vendor_graphics_prop:s0
-
-# Net
-vendor.net.		u:object_r:vendor_net_prop:s0 exact string
 
 # Preinstall check
 vendor.preinstall_check.success		u:object_r:vendor_preinstall_check_prop:s0 exact int
