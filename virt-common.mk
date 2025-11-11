@@ -248,5 +248,5 @@ PRODUCT_PACKAGES += \
 
 # Window extensions
 ifeq ($(LINEAGE_BUILD),)
-$(call inherit-product, build/target/product/window_extensions.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
 endif
