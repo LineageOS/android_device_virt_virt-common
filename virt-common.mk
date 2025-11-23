@@ -13,6 +13,7 @@ TARGET_ENABLE_RECOVERY_ETHERNET_DHCP := true
 TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
 TARGET_HAS_VIBRATOR := false
+TARGET_HOSTAPD_AND_WPA_SUPPLICANT_FORM := apex_mainline-common
 TARGET_LIGHT_HAL := none
 TARGET_SENSORS_HAL := cuttlefish
 TARGET_SUPPORTS_SUSPEND := false
@@ -237,14 +238,11 @@ PRODUCT_PACKAGES += \
     setup_wifi
 
 # Wi-Fi
-PRODUCT_COPY_FILES += \
-    device/google/cuttlefish/shared/config/p2p_supplicant.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant.conf \
-    device/google/cuttlefish/shared/config/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
-    external/wpa_supplicant_8/wpa_supplicant/wpa_supplicant_template.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant.conf
-
 PRODUCT_PACKAGES += \
     CuttlefishTetheringOverlay \
     CuttlefishWifiOverlay
+
+$(call soong_config_set_string_list,mainline_common_apex_wpa_supplicant,include_prebuilts,p2p_supplicant.conf.cf wpa_supplicant.conf.cf wpa_supplicant_overlay.conf.cf)
 
 # Window extensions
 ifeq ($(LINEAGE_BUILD),)
