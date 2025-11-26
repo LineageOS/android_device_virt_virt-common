@@ -61,10 +61,6 @@ TARGET_KERNEL_CONFIG_EXT := \
     $(VIRT_COMMON_PATH)/configs/kernel/bluetooth.config \
     $(VIRT_COMMON_PATH)/configs/kernel/wifi.config \
     kernel/mainline/configs/fragments/y/fbcon.config
-ifeq ($(PRODUCT_IS_GO),true)
-TARGET_KERNEL_CONFIG_EXT += \
-    kernel/mainline/configs/fragments/n/go.config
-endif
 endif
 
 # Partitions
