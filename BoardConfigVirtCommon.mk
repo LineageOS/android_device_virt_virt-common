@@ -48,10 +48,15 @@ BOARD_KERNEL_CMDLINE := \
     $(MAINLINE_COMMON_KERNEL_PARAMS) \
     androidboot.verifiedbootstate=orange
 
+BOARD_SYSTEM_KERNEL_MODULES_LOAD := \
+    zram.ko
 BOARD_VENDOR_KERNEL_MODULES_LOAD := \
     btusb.ko \
     cfg80211.ko \
     virt_wifi.ko
+SYSTEM_KERNEL_MODULES := \
+    $(BOARD_SYSTEM_KERNEL_MODULES_LOAD) \
+    zsmalloc.ko
 
 ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
 TARGET_KERNEL_CONFIG := gki_defconfig

@@ -65,3 +65,7 @@ service setup_wifi /vendor/bin/setup_wifi --interface=${ro.vendor.virtwifi.port}
 
 on post-fs-data && property:ro.boot.wifi_impl=virt_wifi
     start setup_wifi
+
+# ZRAM
+on zygote-start && property:ro.boot.zram=*
+    setprop persist.sys.zram_enabled ${ro.boot.zram}

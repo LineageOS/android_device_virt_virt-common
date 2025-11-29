@@ -18,3 +18,6 @@
 
 # USB
 /devices/*/usb* auto auto defaults voldmanaged=usb:auto
+
+# ZRAM
+/dev/block/zram0 none swap defaults zramsize=50%
