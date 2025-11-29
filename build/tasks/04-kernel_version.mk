@@ -14,9 +14,6 @@ else ifneq ($(wildcard $(TARGET_PREBUILT_KERNEL_DIR)/kernel),)
     else
         LOCAL_KERNEL_VERSION := $(TARGET_PREBUILT_KERNEL_USE)
     endif
-else
-    LOCAL_KERNEL_VERSION_DISPLAY_PREFIX := Emulator kernel version
-    LOCAL_KERNEL_VERSION := $(TARGET_PREBUILT_EMULATOR_KERNEL_USE)
 endif
 
 INSTALLED_KERNEL_VERSION_TXT_TARGET := $(PRODUCT_OUT)/.kernel_version.txt
