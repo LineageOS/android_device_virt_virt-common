@@ -110,6 +110,9 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/device_virt_settings.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/device_virt_settings.rc \
     $(VIRT_COMMON_PATH)/configs/scripts/device_virt_settings.sh:$(TARGET_COPY_OUT_PRODUCT)/bin/device_virt_settings.sh
 
+PRODUCT_PACKAGES += \
+    zram.rc
+
 $(call soong_config_set,libinit,vendor_init_lib,//$(VIRT_COMMON_PATH):init_virt)
 
 # Input
