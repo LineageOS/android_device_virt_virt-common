@@ -177,8 +177,7 @@ PRODUCT_PACKAGES += \
 ifeq ($(PRODUCT_IS_ATV),true)
 # nothing
 else ifeq ($(PRODUCT_IS_AUTOMOTIVE),true)
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/car_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/car_core_hardware.xml
+# nothing
 else ifeq ($(PRODUCT_IS_GO),true)
 # nothing
 else
