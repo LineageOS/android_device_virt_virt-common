@@ -24,11 +24,11 @@ on early-init
 
 # DLKM Loader
 on early-init
-    stop vendor.dlkm_loader
+    stop vendor.dlkm_loader_mainline
 
 on post-fs
     write /sys/module/firmware_class/parameters/path /vendor/firmware_mnt/
-    start vendor.dlkm_loader
+    start vendor.dlkm_loader_mainline
 
 # Graphics
 on property:ro.vendor.graphics=mesa
