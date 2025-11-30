@@ -22,13 +22,10 @@ on property:persist.sys.theme=*
 on early-init
     setprop ro.sf.lcd_density ${ro.boot.lcd_density:-160}
 
-# DLKM Loader
+# Firmware
 on early-init
-    stop vendor.dlkm_loader
-
-on post-fs
+    mount vfat /dev/block/by-name/firmware /vendor/firmware_mnt rw shortname=lower,uid=0,gid=1000,dmask=007,fmask=117,context=u:object_r:firmware_file:s0
     write /sys/module/firmware_class/parameters/path /vendor/firmware_mnt/
-    start vendor.dlkm_loader
 
 # Graphics
 on property:ro.vendor.graphics=mesa
