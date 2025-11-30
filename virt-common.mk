@@ -246,6 +246,10 @@ PRODUCT_PACKAGES += \
 $(call soong_config_set_string_list,mainline_common_apex_wpa_supplicant,include_prebuilts,p2p_supplicant.conf.cf wpa_supplicant.conf.cf wpa_supplicant_overlay.conf.cf)
 
 # Window extensions
+ifneq ($(PRODUCT_IS_ATV),true)
+ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
 ifeq ($(LINEAGE_BUILD),)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
+endif
+endif
 endif
