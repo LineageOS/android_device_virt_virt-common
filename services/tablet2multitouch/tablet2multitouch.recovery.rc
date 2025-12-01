@@ -1,3 +1,8 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
 service tablet2multitouch /system/bin/tablet2multitouch
     user uhid
     group uhid input
