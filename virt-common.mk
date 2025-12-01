@@ -18,6 +18,7 @@ TARGET_LIGHT_HAL := none
 TARGET_SENSORS_HAL := cuttlefish
 TARGET_SUPPORTS_SUSPEND := false
 TARGET_SUPPORTS_USB_ACCESSORY_MODE := false
+TARGET_USES_TABLET_INPUT_AS_TOUCHSCREEN := true
 include device/mainline/common/optional/options.mk
 $(call inherit-product, device/mainline/common/mainline_common.mk)
 
@@ -117,8 +118,7 @@ $(call soong_config_set,libinit,vendor_init_lib,//$(VIRT_COMMON_PATH):init_virt)
 
 # Input
 PRODUCT_COPY_FILES += \
-    $(VIRT_COMMON_PATH)/configs/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl \
-    $(VIRT_COMMON_PATH)/configs/input/virt_tablet2multitouch.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/virt_tablet2multitouch.idc
+    $(VIRT_COMMON_PATH)/configs/input/Generic.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/Generic.kl
 
 # Images
 PRODUCT_USE_DYNAMIC_PARTITION_SIZE := true
@@ -211,11 +211,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(VIRT_COMMON_PATH)
-
-# Tablet to multitouch
-PRODUCT_PACKAGES += \
-    tablet2multitouch \
-    tablet2multitouch_recovery
 
 # Utilities
 PRODUCT_PACKAGES += \

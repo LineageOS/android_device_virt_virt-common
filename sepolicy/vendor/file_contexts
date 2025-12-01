@@ -2,7 +2,6 @@
 /vendor/bin/grub-editenv						u:object_r:vendor_grub_editenv_exec:s0
 /vendor/bin/setup_sound_card						u:object_r:setup_sound_card_exec:s0
 /vendor/bin/setup_wifi							u:object_r:setup_wifi_exec:s0
-/vendor/bin/tablet2multitouch						u:object_r:tablet2multitouch_exec:s0
 
 # Firmware
 /vendor/firmware_mnt(/.*)?		u:object_r:firmware_file:s0
