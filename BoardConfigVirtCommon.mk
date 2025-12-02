@@ -136,6 +136,7 @@ TARGET_BOARD_PLATFORM := virt
 
 # Properties
 TARGET_PRODUCT_PROP += $(VIRT_COMMON_PATH)/configs/properties/product.prop
+TARGET_SYSTEM_PROP += $(VIRT_COMMON_PATH)/configs/properties/system.prop
 TARGET_VENDOR_PROP += $(VIRT_COMMON_PATH)/configs/properties/vendor.prop
 
 ifneq ($(PRODUCT_IS_ATV),true)
