@@ -8,7 +8,8 @@
 #include <android-base/properties.h>
 #include <sys/sysinfo.h>
 
-#include <libinit_dalvik_heap.h>
+#include <libinit_mainline_common.h>
+#include <libinit_misc.h>
 #include <libinit_set_properties.h>
 #include <libinit_utils.h>
 #include <libinit_virt.h>
@@ -31,13 +32,12 @@ static void set_misc_properties() {
     }
 
     if (GetProperty("ro.boot.insecure_adb", "") == "1") {
-        property_override("ro.adb.secure", "0");
-        property_override("ro.secure", "0");
+        enable_insecure_debugging();
     }
 }
 
 void vendor_load_properties_virt() {
-    set_dalvik_heap();
+    vendor_load_properties_mainline_common();
     set_misc_properties();
     set_properties_from_dmi_id();
 }
