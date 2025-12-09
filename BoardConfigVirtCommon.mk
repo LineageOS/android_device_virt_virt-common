@@ -16,7 +16,6 @@ TARGET_GRUB_INSTALL_CONFIGS := $(VIRT_COMMON_PATH)/bootmgr/grub/grub-install.cfg
 BOARD_BOOTCONFIG := \
     $(MAINLINE_COMMON_ANDROIDBOOT_PARAMS) \
     androidboot.boot_devices=any \
-    androidboot.first_stage_console=0 \
     androidboot.hypervisor.version=1 \
     androidboot.hypervisor.vm.supported=1 \
     androidboot.hypervisor.protected_vm.supported=0
