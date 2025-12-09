@@ -45,6 +45,7 @@ include device/google/cuttlefish/shared/swiftshader/BoardConfig.mk
 # Kernel
 BOARD_KERNEL_CMDLINE := \
     $(MAINLINE_COMMON_KERNEL_PARAMS) \
+    acpi=nospcr \
     androidboot.verifiedbootstate=orange
 
 BOARD_SYSTEM_KERNEL_MODULES_LOAD := \
