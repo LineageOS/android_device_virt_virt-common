@@ -58,13 +58,11 @@ SYSTEM_KERNEL_MODULES := \
     $(BOARD_SYSTEM_KERNEL_MODULES_LOAD) \
     zsmalloc.ko
 
-ifneq ($(wildcard $(TARGET_KERNEL_SOURCE)/Makefile),)
 TARGET_KERNEL_CONFIG := gki_defconfig
 TARGET_KERNEL_CONFIG_EXT := \
     $(VIRT_COMMON_PATH)/configs/kernel/bluetooth.config \
     $(VIRT_COMMON_PATH)/configs/kernel/wifi.config \
     kernel/mainline/configs/fragments/y/fbcon.config
-endif
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 4096
