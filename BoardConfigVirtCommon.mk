@@ -60,6 +60,7 @@ SYSTEM_KERNEL_MODULES := \
 
 TARGET_KERNEL_CONFIG := gki_defconfig
 TARGET_KERNEL_CONFIG_EXT := \
+    $(VIRT_COMMON_PATH)/configs/kernel/virt-common.config \
     $(VIRT_COMMON_PATH)/configs/kernel/bluetooth.config \
     $(VIRT_COMMON_PATH)/configs/kernel/wifi.config \
     kernel/mainline/configs/fragments/y/fbcon.config
