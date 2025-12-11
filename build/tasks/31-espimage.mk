@@ -9,18 +9,18 @@ ifneq ($(TARGET_BOOT_MANAGER),)
 
 ##### espimage #####
 
-$(INSTALLED_ESPIMAGE_TARGET): $(INSTALLED_ESPIMAGE_TARGET_DEPS)
+$(INSTALLED_VIRT_ESPIMAGE_TARGET): $(INSTALLED_VIRT_ESPIMAGE_TARGET_DEPS)
 	$(hide) mkdir -p $(dir $@)
-	$(call make-espimage-target,$(INSTALLED_ESPIMAGE_TARGET),$(INSTALLED_ESPIMAGE_TARGET_INCLUDE_FILES))
+	$(call make-espimage-target,$(INSTALLED_VIRT_ESPIMAGE_TARGET),$(INSTALLED_VIRT_ESPIMAGE_TARGET_INCLUDE_FILES))
 
 .PHONY: espimage
-espimage: $(INSTALLED_ESPIMAGE_TARGET)
+espimage: $(INSTALLED_VIRT_ESPIMAGE_TARGET)
 
 .PHONY: espimage-nodeps
 espimage-nodeps:
-	@echo "make $(INSTALLED_ESPIMAGE_TARGET): ignoring dependencies"
+	@echo "make $(INSTALLED_VIRT_ESPIMAGE_TARGET): ignoring dependencies"
 	$(hide) mkdir -p $(dir $@)
-	$(call make-espimage-target,$(INSTALLED_ESPIMAGE_TARGET),$(INSTALLED_ESPIMAGE_TARGET_INCLUDE_FILES))
+	$(call make-espimage-target,$(INSTALLED_VIRT_ESPIMAGE_TARGET),$(INSTALLED_VIRT_ESPIMAGE_TARGET_INCLUDE_FILES))
 
 ##### espimage-install #####
 
