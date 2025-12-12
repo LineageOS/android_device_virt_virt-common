@@ -14,6 +14,7 @@ TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
 TARGET_HAS_VIBRATOR := false
 TARGET_HOSTAPD_AND_WPA_SUPPLICANT_FORM := apex-mainline_common
+TARGET_KEYMINT_HAL_DEFAULT_INSIDE_APEX := false # To save users from doing factory reset
 TARGET_LIGHT_HAL := none
 TARGET_SENSORS_HAL := cuttlefish
 TARGET_SUPPORTS_SUSPEND := false
