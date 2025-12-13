@@ -130,6 +130,15 @@ endif
 # Kernel
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
 
+# Large screen
+ifneq ($(PRODUCT_IS_ATV),true)
+ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
+ifeq ($(LINEAGE_BUILD),)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/large_screen_common.mk)
+endif
+endif
+endif
+
 # Media
 PRODUCT_COPY_FILES += \
     device/google/cuttlefish/shared/config/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
@@ -239,12 +248,3 @@ PRODUCT_PACKAGES += \
     CuttlefishWifiOverlay
 
 $(call soong_config_set_string_list,mainline_common_apex_wpa_supplicant,include_prebuilts,p2p_supplicant.conf.cf wpa_supplicant.conf.cf wpa_supplicant_overlay.conf.cf)
-
-# Window extensions
-ifneq ($(PRODUCT_IS_ATV),true)
-ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)
-ifeq ($(LINEAGE_BUILD),)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
-endif
-endif
-endif
