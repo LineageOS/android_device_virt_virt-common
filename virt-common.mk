@@ -109,7 +109,6 @@ PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/ueventd.virt.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.virt.rc
 
 PRODUCT_COPY_FILES += \
-    $(VIRT_COMMON_PATH)/configs/init/device_virt_settings.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/device_virt_settings.rc \
     $(VIRT_COMMON_PATH)/configs/scripts/device_virt_settings.sh:$(TARGET_COPY_OUT_PRODUCT)/bin/device_virt_settings.sh
 
 PRODUCT_PACKAGES += \
@@ -192,8 +191,6 @@ else ifeq ($(PRODUCT_IS_GO),true)
 # nothing
 else
 PRODUCT_COPY_FILES += \
-    $(VIRT_COMMON_PATH)/configs/misc/android.hardware.type.pc.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/android.hardware.type.pc.xml \
-    frameworks/native/data/etc/android.software.freeform_window_management.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/device_virt-android.software.freeform_window_management.xml \
     frameworks/native/data/etc/tablet_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/tablet_core_hardware.xml
 endif
 
