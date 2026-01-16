@@ -1,2 +1,2 @@
 # Firmware
-r_dir_file(kernel, firmware_file)
+r_dir_file(kernel, firmware_mnt_file)
