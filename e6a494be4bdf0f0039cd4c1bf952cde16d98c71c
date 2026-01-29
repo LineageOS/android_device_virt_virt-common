@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58436d07_b0643308",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2026-01-29T15:10:33Z",
+      "side": 1,
+      "message": "prop not labeled in sepolicy, release config `RELEASE_ADBD_OPEN_VSOCK_PORT` not set, not handled in framework, so not necessary to do this",
+      "revId": "e6a494be4bdf0f0039cd4c1bf952cde16d98c71c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
