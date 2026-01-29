@@ -21,6 +21,10 @@
     <!-- Whether the current device's internal display can host desktop sessions.  -->
     <bool name="config_canInternalDisplayHostDesktops">true</bool>
 
+    <!-- Whether a desktop window should be maximized when it's dragged to the top edge of the
+         screen. -->
+    <bool name="config_dragToMaximizeInDesktopMode">true</bool>
+
     <!-- Whether to enable glanceable hub features on this device. -->
     <bool name="config_glanceableHubEnabled">true</bool>
 
@@ -29,4 +33,7 @@
 
     <!-- Whether desktop mode is supported on the current device  -->
     <bool name="config_isDesktopModeSupported">true</bool>
+
+    <!-- Whether the home screen should be shown behind freeform tasks in desktop mode. -->
+    <bool name="config_showHomeBehindDesktop">true</bool>
 </resources>
