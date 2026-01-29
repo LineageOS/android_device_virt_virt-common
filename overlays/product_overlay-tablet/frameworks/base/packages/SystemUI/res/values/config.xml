@@ -26,11 +26,23 @@
     <!-- Whether to enable the desktop specific audio tile details view. -->
     <bool name="config_enableDesktopAudioTileDetailsView">true</bool>
 
+    <!-- Whether to enable large screen UI for screen capture. -->
+    <bool name="config_enableLargeScreenScreencapture">true</bool>
+
+    <!-- Whether to enable features improving large screen interaction -->
+    <bool name="config_improveLargeScreenInteractionOnLockscreen">true</bool>
+
+    <!-- Whether to show the large screen privacy indicator. -->
+    <bool name="config_largeScreenPrivacyIndicator">true</bool>
+
     <!-- Whether or not to show the UMO on the glanceable hub when media is playing. -->
     <bool name="config_showUmoOnHub">true</bool>
 
     <!-- Configuration to swipe to open glanceable hub -->
     <bool name="config_swipeToOpenGlanceableHub">true</bool>
+
+    <!-- Whether we use large screen shade header which takes only one row compared to QS header -->
+    <bool name="config_use_large_screen_shade_header">true</bool>
 
     <!--
     Whether to enable showing the shade header feature.
@@ -40,4 +52,7 @@
     -If false (default), show the shade header when shade is.
     -->
     <bool name="config_useDesktopStatusBar">true</bool>
+
+    <!-- Whether volume panel should use the large screen layout or not -->
+    <bool name="volume_panel_is_large_screen">true</bool>
 </resources>
