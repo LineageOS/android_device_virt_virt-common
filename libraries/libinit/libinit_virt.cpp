@@ -25,7 +25,7 @@ static void set_misc_properties() {
     sysinfo(&sys);
 
     if (sys.totalram >= GB(2)) {
-        if (GetProperty("ro.boot.graphics", "") != "swiftshader" &&
+        if (GetProperty("ro.boot.graphics", "mesa") == "mesa" &&
             GetProperty("ro.boot.low_perf", "") != "1") {
             property_override("ro.surface_flinger.supports_background_blur", "1");
         }
