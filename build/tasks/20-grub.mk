@@ -71,7 +71,7 @@ define make-espimage
 		cp $(COMMON_GRUB_PATH)/grub-standalone.cfg $(3)/grub-standalone.cfg; \
 		($(call process-bootmgr-cfg-common,$(3)/grub-standalone.cfg)); \
 		sed -i "s|@PURPOSE@|$(4)|g" $(3)/grub-standalone.cfg; \
-		$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkstandalone -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --locales="" --fonts="" --format=$(GRUB_MKSTANDALONE_FORMAT) --output=$(3)/fsroot/EFI/BOOT/$(BOOTMGR_EFI_BOOT_FILENAME) --modules="configfile disk fat part_gpt search" "boot/grub/grub.cfg=$(3)/grub-standalone.cfg"; \
+		$(BOOTMGR_TOOLS_ENV) $(GRUB_PREBUILT_DIR)/bin/grub-mkstandalone -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --locales="" --fonts="" --format=$(GRUB_MKSTANDALONE_FORMAT) --output=$(3)/fsroot/EFI/BOOT/$(BOOTMGR_EFI_BOOT_FILENAME) --modules="configfile disk fat part_gpt search" "boot/grub/grub.cfg=$(3)/grub-standalone.cfg"; \
 	fi
 
 	cp -r $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) $(3)/fsroot/boot/grub/
@@ -114,7 +114,7 @@ ifneq ($(LINEAGE_BUILD),)
 INSTALLED_ISOIMAGE_BOOT_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX)-boot.iso
 $(INSTALLED_ISOIMAGE_BOOT_TARGET): $(INSTALLED_VIRT_ESPIMAGE_TARGET) $(TARGET_GRUB_BOOT_CONFIG)
 	$(call pretty,"Target boot ISO image: $@")
-	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_VIRT_ESPIMAGE_TARGET_INCLUDE_FILES) $(GRUB_WORKDIR_ESP)/fsroot
+	$(BOOTMGR_TOOLS_ENV) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_VIRT_ESPIMAGE_TARGET_INCLUDE_FILES) $(GRUB_WORKDIR_ESP)/fsroot
 
 .PHONY: isoimage-boot
 isoimage-boot: $(INSTALLED_ISOIMAGE_BOOT_TARGET)
@@ -130,7 +130,7 @@ ifneq ($(LINEAGE_BUILD),)
 INSTALLED_ISOIMAGE_INSTALL_TARGET := $(PRODUCT_OUT)/$(BOOTMGR_ARTIFACT_FILENAME_PREFIX).iso
 $(INSTALLED_ISOIMAGE_INSTALL_TARGET): $(INSTALLED_ESPIMAGE_INSTALL_TARGET) $(TARGET_GRUB_INSTALL_CONFIG)
 	$(call pretty,"Target installer ISO image: $@")
-	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_ESPIMAGE_INSTALL_TARGET_INCLUDE_FILES) $(GRUB_WORKDIR_INSTALL)/fsroot
+	$(BOOTMGR_TOOLS_ENV) $(GRUB_PREBUILT_DIR)/bin/grub-mkrescue -d $(GRUB_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_ARCH) --xorriso=$(BOOTMGR_XORRISO_EXEC) -o $@ $(INSTALLED_ESPIMAGE_INSTALL_TARGET_INCLUDE_FILES) $(GRUB_WORKDIR_INSTALL)/fsroot
 
 .PHONY: isoimage-install
 isoimage-install: $(INSTALLED_ISOIMAGE_INSTALL_TARGET)
@@ -179,7 +179,7 @@ $(GRUB_BIOS_TIMESTAMP): $(GRUB_I386_PC_IMG_PATCH_EXEC)
 	sed -i "s|@PURPOSE@|boot|g" $(GRUB_WORKDIR_BIOS)/grub-standalone.cfg
 
 	cp $(GRUB_2ND_ARCH_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_2ND_ARCH)/boot.img $(GRUB_WORKDIR_BIOS)/boot.img
-	$(BOOTMGR_PATH_OVERRIDE) $(GRUB_2ND_ARCH_PREBUILT_DIR)/bin/grub-mkimage \
+	$(BOOTMGR_TOOLS_ENV) $(GRUB_2ND_ARCH_PREBUILT_DIR)/bin/grub-mkimage \
 		--compression=auto \
 		--config=$(GRUB_WORKDIR_BIOS)/grub-standalone.cfg \
 		--directory=$(GRUB_2ND_ARCH_PREBUILT_DIR)/lib/grub/$(TARGET_GRUB_2ND_ARCH) \
