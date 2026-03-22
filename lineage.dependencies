@@ -13,7 +13,8 @@
   },
   {
     "repository": "android_kernel_virt_virtio",
-    "target_path": "kernel/virt/virtio"
+    "target_path": "kernel/virt/virtio",
+    "branch": "lineage-22.1"
   },
   {
     "repository": "android_prebuilts_bootmgr",
