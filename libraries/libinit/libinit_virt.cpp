@@ -30,10 +30,6 @@ static void set_misc_properties() {
             property_override("ro.surface_flinger.supports_background_blur", "1");
         }
     }
-
-    if (GetProperty("ro.boot.insecure_adb", "") == "1") {
-        enable_insecure_debugging();
-    }
 }
 
 void vendor_load_properties_virt() {
