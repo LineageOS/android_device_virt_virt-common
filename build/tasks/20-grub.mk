@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+ifeq ($(USES_DEVICE_VIRT_VIRT_COMMON),true)
+
 COMMON_GRUB_PATH := $(VIRT_COMMON_PATH)/bootmgr/grub
 
 ifeq ($(TARGET_BOOT_MANAGER),grub)
@@ -204,3 +206,5 @@ endif # TARGET_GRUB_2ND_ARCH
 
 endif # TARGET_GRUB_ARCH
 endif # TARGET_BOOT_MANAGER
+
+endif # USES_DEVICE_VIRT_VIRT_COMMON
