@@ -53,6 +53,7 @@ BOARD_SYSTEM_KERNEL_MODULES_LOAD := \
 BOARD_VENDOR_KERNEL_MODULES_LOAD := \
     btusb.ko \
     cfg80211.ko \
+    mt76x02-usb.ko \
     virt_wifi.ko
 SYSTEM_KERNEL_MODULES := \
     $(BOARD_SYSTEM_KERNEL_MODULES_LOAD) \
