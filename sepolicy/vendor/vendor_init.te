@@ -4,6 +4,3 @@ set_prop(vendor_init, vendor_graphics_prop)
 
 # Graphics (Mesa)
 set_prop(vendor_init, vendor_mesa_prop)
-
-# VirtWifi
-set_prop(vendor_init, vendor_wifi_mac_prefix)

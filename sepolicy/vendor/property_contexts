@@ -11,6 +11,3 @@ ro.vendor.graphics.		u:object_r:vendor_graphics_prop:s0
 
 # Preinstall check
 vendor.preinstall_check.success		u:object_r:vendor_preinstall_check_prop:s0 exact int
-
-# VirtWifi
-ro.boot.wifi_mac_prefix		u:object_r:vendor_wifi_mac_prefix:s0 exact string

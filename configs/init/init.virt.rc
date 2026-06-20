@@ -53,13 +53,6 @@ on early-boot && property:ro.vendor.graphics.gpu=vkms
     setprop ro.vendor.graphics ${ro.boot.graphics:-swiftshader}
 
 # VirtWifi
-service setup_wifi /vendor/bin/setup_wifi --interface=${ro.vendor.virtwifi.port}
-    override
-    disabled
-    oneshot
-    user root
-    group root
-
 on post-fs-data && property:ro.boot.wifi_impl=virt_wifi
     start setup_wifi
 
