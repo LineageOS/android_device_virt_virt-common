@@ -51,9 +51,14 @@ BOARD_KERNEL_CMDLINE := \
 BOARD_SYSTEM_KERNEL_MODULES_LOAD := \
     zram.ko
 BOARD_VENDOR_KERNEL_MODULES_LOAD := \
+    $(strip $(shell cat kernel/mainline/configs/modules_list/usbip)) \
     btusb.ko \
     cfg80211.ko \
     virt_wifi.ko
+BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := \
+    $(strip $(shell cat kernel/mainline/configs/modules_list/usbip))
+BOOT_KERNEL_MODULES := \
+    $(strip $(shell cat kernel/mainline/configs/modules_list/usbip))
 SYSTEM_KERNEL_MODULES := \
     $(BOARD_SYSTEM_KERNEL_MODULES_LOAD) \
     zsmalloc.ko
@@ -63,6 +68,7 @@ TARGET_KERNEL_CONFIG_EXT := \
     $(VIRT_COMMON_PATH)/configs/kernel/virt-common.config \
     $(VIRT_COMMON_PATH)/configs/kernel/bluetooth.config \
     $(VIRT_COMMON_PATH)/configs/kernel/wifi.config \
+    kernel/mainline/configs/fragments/m/usbip.config \
     kernel/mainline/configs/fragments/y/fbcon.config
 
 # Partitions

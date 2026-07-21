@@ -10,6 +10,7 @@ AB_OTA_UPDATER ?= true
 TARGET_BOOT_HAL := grub
 TARGET_ENABLE_LOGCAT_TO_SERIAL := true
 TARGET_ENABLE_RECOVERY_ETHERNET_DHCP := true
+TARGET_ENABLE_USBIP := true
 TARGET_ENABLE_VIRT_WIFI := true
 TARGET_GRAPHICS := mesa
 TARGET_HAS_BATTERY := false
@@ -20,7 +21,6 @@ TARGET_LIGHT_HAL := none
 TARGET_MESA_ENABLE_SOFTWARE_RENDERER := true
 TARGET_SENSORS_HAL := cuttlefish
 TARGET_SUPPORTS_SUSPEND := false
-TARGET_SUPPORTS_USB_ACCESSORY_MODE := false
 TARGET_USES_TABLET_INPUT_AS_TOUCHSCREEN := true
 include device/mainline/common/optional/options.mk
 $(call inherit-product, device/mainline/common/mainline_common.mk)
