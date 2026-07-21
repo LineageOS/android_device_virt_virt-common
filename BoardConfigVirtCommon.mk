@@ -63,6 +63,7 @@ TARGET_KERNEL_CONFIG_EXT := \
     $(VIRT_COMMON_PATH)/configs/kernel/virt-common.config \
     $(VIRT_COMMON_PATH)/configs/kernel/bluetooth.config \
     $(VIRT_COMMON_PATH)/configs/kernel/wifi.config \
+    kernel/mainline/configs/fragments/m/usbip.config \
     kernel/mainline/configs/fragments/y/fbcon.config
 
 # Partitions
