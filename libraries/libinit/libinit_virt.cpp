@@ -32,6 +32,10 @@ static void set_misc_properties() {
     }
 }
 
+void vendor_process_bootenv_virt() {
+    vendor_process_bootenv_mainline_common();
+}
+
 void vendor_load_properties_virt() {
     vendor_load_properties_mainline_common();
     set_misc_properties();
