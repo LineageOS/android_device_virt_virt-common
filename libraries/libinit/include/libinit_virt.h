@@ -6,4 +6,6 @@
 
 #pragma once
 
+void vendor_process_bootenv_virt();
+
 void vendor_load_properties_virt();
