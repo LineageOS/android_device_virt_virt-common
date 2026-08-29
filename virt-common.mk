@@ -25,7 +25,6 @@ include device/mainline/common/optional/options.mk
 $(call inherit-product, device/mainline/common/mainline_common.mk)
 
 VIRT_COMMON_PATH := device/virt/virt-common
-$(call soong_config_set_bool,device_virt_virt_common,enabled,true)
 
 # A/B
 ifeq ($(AB_OTA_UPDATER),true)
@@ -102,6 +101,14 @@ PRODUCT_REQUIRES_INSECURE_EXECMEM_FOR_SWIFTSHADER := true
 # HIDL
 PRODUCT_PACKAGES_SHIPPING_API_LEVEL_34 += \
     vndservicemanager
+
+# HWDB
+PRODUCT_PACKAGES += \
+    hwdb_d_pci_ids \
+    hwdb_d_usb_ids
+
+$(call soong_config_set_bool,hwdb_d,pci_ids_enabled,true)
+$(call soong_config_set_bool,hwdb_d,usb_ids_enabled,true)
 
 # Init
 PRODUCT_COPY_FILES += \
