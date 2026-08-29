@@ -226,6 +226,9 @@ PRODUCT_PACKAGES += \
 # Scoped Storage
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# Sensors
+$(call soong_config_set_bool,sensors_hal_mainline,include_all_permission_xmls,true)
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(VIRT_COMMON_PATH)
