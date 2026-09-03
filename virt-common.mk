@@ -239,8 +239,7 @@ PRODUCT_PACKAGES += \
     grub-editenv.recovery \
     grub_boot_control \
     grub_boot_control.recovery \
-    sgdisk.recovery \
-    virt_pci_ids
+    sgdisk.recovery
 
 PRODUCT_HOST_PACKAGES += \
     grub-editenv \
