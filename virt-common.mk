@@ -35,10 +35,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_ven
 $(call soong_config_set,VIRT_PREINSTALL_CHECK,AB_OTA_UPDATER,$(AB_OTA_UPDATER))
 endif
 
-# Audio
-PRODUCT_PACKAGES += \
-    setup_sound_card
-
 # Bluetooth
 ifneq ($(PRODUCT_IS_ATV),true)
 ifneq ($(PRODUCT_IS_AUTOMOTIVE),true)

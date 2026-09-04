@@ -1,7 +1,3 @@
-# Audio
-persist.vendor.audio.		u:object_r:vendor_audio_prop:s0
-ro.hardware.audio.tinyalsa.	u:object_r:vendor_audio_prop:s0
-
 # Create partition table
 vendor.create_partition_table.	u:object_r:vendor_create_partition_table_prop:s0
 

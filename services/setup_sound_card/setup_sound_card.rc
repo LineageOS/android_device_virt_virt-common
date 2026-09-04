@@ -1,8 +1,0 @@
-service vendor.setup_sound_card /vendor/bin/setup_sound_card
-    user audioserver
-    group audio
-    oneshot
-    disabled
-
-on early-boot
-    start vendor.setup_sound_card
