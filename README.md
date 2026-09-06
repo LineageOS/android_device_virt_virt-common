@@ -31,3 +31,4 @@
 | Topic | Link |
 | ----- | ---- |
 | 14-recovery-ethernet | [LineageOS Gerrit](https://review.lineageos.org/q/topic:%2214-recovery-ethernet%22) |
+| c2-rgb | [LineageOS Gerrit](https://review.lineageos.org/q/topic:%22c2-rgb%22) |
