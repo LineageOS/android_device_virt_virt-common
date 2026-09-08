@@ -7,7 +7,9 @@
 AB_OTA_UPDATER ?= true
 
 # Inherit from mainline/common
+ifeq ($(AB_OTA_UPDATER),true)
 TARGET_BOOT_HAL := grub
+endif
 TARGET_ENABLE_LOGCAT_TO_SERIAL := true
 TARGET_ENABLE_RECOVERY_ETHERNET_DHCP := true
 TARGET_ENABLE_VIRT_WIFI := true
