@@ -1,0 +1,42 @@
+# Bootsplash
+on early-init && property:ro.boot.quiet=1
+    setprop sys.bootsplash.background_color 0x2a3232
+    setprop sys.bootsplash.color 0x167c80
+    setprop sys.bootsplash.logo_text Android
+    setprop sys.bootsplash.percent 5
+    setprop sys.bootsplash.text "Starting up - early-init"
+    start bootsplash
+on init
+    setprop sys.bootsplash.percent 10
+    setprop sys.bootsplash.text "Starting up - init"
+on late-init
+    setprop sys.bootsplash.percent 15
+    setprop sys.bootsplash.text "Starting up - late-init"
+on early-fs
+    setprop sys.bootsplash.percent 20
+    setprop sys.bootsplash.text "Starting up - early-fs"
+on fs
+    setprop sys.bootsplash.percent 25
+    setprop sys.bootsplash.text "Starting up - fs"
+on post-fs
+    setprop sys.bootsplash.percent 30
+    setprop sys.bootsplash.text "Starting up - post-fs"
+on post-fs-data
+    setprop sys.bootsplash.percent 35
+    setprop sys.bootsplash.text "Starting up - post-fs-data"
+on load-bpf-programs
+    setprop sys.bootsplash.percent 40
+    setprop sys.bootsplash.text "Starting up - load-bpf-programs"
+on zygote-start
+    setprop sys.bootsplash.percent 45
+    setprop sys.bootsplash.text "Starting up - zygote-start"
+on early-boot
+    setprop sys.bootsplash.percent 50
+    setprop sys.bootsplash.text "Starting up - early-boot"
+    # Avoid conflict with Graphics HALs
+    stop bootsplash
+    wait_for_prop init.svc.bootsplash stopped
+on boot
+    # FIXME: What if bootanimation is disabled?
+    setprop sys.bootsplash.percent 60
+    setprop sys.bootsplash.text "Starting up - boot"
