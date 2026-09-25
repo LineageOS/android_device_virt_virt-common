@@ -69,6 +69,11 @@ else
 $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-heap.mk)
 endif
 
+# Display
+TARGET_ENABLE_BOOTSPLASH := true
+
+$(call soong_config_set_bool,bootsplash,use_minimal_init_rc,true)
+
 # Fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.virt_recovery
@@ -115,6 +120,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     $(VIRT_COMMON_PATH)/configs/init/device_virt_settings.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/device_virt_settings.rc \
+    $(VIRT_COMMON_PATH)/configs/init/init.product.virt.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.product.virt.rc \
     $(VIRT_COMMON_PATH)/configs/scripts/device_virt_settings.sh:$(TARGET_COPY_OUT_PRODUCT)/bin/device_virt_settings.sh
 
 PRODUCT_PACKAGES += \
