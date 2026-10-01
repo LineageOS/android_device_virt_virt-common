@@ -44,6 +44,10 @@ TARGET_SCREEN_WIDTH := 600
 TARGET_SCREEN_HEIGHT := 600
 endif
 
+# Camera
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.camera.external.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.external.xml
+
 # Debugging
 TARGET_ENABLE_LOGCAT_TO_SERIAL := true
 
