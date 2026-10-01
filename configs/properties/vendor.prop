@@ -1,6 +1,10 @@
 # Bluetooth
 persist.bluetooth.a2dp_aac.vbr_supported=true
 
+# Camera
+vendor.camera.advertise_rgb=true
+vendor.camera.prefer_rgb=true
+
 # DHCP
 vendor.recovery.dhcpclient.iface?=eth0
 
